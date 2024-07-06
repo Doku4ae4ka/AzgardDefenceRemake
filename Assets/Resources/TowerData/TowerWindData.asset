@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51edef1ba28ec458ab3a0df3babf998c, type: 3}
+  m_Name: TowerWindData
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 9154982213771434116, guid: 29ebc2dc711af46c7bd44ef8dcfb05de, type: 3}
+  btnIcon: {fileID: 21300000, guid: a1837f1b374249f498fba56d1c858b30, type: 3}
+  description: desc
+  canBuy: 1
+  damage: 70
+  rateOfFire: 1
+  range: 105
+  placeCost: 30
+  baseUpgradeCost: 1
+  baseLevelUpCost: 1
+  category: air
+  damageType:
+  - normal

@@ -1,0 +1,16 @@
+[remap]
+
+importer="font_data_bmfont"
+type="FontFile"
+uid="uid://ckxwonllw7oer"
+path="res://.godot/imported/tower_small_info_green_rus.fnt-b1d2329079880f428497d021ea4d3db9.fontdata"
+
+[deps]
+
+source_file="res://Resources/local/rus/fonts/tower_small_info_green_rus.fnt"
+dest_files=["res://.godot/imported/tower_small_info_green_rus.fnt-b1d2329079880f428497d021ea4d3db9.fontdata"]
+
+[params]
+
+fallbacks=[]
+compress=true

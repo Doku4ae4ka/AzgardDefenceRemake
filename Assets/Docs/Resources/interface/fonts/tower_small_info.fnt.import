@@ -1,0 +1,16 @@
+[remap]
+
+importer="font_data_bmfont"
+type="FontFile"
+uid="uid://pfkak56pg06d"
+path="res://.godot/imported/tower_small_info.fnt-496b076901deff5c4490b302003de673.fontdata"
+
+[deps]
+
+source_file="res://Resources/interface/fonts/tower_small_info.fnt"
+dest_files=["res://.godot/imported/tower_small_info.fnt-496b076901deff5c4490b302003de673.fontdata"]
+
+[params]
+
+fallbacks=[]
+compress=true

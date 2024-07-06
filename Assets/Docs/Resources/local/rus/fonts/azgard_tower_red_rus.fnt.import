@@ -1,0 +1,16 @@
+[remap]
+
+importer="font_data_bmfont"
+type="FontFile"
+uid="uid://dud0n4r5002on"
+path="res://.godot/imported/azgard_tower_red_rus.fnt-b91be00bc9b4e1a846de2cf170a0fa4d.fontdata"
+
+[deps]
+
+source_file="res://Resources/local/rus/fonts/azgard_tower_red_rus.fnt"
+dest_files=["res://.godot/imported/azgard_tower_red_rus.fnt-b91be00bc9b4e1a846de2cf170a0fa4d.fontdata"]
+
+[params]
+
+fallbacks=[]
+compress=true

@@ -1,0 +1,16 @@
+[remap]
+
+importer="font_data_bmfont"
+type="FontFile"
+uid="uid://ca03qrxjmtfsu"
+path="res://.godot/imported/instructions_opisanie_rus.fnt-2607a6eeca8093effdbc1fe93505fe1a.fontdata"
+
+[deps]
+
+source_file="res://Resources/local/rus/fonts/instructions_opisanie_rus.fnt"
+dest_files=["res://.godot/imported/instructions_opisanie_rus.fnt-2607a6eeca8093effdbc1fe93505fe1a.fontdata"]
+
+[params]
+
+fallbacks=[]
+compress=true

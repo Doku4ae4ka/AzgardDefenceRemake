@@ -1,0 +1,16 @@
+[remap]
+
+importer="font_data_bmfont"
+type="FontFile"
+uid="uid://bwos5cifrdaje"
+path="res://.godot/imported/tower_small_info_green.fnt-bbb131e90da0016fa3b35d74effcd2ed.fontdata"
+
+[deps]
+
+source_file="res://Resources/interface/fonts/tower_small_info_green.fnt"
+dest_files=["res://.godot/imported/tower_small_info_green.fnt-bbb131e90da0016fa3b35d74effcd2ed.fontdata"]
+
+[params]
+
+fallbacks=[]
+compress=true

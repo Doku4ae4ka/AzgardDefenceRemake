@@ -1,0 +1,16 @@
+[remap]
+
+importer="font_data_bmfont"
+type="FontFile"
+uid="uid://5c3jpdeosxct"
+path="res://.godot/imported/font_azgard_pc_menu_rus.fnt-28e8a8509cda4634ef31e0ec84df742e.fontdata"
+
+[deps]
+
+source_file="res://Resources/local/rus/fonts/font_azgard_pc_menu_rus.fnt"
+dest_files=["res://.godot/imported/font_azgard_pc_menu_rus.fnt-28e8a8509cda4634ef31e0ec84df742e.fontdata"]
+
+[params]
+
+fallbacks=[]
+compress=true

@@ -1,0 +1,16 @@
+[remap]
+
+importer="font_data_bmfont"
+type="FontFile"
+uid="uid://0nomiwdr46wv"
+path="res://.godot/imported/tower_small_info_white.fnt-d827401f9a841280ba76471b971f699b.fontdata"
+
+[deps]
+
+source_file="res://Resources/interface/fonts/tower_small_info_white.fnt"
+dest_files=["res://.godot/imported/tower_small_info_white.fnt-d827401f9a841280ba76471b971f699b.fontdata"]
+
+[params]
+
+fallbacks=[]
+compress=true

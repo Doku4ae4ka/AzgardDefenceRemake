@@ -1,0 +1,16 @@
+[remap]
+
+importer="font_data_bmfont"
+type="FontFile"
+uid="uid://xmir07xufpam"
+path="res://.godot/imported/font_log1.fnt-63f1874657b5a26258ffc27436b48c6f.fontdata"
+
+[deps]
+
+source_file="res://Resources/interface/fonts/font_log1.fnt"
+dest_files=["res://.godot/imported/font_log1.fnt-63f1874657b5a26258ffc27436b48c6f.fontdata"]
+
+[params]
+
+fallbacks=[]
+compress=true

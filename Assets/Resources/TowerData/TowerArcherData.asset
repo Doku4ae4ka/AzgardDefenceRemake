@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51edef1ba28ec458ab3a0df3babf998c, type: 3}
+  m_Name: TowerArcherData
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 319836620514254414, guid: 14635cd7965e54e18b4d6aaeee578484, type: 3}
+  btnIcon: {fileID: 21300000, guid: 0ecc710e33b8f504e94fd0c486dbd792, type: 3}
+  description: 'Standart archer tower. Rate of Fire: Fast'
+  canBuy: 1
+  damage: 10
+  rateOfFire: 1
+  range: 80
+  placeCost: 20
+  baseUpgradeCost: 1
+  baseLevelUpCost: 1
+  category: any
+  damageType:
+  - normal

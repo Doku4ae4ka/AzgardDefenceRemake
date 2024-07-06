@@ -1,0 +1,16 @@
+[remap]
+
+importer="font_data_bmfont"
+type="FontFile"
+uid="uid://dkywaxo5u2s5"
+path="res://.godot/imported/font_menu_zagolovki.fnt-96abafe3b19065005021e1268153cad5.fontdata"
+
+[deps]
+
+source_file="res://Resources/interface/fonts/font_menu_zagolovki.fnt"
+dest_files=["res://.godot/imported/font_menu_zagolovki.fnt-96abafe3b19065005021e1268153cad5.fontdata"]
+
+[params]
+
+fallbacks=[]
+compress=true

@@ -1,0 +1,16 @@
+[remap]
+
+importer="font_data_bmfont"
+type="FontFile"
+uid="uid://frqvp2n32va0"
+path="res://.godot/imported/instruction_zagolovok.fnt-0c2dd52786c151618b61f75b057599a6.fontdata"
+
+[deps]
+
+source_file="res://Resources/interface/fonts/instruction_zagolovok.fnt"
+dest_files=["res://.godot/imported/instruction_zagolovok.fnt-0c2dd52786c151618b61f75b057599a6.fontdata"]
+
+[params]
+
+fallbacks=[]
+compress=true

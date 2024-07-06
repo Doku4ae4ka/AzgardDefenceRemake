@@ -1,0 +1,16 @@
+[remap]
+
+importer="font_data_bmfont"
+type="FontFile"
+uid="uid://cwr6qm62thuo4"
+path="res://.godot/imported/instruction_opisanie.fnt-1d35dd37ce92704bb5fbf72d2f8549bd.fontdata"
+
+[deps]
+
+source_file="res://Resources/interface/fonts/instruction_opisanie.fnt"
+dest_files=["res://.godot/imported/instruction_opisanie.fnt-1d35dd37ce92704bb5fbf72d2f8549bd.fontdata"]
+
+[params]
+
+fallbacks=[]
+compress=true

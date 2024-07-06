@@ -1,0 +1,16 @@
+[remap]
+
+importer="font_data_bmfont"
+type="FontFile"
+uid="uid://cg5jng4jbqif"
+path="res://.godot/imported/azgard_info.fnt-32286c0dfc442da0c53806065d5e156c.fontdata"
+
+[deps]
+
+source_file="res://Resources/interface/fonts/azgard_info.fnt"
+dest_files=["res://.godot/imported/azgard_info.fnt-32286c0dfc442da0c53806065d5e156c.fontdata"]
+
+[params]
+
+fallbacks=[]
+compress=true

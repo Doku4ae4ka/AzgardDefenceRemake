@@ -1,0 +1,16 @@
+[remap]
+
+importer="font_data_bmfont"
+type="FontFile"
+uid="uid://n6765mtxj2u0"
+path="res://.godot/imported/azgard_info_yellow_rus.fnt-a2aa7371adba1ebad392a8b964dff58f.fontdata"
+
+[deps]
+
+source_file="res://Resources/local/rus/fonts/azgard_info_yellow_rus.fnt"
+dest_files=["res://.godot/imported/azgard_info_yellow_rus.fnt-a2aa7371adba1ebad392a8b964dff58f.fontdata"]
+
+[params]
+
+fallbacks=[]
+compress=true

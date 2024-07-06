@@ -1,0 +1,16 @@
+[remap]
+
+importer="font_data_bmfont"
+type="FontFile"
+uid="uid://xj63ejv7pgsu"
+path="res://.godot/imported/font_log1_rus.fnt-2e8d40d1f5612356f570140dca45d5d7.fontdata"
+
+[deps]
+
+source_file="res://Resources/local/rus/fonts/font_log1_rus.fnt"
+dest_files=["res://.godot/imported/font_log1_rus.fnt-2e8d40d1f5612356f570140dca45d5d7.fontdata"]
+
+[params]
+
+fallbacks=[]
+compress=true

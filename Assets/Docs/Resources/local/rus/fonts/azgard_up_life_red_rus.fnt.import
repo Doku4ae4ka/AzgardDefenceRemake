@@ -1,0 +1,16 @@
+[remap]
+
+importer="font_data_bmfont"
+type="FontFile"
+uid="uid://c4f4qdnyy4al6"
+path="res://.godot/imported/azgard_up_life_red_rus.fnt-842c6f13efcb9119de4112e563e9b68a.fontdata"
+
+[deps]
+
+source_file="res://Resources/local/rus/fonts/azgard_up_life_red_rus.fnt"
+dest_files=["res://.godot/imported/azgard_up_life_red_rus.fnt-842c6f13efcb9119de4112e563e9b68a.fontdata"]
+
+[params]
+
+fallbacks=[]
+compress=true

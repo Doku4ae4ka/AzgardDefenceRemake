@@ -1,0 +1,16 @@
+[remap]
+
+importer="font_data_bmfont"
+type="FontFile"
+uid="uid://d1uajlje0e0ff"
+path="res://.godot/imported/font_menu_zagolovki_rus.fnt-c1e65f4563e65428848590f3b9d41388.fontdata"
+
+[deps]
+
+source_file="res://Resources/local/rus/fonts/font_menu_zagolovki_rus.fnt"
+dest_files=["res://.godot/imported/font_menu_zagolovki_rus.fnt-c1e65f4563e65428848590f3b9d41388.fontdata"]
+
+[params]
+
+fallbacks=[]
+compress=true

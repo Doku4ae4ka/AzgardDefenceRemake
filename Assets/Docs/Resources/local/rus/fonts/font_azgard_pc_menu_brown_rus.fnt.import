@@ -1,0 +1,16 @@
+[remap]
+
+importer="font_data_bmfont"
+type="FontFile"
+uid="uid://do7tvyuv6x710"
+path="res://.godot/imported/font_azgard_pc_menu_brown_rus.fnt-7086c86c4cff8cfacbc65f13dbe59048.fontdata"
+
+[deps]
+
+source_file="res://Resources/local/rus/fonts/font_azgard_pc_menu_brown_rus.fnt"
+dest_files=["res://.godot/imported/font_azgard_pc_menu_brown_rus.fnt-7086c86c4cff8cfacbc65f13dbe59048.fontdata"]
+
+[params]
+
+fallbacks=[]
+compress=true

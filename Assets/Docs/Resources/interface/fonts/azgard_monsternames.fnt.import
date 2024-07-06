@@ -1,0 +1,16 @@
+[remap]
+
+importer="font_data_bmfont"
+type="FontFile"
+uid="uid://doxejk122oby4"
+path="res://.godot/imported/azgard_monsternames.fnt-4c3fbbe76f5ccf1a4446b0e84365b5bf.fontdata"
+
+[deps]
+
+source_file="res://Resources/interface/fonts/azgard_monsternames.fnt"
+dest_files=["res://.godot/imported/azgard_monsternames.fnt-4c3fbbe76f5ccf1a4446b0e84365b5bf.fontdata"]
+
+[params]
+
+fallbacks=[]
+compress=true

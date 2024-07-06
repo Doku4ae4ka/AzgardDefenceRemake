@@ -1,0 +1,16 @@
+[remap]
+
+importer="font_data_bmfont"
+type="FontFile"
+uid="uid://ccfolbes6d0jm"
+path="res://.godot/imported/azgard_violet_monsters_life.fnt-20d2c5745eb442bc40c0defd30e5b9e3.fontdata"
+
+[deps]
+
+source_file="res://Resources/interface/fonts/azgard_violet_monsters_life.fnt"
+dest_files=["res://.godot/imported/azgard_violet_monsters_life.fnt-20d2c5745eb442bc40c0defd30e5b9e3.fontdata"]
+
+[params]
+
+fallbacks=[]
+compress=true

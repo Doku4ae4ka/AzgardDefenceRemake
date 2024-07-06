@@ -1,0 +1,16 @@
+[remap]
+
+importer="font_data_bmfont"
+type="FontFile"
+uid="uid://bhfiyyiilrn7x"
+path="res://.godot/imported/azgard_tower_yellow.fnt-e4c401277cd59893c4a92a79b04d2518.fontdata"
+
+[deps]
+
+source_file="res://Resources/interface/fonts/azgard_tower_yellow.fnt"
+dest_files=["res://.godot/imported/azgard_tower_yellow.fnt-e4c401277cd59893c4a92a79b04d2518.fontdata"]
+
+[params]
+
+fallbacks=[]
+compress=true

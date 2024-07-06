@@ -1,0 +1,16 @@
+[remap]
+
+importer="font_data_bmfont"
+type="FontFile"
+uid="uid://dypoycskopl4u"
+path="res://.godot/imported/azgard_up_score_rus.fnt-55e83b5dfde01d270e4437f14d7abd43.fontdata"
+
+[deps]
+
+source_file="res://Resources/local/rus/fonts/azgard_up_score_rus.fnt"
+dest_files=["res://.godot/imported/azgard_up_score_rus.fnt-55e83b5dfde01d270e4437f14d7abd43.fontdata"]
+
+[params]
+
+fallbacks=[]
+compress=true

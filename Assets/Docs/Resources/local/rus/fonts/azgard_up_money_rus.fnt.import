@@ -1,0 +1,16 @@
+[remap]
+
+importer="font_data_bmfont"
+type="FontFile"
+uid="uid://ciosxkne8bvv0"
+path="res://.godot/imported/azgard_up_money_rus.fnt-6240480cf09bf89395adcef5e27cab92.fontdata"
+
+[deps]
+
+source_file="res://Resources/local/rus/fonts/azgard_up_money_rus.fnt"
+dest_files=["res://.godot/imported/azgard_up_money_rus.fnt-6240480cf09bf89395adcef5e27cab92.fontdata"]
+
+[params]
+
+fallbacks=[]
+compress=true
