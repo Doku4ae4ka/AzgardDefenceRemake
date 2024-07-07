@@ -66,7 +66,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1946049297234426777, guid: 5c7c354ab70514214bba21a33b676a1c, type: 3}
       propertyPath: m_Name
-      value: TowerArcherPrefab
+      value: TowerArcher
       objectReference: {fileID: 0}
     - target: {fileID: 4745834903007002766, guid: 5c7c354ab70514214bba21a33b676a1c, type: 3}
       propertyPath: m_IsTrigger

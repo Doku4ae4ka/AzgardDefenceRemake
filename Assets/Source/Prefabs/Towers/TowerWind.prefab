@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &1878262730770307215
+--- !u!1001 &7209355180709765917
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -26,15 +26,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 695788356518263734, guid: 5c7c354ab70514214bba21a33b676a1c, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 695788356518263734, guid: 5c7c354ab70514214bba21a33b676a1c, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 695788356518263734, guid: 5c7c354ab70514214bba21a33b676a1c, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 695788356518263734, guid: 5c7c354ab70514214bba21a33b676a1c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -50,7 +50,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 964105104039760616, guid: 5c7c354ab70514214bba21a33b676a1c, type: 3}
       propertyPath: m_Size.x
-      value: 0.75
+      value: 0.6875
       objectReference: {fileID: 0}
     - target: {fileID: 964105104039760616, guid: 5c7c354ab70514214bba21a33b676a1c, type: 3}
       propertyPath: m_Size.y
@@ -59,33 +59,42 @@ PrefabInstance:
     - target: {fileID: 964105104039760616, guid: 5c7c354ab70514214bba21a33b676a1c, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 7194d12682009e9449d4dbf5d689bcfa, type: 3}
+      objectReference: {fileID: 21300000, guid: d4c19d71622d77445abaa5237b15d85f, type: 3}
     - target: {fileID: 964105104039760616, guid: 5c7c354ab70514214bba21a33b676a1c, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1946049297234426777, guid: 5c7c354ab70514214bba21a33b676a1c, type: 3}
       propertyPath: m_Name
-      value: TowerGunPrefab
+      value: TowerWind
       objectReference: {fileID: 0}
     - target: {fileID: 5700460798426669674, guid: 5c7c354ab70514214bba21a33b676a1c, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 20e797c994a7f054d8baceeeac237919, type: 3}
-    - target: {fileID: 8977522718836831671, guid: 5c7c354ab70514214bba21a33b676a1c, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8977522718836831671, guid: 5c7c354ab70514214bba21a33b676a1c, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8977522718836831671, guid: 5c7c354ab70514214bba21a33b676a1c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 21300000, guid: af16b822b09044846b463c5348ca82c5, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1946049297234426777, guid: 5c7c354ab70514214bba21a33b676a1c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4423537875536979746}
   m_SourcePrefab: {fileID: 100100000, guid: 5c7c354ab70514214bba21a33b676a1c, type: 3}
+--- !u!1 &9154982213771434116 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1946049297234426777, guid: 5c7c354ab70514214bba21a33b676a1c, type: 3}
+  m_PrefabInstance: {fileID: 7209355180709765917}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4423537875536979746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9154982213771434116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 779fc47bf7c14cec962bf8e08bc5a58b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 1
