@@ -1,5 +1,33 @@
 {
   "dependencies": {
+    "com.exerussus.1easyecs": {
+      "version": "https://github.com/exerussus/1EasyEcs.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "fe0fd995dbf68c80971e58111529640a7b4957cb"
+    },
+    "com.exerussus.1extensions": {
+      "version": "https://github.com/exerussus/1Extensions.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "94dc17de89e09dca2ba1580b71e1d8cd17fe1ff5"
+    },
+    "com.leopotam.ecslite": {
+      "version": "https://github.com/Leopotam/ecslite.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "5053141d7d663c6b1855c8409ac93dfac807b239"
+    },
+    "com.leopotam.ecslite.unityeditor": {
+      "version": "https://github.com/Leopotam/ecslite-unityeditor.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "6f308a6e1ce58f53ae21defa9bb54b80d03f1135"
+    },
     "com.unity.2d.animation": {
       "version": "9.1.0",
       "depth": 1,

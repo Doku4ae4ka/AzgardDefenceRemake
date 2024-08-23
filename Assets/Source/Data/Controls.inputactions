@@ -33,7 +33,16 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Ultimate",
+                    "name": "Cancel",
+                    "type": "Button",
+                    "id": "895bae67-7d2b-42aa-a37b-949500172dac",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "HotKey",
                     "type": "Button",
                     "id": "fd85425b-157a-4e86-ac14-79d33efb22c7",
                     "expectedControlType": "Button",
@@ -193,7 +202,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keydoard + mouse",
-                    "action": "Ultimate",
+                    "action": "HotKey",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -204,7 +213,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keydoard + mouse",
-                    "action": "Ultimate",
+                    "action": "HotKey",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -215,7 +224,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Ultimate",
+                    "action": "HotKey",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -238,6 +247,28 @@
                     "processors": "",
                     "groups": "Keydoard + mouse",
                     "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4db120cf-e53b-48c6-b9b4-b3199df4b2d1",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Keydoard + mouse",
+                    "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d3512ce9-6f1d-4b70-8534-adf099b09def",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Cancel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

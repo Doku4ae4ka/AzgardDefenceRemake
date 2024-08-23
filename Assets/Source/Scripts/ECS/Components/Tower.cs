@@ -1,5 +1,4 @@
-using System;
-using Source.Scripts.Libraries;
+using Source.Scripts.ProjectLibraries;
 using UnityEngine;
 
 namespace Source.Scripts.ECS.Components

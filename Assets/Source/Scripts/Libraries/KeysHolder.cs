@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Source.Scripts.Extensions;
 
-namespace Source.Scripts.Libraries
+namespace Source.Scripts.ProjectLibraries
 {
     public class KeysHolder
     {
