@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Source.Scripts.Libraries
+namespace Source.Scripts.ProjectLibraries
 {
     public class Library<T, TE> : ScriptableObject, ILibrary 
         where TE : Enum
@@ -12,7 +12,7 @@ namespace Source.Scripts.Libraries
         [SerializeField] protected T[] items;
         private Dictionary<TE, T> _itemByKey;
         
-        public T GetById(TE id)
+        public T GetByID(TE id)
         {
             return _itemByKey[id];
         }

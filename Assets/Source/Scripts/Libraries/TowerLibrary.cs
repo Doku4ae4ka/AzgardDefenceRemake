@@ -1,11 +1,9 @@
 using System;
-using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using Source.Scripts.ECS.Components;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace Source.Scripts.Libraries
+namespace Source.Scripts.ProjectLibraries
 {
     [CreateAssetMenu(menuName = "Library/TowerLibrary", fileName = "TowerLibrary")]
     public class TowerLibrary : Library<TowerPack, TowerKeys>

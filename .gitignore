@@ -2,15 +2,22 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
-/[Ll]ibrary/
-/[Tt]emp/
-/[Oo]bj/
-/[Bb]uild/
-/[Bb]uilds/
-/[Ll]ogs/
-/[Uu]ser[Ss]ettings/
+/[Bb]uild[Ll]ogs
+/[Aa]ssets/[Bb]uild[Ll]ogs
+/Assets/BuildLogs/build_log.txt
+/[Ll]ibrary
+/[Tt]emp
+/[Oo]bj
+/[Bb]uild
+/[Bb]uilds
+/[Bb]uildAndroid
+/[Ll]ogs
+/[Uu]ser[Ss]ettings
 /.idea
-
+/[Aa]ssets/Plugins/Sirenix/
+/[Aa]ssets/Plugins/Sirenix/Odin Inspector/Config/
+/ProjectSettings/EditorBuildSettings.asset
+/Assets/StreamingAssets/
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
 /[Mm]emoryCaptures/
@@ -26,6 +33,7 @@
 
 # Visual Studio cache directory
 .vs/
+.vsconfig/
 
 # Gradle cache directory
 .gradle/
@@ -64,10 +72,12 @@ sysinfo.txt
 
 # Crashlytics generated file
 crashlytics-build.properties
-
+Assets/Plugins/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset
 # Packed Addressables
 /[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
 
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+Assets/DefaultPrefabObjects.asset
+Assets/FishNet/CodeGenerating/cecil-0.11.4/Mono.Cecil.sln.meta

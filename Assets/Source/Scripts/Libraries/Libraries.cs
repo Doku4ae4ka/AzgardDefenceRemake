@@ -1,8 +1,8 @@
 using System;
-using Source.SignalSystem;
+using Exerussus._1Extensions.SignalSystem;
 using UnityEngine;
 
-namespace Source.Scripts.Libraries
+namespace Source.Scripts.ProjectLibraries
 {
     public class Libraries : MonoBehaviour
     {
@@ -17,6 +17,9 @@ namespace Source.Scripts.Libraries
             };
 
         public static KeysHolder KeysHolder => Instance._keysHolder;
+
+        public static TowerLibrary TowerLibrary => Instance.towerLibrary;
+
         public static Signal Signal => Instance.signal;
 
         public static Libraries Instance { get; private set; }

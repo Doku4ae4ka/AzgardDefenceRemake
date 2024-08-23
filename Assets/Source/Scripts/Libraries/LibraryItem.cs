@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Source.Scripts.Libraries
+namespace Source.Scripts.ProjectLibraries
 {
     [Serializable]
     public abstract class LibraryItem<TEnum> where TEnum : Enum

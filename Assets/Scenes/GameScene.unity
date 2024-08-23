@@ -281,7 +281,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 59469611}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1415475028}
+        m_TargetAssemblyTypeName: Source.Scripts.UI.ShopButtonUI, Assembly-CSharp
+        m_MethodName: SpawnTowerPreview
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &59469611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -404,6 +416,52 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
+--- !u!1 &177186896
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 177186897}
+  - component: {fileID: 177186898}
+  m_Layer: 0
+  m_Name: Libraries
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &177186897
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 177186896}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 526925855}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &177186898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 177186896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b15b1b2a3264c7a818a2d7480888d75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  towerLibrary: {fileID: 11400000, guid: 3f8b1e81d49356e43a0cb43be1c75ee0, type: 2}
+  signal: {fileID: 11400000, guid: 23c68ecbebf301045ad3baf06575bfca, type: 2}
 --- !u!1 &193076463
 GameObject:
   m_ObjectHideFlags: 0
@@ -1623,6 +1681,7 @@ Transform:
   m_Children:
   - {fileID: 1829706804}
   - {fileID: 1453425900}
+  - {fileID: 177186897}
   m_Father: {fileID: 787452824}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &526925856
@@ -2783,6 +2842,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1000611402}
   - component: {fileID: 1000611403}
+  - component: {fileID: 1000611404}
   m_Layer: 5
   m_Name: Item Information2
   m_TagString: Untagged
@@ -2821,6 +2881,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000611401}
   m_CullTransparentMesh: 1
+--- !u!114 &1000611404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000611401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c80282000f94c3a82ba6d10aeefb04d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  signal: {fileID: 11400000, guid: 23c68ecbebf301045ad3baf06575bfca, type: 2}
+  gameConfiguration: {fileID: 11400000, guid: de26ecfe253825248bf9f3c5ca9307e3, type: 2}
+  towerID: 2
 --- !u!1 &1002747260
 GameObject:
   m_ObjectHideFlags: 0
@@ -3276,7 +3351,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1210783911}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1000611404}
+        m_TargetAssemblyTypeName: Source.Scripts.UI.ShopButtonUI, Assembly-CSharp
+        m_MethodName: SpawnTowerPreview
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1210783910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3491,6 +3578,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1415475025}
   - component: {fileID: 1415475027}
+  - component: {fileID: 1415475028}
   m_Layer: 5
   m_Name: Item Information1
   m_TagString: Untagged
@@ -3529,6 +3617,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1415475024}
   m_CullTransparentMesh: 1
+--- !u!114 &1415475028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1415475024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c80282000f94c3a82ba6d10aeefb04d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  signal: {fileID: 11400000, guid: 23c68ecbebf301045ad3baf06575bfca, type: 2}
+  gameConfiguration: {fileID: 11400000, guid: de26ecfe253825248bf9f3c5ca9307e3, type: 2}
+  towerID: 0
 --- !u!1 &1444648406
 GameObject:
   m_ObjectHideFlags: 0
@@ -4277,6 +4380,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1581866428}
   - component: {fileID: 1581866429}
+  - component: {fileID: 1581866430}
   m_Layer: 5
   m_Name: Item Information3
   m_TagString: Untagged
@@ -4315,6 +4419,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1581866427}
   m_CullTransparentMesh: 1
+--- !u!114 &1581866430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1581866427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c80282000f94c3a82ba6d10aeefb04d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  signal: {fileID: 11400000, guid: 23c68ecbebf301045ad3baf06575bfca, type: 2}
+  gameConfiguration: {fileID: 11400000, guid: de26ecfe253825248bf9f3c5ca9307e3, type: 2}
+  towerID: 1
 --- !u!1 &1587533196
 GameObject:
   m_ObjectHideFlags: 0
@@ -4844,7 +4963,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1685893635}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1581866430}
+        m_TargetAssemblyTypeName: Source.Scripts.UI.ShopButtonUI, Assembly-CSharp
+        m_MethodName: SpawnTowerPreview
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1685893634
 MonoBehaviour:
   m_ObjectHideFlags: 0

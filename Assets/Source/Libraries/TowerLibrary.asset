@@ -12,4 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8e90a1d66084018ac83d2631518ba4f, type: 3}
   m_Name: TowerLibrary
   m_EditorClassIdentifier: 
-  items: []
+  items:
+  - towerID: 0
+    tower: {fileID: 8015388782051703509, guid: 14635cd7965e54e18b4d6aaeee578484, type: 3}
+  - towerID: 1
+    tower: {fileID: 1459500281927826463, guid: 29ebc2dc711af46c7bd44ef8dcfb05de, type: 3}
+  - towerID: 2
+    tower: {fileID: 7664290462594451341, guid: f49e5b2a692124ebcbee92ffd3e68028, type: 3}

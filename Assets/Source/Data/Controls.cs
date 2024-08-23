@@ -55,7 +55,16 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Ultimate"",
+                    ""name"": ""Cancel"",
+                    ""type"": ""Button"",
+                    ""id"": ""895bae67-7d2b-42aa-a37b-949500172dac"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""HotKey"",
                     ""type"": ""Button"",
                     ""id"": ""fd85425b-157a-4e86-ac14-79d33efb22c7"",
                     ""expectedControlType"": ""Button"",
@@ -215,7 +224,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keydoard + mouse"",
-                    ""action"": ""Ultimate"",
+                    ""action"": ""HotKey"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -226,7 +235,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keydoard + mouse"",
-                    ""action"": ""Ultimate"",
+                    ""action"": ""HotKey"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -237,7 +246,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Ultimate"",
+                    ""action"": ""HotKey"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -260,6 +269,28 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keydoard + mouse"",
                     ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4db120cf-e53b-48c6-b9b4-b3199df4b2d1"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": ""Keydoard + mouse"",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d3512ce9-6f1d-4b70-8534-adf099b09def"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -312,7 +343,8 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Character_CameraMove = m_Character.FindAction("CameraMove", throwIfNotFound: true);
         m_Character_Look = m_Character.FindAction("Look", throwIfNotFound: true);
         m_Character_Interact = m_Character.FindAction("Interact", throwIfNotFound: true);
-        m_Character_Ultimate = m_Character.FindAction("Ultimate", throwIfNotFound: true);
+        m_Character_Cancel = m_Character.FindAction("Cancel", throwIfNotFound: true);
+        m_Character_HotKey = m_Character.FindAction("HotKey", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -377,7 +409,8 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Character_CameraMove;
     private readonly InputAction m_Character_Look;
     private readonly InputAction m_Character_Interact;
-    private readonly InputAction m_Character_Ultimate;
+    private readonly InputAction m_Character_Cancel;
+    private readonly InputAction m_Character_HotKey;
     public struct CharacterActions
     {
         private @Controls m_Wrapper;
@@ -385,7 +418,8 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @CameraMove => m_Wrapper.m_Character_CameraMove;
         public InputAction @Look => m_Wrapper.m_Character_Look;
         public InputAction @Interact => m_Wrapper.m_Character_Interact;
-        public InputAction @Ultimate => m_Wrapper.m_Character_Ultimate;
+        public InputAction @Cancel => m_Wrapper.m_Character_Cancel;
+        public InputAction @HotKey => m_Wrapper.m_Character_HotKey;
         public InputActionMap Get() { return m_Wrapper.m_Character; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -404,9 +438,12 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
-            @Ultimate.started += instance.OnUltimate;
-            @Ultimate.performed += instance.OnUltimate;
-            @Ultimate.canceled += instance.OnUltimate;
+            @Cancel.started += instance.OnCancel;
+            @Cancel.performed += instance.OnCancel;
+            @Cancel.canceled += instance.OnCancel;
+            @HotKey.started += instance.OnHotKey;
+            @HotKey.performed += instance.OnHotKey;
+            @HotKey.canceled += instance.OnHotKey;
         }
 
         private void UnregisterCallbacks(ICharacterActions instance)
@@ -420,9 +457,12 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
-            @Ultimate.started -= instance.OnUltimate;
-            @Ultimate.performed -= instance.OnUltimate;
-            @Ultimate.canceled -= instance.OnUltimate;
+            @Cancel.started -= instance.OnCancel;
+            @Cancel.performed -= instance.OnCancel;
+            @Cancel.canceled -= instance.OnCancel;
+            @HotKey.started -= instance.OnHotKey;
+            @HotKey.performed -= instance.OnHotKey;
+            @HotKey.canceled -= instance.OnHotKey;
         }
 
         public void RemoveCallbacks(ICharacterActions instance)
@@ -472,6 +512,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnCameraMove(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
-        void OnUltimate(InputAction.CallbackContext context);
+        void OnCancel(InputAction.CallbackContext context);
+        void OnHotKey(InputAction.CallbackContext context);
     }
 }
