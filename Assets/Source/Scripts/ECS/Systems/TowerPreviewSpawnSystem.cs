@@ -11,14 +11,14 @@ namespace Source.Scripts.ECS.Systems
     /// создает превью башни получая сигнал CommandSpawnTowerPreview.
     /// </summary>
     [Preserve]
-    public class TowerPreviewSpawnSystem : EcsListener<CommandSpawnTower>
+    public class TowerPreviewSpawnSystem : EcsGameSystem<Signals.CommandSpawnTower>
     {
         private Tower GetTowerByID(TowerKeys towerID)
         {
             return Libraries.TowerLibrary.GetByID(towerID).Tower;
         }
         
-        protected override void OnSignal(CommandSpawnTower data)
+        protected override void OnSignal(Signals.CommandSpawnTower data)
         {
             var entity = World.NewEntity();
             ref var transformData = ref Pooler.Transform.Add(entity);

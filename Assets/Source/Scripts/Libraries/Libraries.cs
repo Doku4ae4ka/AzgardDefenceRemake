@@ -7,6 +7,7 @@ namespace Source.Scripts.ProjectLibraries
     public class Libraries : MonoBehaviour
     {
         [SerializeField] private TowerLibrary towerLibrary;
+        [SerializeField] private EnemyLibrary enemyLibrary;
         
         [SerializeField] private Signal signal;
         
@@ -14,11 +15,14 @@ namespace Source.Scripts.ProjectLibraries
         private ILibrary[] AllLibraries => new ILibrary[] 
             { 
                 towerLibrary, 
+                enemyLibrary,
             };
 
         public static KeysHolder KeysHolder => Instance._keysHolder;
 
         public static TowerLibrary TowerLibrary => Instance.towerLibrary;
+        
+        public static EnemyLibrary EnemyLibrary => Instance.enemyLibrary;
 
         public static Signal Signal => Instance.signal;
 

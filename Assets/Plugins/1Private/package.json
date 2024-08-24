@@ -1,0 +1,19 @@
+{
+  "name": "com.exerussus.1private",
+  "version": "1.0.0",
+  "displayName": "1Private",
+  "description": "Набор игровых приватных компонентов.",
+  "unity": "2020.3",
+  "dependencies": {  },
+  "keywords": [
+    "1Private"
+  ],
+  "author": {
+    "name": "Exerussus",
+    "email": "solovyov.production@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/exerussus/1Private.git"
+  }
+}

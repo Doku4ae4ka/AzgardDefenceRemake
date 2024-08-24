@@ -1,23 +1,23 @@
 using System;
 using Sirenix.OdinInspector;
-using Source.Scripts.ECS.Components;
+using Source.Scripts.MonoBehaviors;
 using UnityEngine;
 
 namespace Source.Scripts.ProjectLibraries
 {
     [CreateAssetMenu(menuName = "Library/TowerLibrary", fileName = "TowerLibrary")]
-    public class TowerLibrary : Library<TowerPack, TowerKeys>
+    public class TowerLibrary : Library<TowerViewPack, TowerKeys>
     {
         
     }
     
     [Serializable]
-    public class TowerPack : LibraryItem<TowerKeys>
+    public class TowerViewPack : LibraryItem<TowerKeys>
     {
         [ReadOnly] [SerializeField] private TowerKeys towerID;
-        [SerializeField] private Tower tower;
+        [SerializeField] private TowerView tower;
         
-        public Tower Tower => tower;
+        public TowerView Tower => tower;
 
         public override void SetIDInEditor(TowerKeys id)
         {

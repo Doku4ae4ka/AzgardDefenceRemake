@@ -2,9 +2,9 @@ using Source.Scripts.ECS.Core;
 
 namespace Source.Scripts.ECS.Systems
 {
-    public class BuildingSystem : EcsListener<CommandSpawnTower>
+    public class BuildingSystem : EcsGameSystem<Signals.CommandSpawnTower>
     {
-        protected override void OnSignal(CommandSpawnTower data)
+        protected override void OnSignal(Signals.CommandSpawnTower data)
         {
             throw new System.NotImplementedException();
         }

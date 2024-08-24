@@ -1,5 +1,5 @@
 using Exerussus._1Extensions.SignalSystem;
-using Source.Scripts.ECS.Core;
+using Source.Scripts.Core;
 using Source.Scripts.ProjectLibraries;
 using UnityEngine;
 
@@ -11,7 +11,7 @@ namespace Source.Scripts.UI
         
         public void SpawnTowerPreview()
         {
-            Signal.RegistryRaise(new CommandSpawnTower
+            Signal.RegistryRaise(new Signals.CommandSpawnTower
             {
                 TowerID = towerID 
             });
