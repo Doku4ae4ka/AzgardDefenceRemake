@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Source.Scripts.Core
 {
-    public class GameConfigurations : ScriptableObject
+    public class GameConfigurations : ScriptableObject, IGameCoreConfig
     {
         public Slot slot;
     }

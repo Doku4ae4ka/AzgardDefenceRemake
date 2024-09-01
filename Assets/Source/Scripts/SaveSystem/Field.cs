@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Sirenix.OdinInspector;
 
 namespace Source.Scripts.SaveSystem
 {
@@ -9,8 +11,14 @@ namespace Source.Scripts.SaveSystem
         {
             key = fieldKey;
         }
-
+        
+        [ValueDropdown("GetKeyOptions")]
         public string key;
         public string value;
+        
+        private static IEnumerable<string> GetKeyOptions()
+        {
+            return SavePath.GetKeyOptions();
+        }
     }
 }

@@ -19,7 +19,7 @@ namespace Source.Scripts.SaveSystem
     {
         public event Action<EcsWorld, Pooler, Slot> OnStart;
         public event Action<EcsWorld, Pooler, Slot> OnConfigs;
-        public event Action<EcsWorld, Pooler, Slot> OnGlobal;
+        public event Action<EcsWorld, Pooler, Slot> OnPrototypes;
         public event Action<EcsWorld, Pooler, Slot> OnStatic;
         public event Action<EcsWorld, Pooler, Slot> OnDynamic;
         public event Action<EcsWorld, Pooler, Slot> OnFinish;
@@ -28,17 +28,15 @@ namespace Source.Scripts.SaveSystem
         {
             OnStart?.Invoke(world, pooler, slot);
             
-            slot.global.Clear();
             slot.Clear();
             
             InitializeConfigs(world, pooler, slot);
             InitializePrototypes(world, pooler, slot);
-            InitializeEnvironment(world, pooler, slot);
-            InitializeTowers(world, pooler, slot);
-            InitializeEnemies(world, pooler, slot);
+            InitializeStatic(world, pooler, slot);
+            InitializeDynamic(world, pooler, slot);
             
             OnConfigs?.Invoke(world, pooler, slot);
-            OnGlobal?.Invoke(world, pooler, slot);
+            OnPrototypes?.Invoke(world, pooler, slot);
             OnStatic?.Invoke(world, pooler, slot);
             OnDynamic?.Invoke(world, pooler, slot);
             
@@ -47,33 +45,23 @@ namespace Source.Scripts.SaveSystem
 
         #region Static Methods
 
-        private static void InitializeEnemies(EcsWorld world, Pooler pooler, Slot slot)
+        private static void InitializeDynamic(EcsWorld world, Pooler pooler, Slot slot)
         {
-            foreach (var entity in world.Filter<EcsData.Entity>().Inc<EcsData.Enemy>().End())
+            foreach (var entity in world.Filter<EcsData.Entity>().Inc<EcsData.DynamicMark>().End())
             {
                 ref var entityData = ref pooler.Entity.Get(entity);
                 var newEntity = new Entity(entityData.EntityID, entityData.Category);
-                slot.AddEnemy(newEntity);
+                slot.AddDynamic(newEntity);
             }
         }
 
-        private static void InitializeTowers(EcsWorld world, Pooler pooler, Slot slot)
+        private static void InitializeStatic(EcsWorld world, Pooler pooler, Slot slot)
         {
-            foreach (var entity in world.Filter<EcsData.Entity>().Inc<EcsData.Tower>().End())
+            foreach (var entity in world.Filter<EcsData.Entity>().Inc<EcsData.StaticMark>().End())
             {
                 ref var entityData = ref pooler.Entity.Get(entity);
                 var newEntity = new Entity(entityData.EntityID, entityData.Category);
-                slot.AddTower(newEntity);
-            }
-        }
-
-        private static void InitializeEnvironment(EcsWorld world, Pooler pooler, Slot slot)
-        {
-            foreach (var entity in world.Filter<EcsData.Entity>().Inc<EcsData.Environment>().End())
-            {
-                ref var entityData = ref pooler.Entity.Get(entity);
-                var newEntity = new Entity(entityData.EntityID, entityData.Category);
-                slot.AddEnvironment(newEntity);
+                slot.AddStatic(newEntity);
             }
         }
 
@@ -83,10 +71,10 @@ namespace Source.Scripts.SaveSystem
             {
                 ref var entityData = ref pooler.Entity.Get(entity);
                 var newEntity = new Entity(entityData.EntityID, entityData.Category);
-                slot.global.AddPrototype(newEntity);
+                slot.AddPrototype(newEntity);
                 
                 ref var prototypeData = ref pooler.Prototype.Get(entity);
-                var field = newEntity.GetOrCreateFieldIteration(SavePath.PrototypeCategory);
+                var field = newEntity.GetOrCreateFieldIteration(SavePath.Prototype.Category);
                 field.value = $"{(int)prototypeData.Category}";
             }
         }
@@ -97,7 +85,7 @@ namespace Source.Scripts.SaveSystem
             {
                 ref var entityData = ref pooler.Entity.Get(entity);
                 var newEntity = new Entity(entityData.EntityID, entityData.Category);
-                slot.global.AddConfig(newEntity);
+                slot.CreateConfig(newEntity);
             }
         }
 
@@ -109,12 +97,12 @@ namespace Source.Scripts.SaveSystem
     {
         public event Action<EcsWorld, Pooler, Slot> OnStart;
         public event Action<EcsWorld, Pooler, Slot> OnConfigs;
-        public event Action<EcsWorld, Pooler, Slot> OnGlobal;
+        public event Action<EcsWorld, Pooler, Slot> OnPrototypes;
         public event Action<EcsWorld, Pooler, Slot> OnStatic;
         public event Action<EcsWorld, Pooler, Slot> OnDynamic;
         public event Action<EcsWorld, Pooler, Slot> OnFinish;
         
-        public void Invoke(EcsWorld world, Pooler pooler, Slot slot)
+        public void Invoke(EcsWorld world, Pooler pooler, Slot slot, Prototypes prototypes)
         {
             OnStart?.Invoke(world, pooler, slot);
             
@@ -122,14 +110,13 @@ namespace Source.Scripts.SaveSystem
             InitializeConfigs(world, pooler, slot);
             OnConfigs?.Invoke(world, pooler, slot);
             
-            InitializePrototypes(world, pooler, slot);
-            OnGlobal?.Invoke(world, pooler, slot);
+            InitializePrototypes(world, pooler, slot, prototypes);
+            OnPrototypes?.Invoke(world, pooler, slot);
             
-            InitializeEnvironment(world, pooler, slot);
+            InitializeStatic(world, pooler, slot);
             OnStatic?.Invoke(world, pooler, slot);
             
-            InitializeTowers(world, pooler, slot);
-            InitializeEnemies(world, pooler, slot);
+            InitializeDynamic(world, pooler, slot);
             OnDynamic?.Invoke(world, pooler, slot);
             
             OnFinish?.Invoke(world, pooler, slot);
@@ -145,16 +132,16 @@ namespace Source.Scripts.SaveSystem
                 {
                     var view = pooler.View.Get(entity).Value;
                     // сделать возврат в пул вместо уничтожения
-                    ProjectTask.TestCode(() => { Object.Destroy(view.gameObject); });
+                    if (view != null) ProjectTask.TestCode(() => { Object.Destroy(view.gameObject); });
                 }
                 
                 world.DelEntity(entity);
             }
         }
         
-        private static void InitializeTowers(EcsWorld world, Pooler pooler, Slot slot)
+        private static void InitializeDynamic(EcsWorld world, Pooler pooler, Slot slot)
         {
-            foreach (var itemEntity in slot.Towers)
+            foreach (var itemEntity in slot.Dynamics)
             {
                 var entity = world.NewEntity();
 
@@ -163,13 +150,12 @@ namespace Source.Scripts.SaveSystem
                 entityData.Category = itemEntity.category;
 
                 pooler.DynamicMark.Add(entity);
-                ref var towerData = ref pooler.Tower.Add(entity);
             }
         }
 
-        private static void InitializeEnvironment(EcsWorld world, Pooler pooler, Slot slot)
+        private static void InitializeStatic(EcsWorld world, Pooler pooler, Slot slot)
         {
-            foreach (var environmentEntity in slot.Environment)
+            foreach (var environmentEntity in slot.Statics)
             {
                 var entity = world.NewEntity();
 
@@ -178,54 +164,62 @@ namespace Source.Scripts.SaveSystem
                 entityData.Category = environmentEntity.category;
 
                 pooler.StaticMark.Add(entity);
-                ref var environmentData = ref pooler.Environment.Add(entity);
             }
         }
 
-        private static void InitializePrototypes(EcsWorld world, Pooler pooler, Slot slot)
+        private static void InitializePrototypes(EcsWorld world, Pooler pooler, Slot slot, Prototypes prototypes)
         {
-            foreach (var prototypeEntity in slot.global.Prototypes)
+            foreach (var prototypeEntity in slot.Prototypes)
             {
                 var entity = world.NewEntity();
+                prototypes.Add(prototypeEntity.id, entity);
 
                 ref var entityData = ref pooler.Entity.Add(entity);
                 entityData.EntityID = prototypeEntity.id;
                 entityData.Category = prototypeEntity.category;
-
-                pooler.GlobalMark.Add(entity);
+                
                 ref var prototypeData = ref pooler.Prototype.Add(entity);
-                prototypeData.Category = (EntityCategory)prototypeEntity.GetField(SavePath.PrototypeCategory).ParseInt();
+                prototypeData.Category = (EntityCategory)prototypeEntity.GetField(SavePath.Prototype.Category).ParseInt();
                 prototypeData.DataBuilder = new();
+                
+                Action<int> buildAction = null;
+                switch (prototypeData.Category)
+                {
+                    case EntityCategory.Dynamic:
+                        buildAction = (int newEntity) =>
+                        {
+                            pooler.DynamicMark.Add(newEntity);
+                        };
+                        break;
+                    case EntityCategory.Static:
+                        buildAction = (int newEntity) =>
+                        {
+                            pooler.StaticMark.Add(newEntity);
+                        };
+                        break;
+                    case EntityCategory.Prototype:
+                        break;
+                    case EntityCategory.Config:
+                        break;
+                    case EntityCategory.Trigger:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+
+                if (buildAction != null) prototypeData.DataBuilder.Add(buildAction);
             }
         }
         
         private static void InitializeConfigs(EcsWorld world, Pooler pooler, Slot slot)
         {
-            foreach (var configEntity in slot.global.Configs)
-            {
-                var entity = world.NewEntity();
+            var entity = world.NewEntity();
 
-                ref var entityData = ref pooler.Entity.Add(entity);
-                entityData.EntityID = configEntity.id;
-                entityData.Category = configEntity.category;
+            ref var entityData = ref pooler.Entity.Add(entity);
+            entityData.EntityID = slot.Configs.id;
+            entityData.Category = slot.Configs.category;
 
-                ref var configData = ref pooler.Config.Add(entity);
-            }
-        }
-
-        private static void InitializeEnemies(EcsWorld world, Pooler pooler, Slot slot)
-        {
-            foreach (var configEntity in slot.Enemies)
-            {
-                var entity = world.NewEntity();
-
-                ref var entityData = ref pooler.Entity.Add(entity);
-                entityData.EntityID = configEntity.id;
-                entityData.Category = configEntity.category;
-
-                pooler.DynamicMark.Add(entity);
-                ref var enemyData = ref pooler.Enemy.Add(entity);
-            }
+            ref var configData = ref pooler.Config.Add(entity);
         }
         
         #endregion

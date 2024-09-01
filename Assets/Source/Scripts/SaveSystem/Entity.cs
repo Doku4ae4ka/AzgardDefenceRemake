@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Source.Scripts.Core;
+using Source.Scripts.Extensions;
+using UnityEngine;
 
 namespace Source.Scripts.SaveSystem
 {
@@ -69,6 +71,66 @@ namespace Source.Scripts.SaveSystem
             {
                 value = result.value;
                 return true;
+            }
+
+            value = default;
+            return false;
+        }
+
+        public bool TryGetFloatField(string key, out float value)
+        {
+            if (_fieldsDict.TryGetValue(key, out var resultString))
+            {
+                if (float.TryParse(resultString.value, out float resultFloat))
+                {
+                    value = resultFloat;
+                    return true;
+                }
+            }
+
+            value = default;
+            return false;
+        }
+
+        public bool TryGetIntField(string key, out int value)
+        {
+            if (_fieldsDict.TryGetValue(key, out var resultString))
+            {
+                if (int.TryParse(resultString.value, out int resultFloat))
+                {
+                    value = resultFloat;
+                    return true;
+                }
+            }
+
+            value = default;
+            return false;
+        }
+
+        public bool TryGetVector3Field(string key, out Vector3 value)
+        {
+            if (_fieldsDict.TryGetValue(key, out var resultString))
+            {
+                if (resultString.value.TryParseVector3(out var resultVector3))
+                {
+                    value = resultVector3;
+                    return true;
+                }
+            }
+
+            value = default;
+            return false;
+        }
+
+        public bool TryGetQuaternionField(string key, out Quaternion value)
+        {
+            if (_fieldsDict.TryGetValue(key, out var resultString))
+            {
+                if (resultString.value.TryParseQuaternion(out var resultQuaternion))
+                {
+                    value = resultQuaternion;
+                    return true;
+                }
             }
 
             value = default;

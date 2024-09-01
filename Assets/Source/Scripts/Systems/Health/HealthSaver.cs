@@ -14,20 +14,14 @@ namespace Source.Scripts.Systems.Health
                 ref var healthData = ref pooler.Health.Get(entity);
                 ref var entityData = ref pooler.Entity.Get(entity);
 
-                Entity savingEntity;
+                if (!slot.TryGetEntity(entityData.EntityID, out var foundEntity)) return;
+                var savingEntity = foundEntity;
                 
-                if (slot.TryGetEntity(entityData.EntityID, out var foundEntity)) savingEntity = foundEntity;
-                else
-                {
-                    savingEntity = new Entity(entityData.EntityID, entityData.Category);
-                    if (pooler.Enemy.Has(entity)) slot.AddEnemy(savingEntity);
-                }
-                
-                savingEntity.SetField(SavePath.HealthMax, $"{healthData.Max}");
+                savingEntity.SetField(SavePath.Health.Max, $"{healthData.Max}");
         
                 if (!Mathf.Approximately(healthData.Current, healthData.Max))
                 {
-                    savingEntity.SetField(SavePath.HealthCurrent, $"{healthData.Current}");
+                    savingEntity.SetField(SavePath.Health.Current, $"{healthData.Current}");
                 }
             }
         }

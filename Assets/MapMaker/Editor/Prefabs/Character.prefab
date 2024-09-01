@@ -152,16 +152,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02d8282f81580dd44a08ea977834a072, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityID: 0
-  category: 0
-  gameConfigurations: {fileID: 11400000, guid: 7f51f09078e650c489b605ea4e228f1f, type: 2}
+  autoValidate: 0
+  isPrototype: 0
+  viewLibrary: {fileID: 0}
   health:
-    pathMax: health.max
-    pathCurrent: health.current
     enabled: 1
     max: 15
     current: 15
   view:
-    path: view
     enabled: 1
-    viewPath: 
+    viewPath: enemy
+    spawnedView: {fileID: 0}

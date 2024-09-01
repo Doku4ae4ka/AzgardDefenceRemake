@@ -1,14 +1,14 @@
 ﻿using Source.Scripts.Core;
 using Source.Scripts.SaveSystem;
 
-namespace MapMaker.Scripts.EntitySettings
+namespace MapMaker.Scripts
 {
     public class PrototypeSettings
     {
-        public void Set(Entity entity, Slot slot, EntityCategory category)
+        public void Set(Entity entity, Slot slot)
         {
             slot.global.AddPrototype(entity);
-            entity.SetField(SavePath.PrototypeCategory, $"{(int)category}");
+            entity.SetField(SavePath.Prototype.Category, $"{(int)EntityCategory.Item}");
         }
     }
 }

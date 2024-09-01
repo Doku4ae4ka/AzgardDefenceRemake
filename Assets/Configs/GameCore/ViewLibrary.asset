@@ -12,16 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7d440ec70fb4998b70555797bc53b72, type: 3}
   m_Name: ViewLibrary
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   views:
-  - {fileID: 432915687206711728, guid: 05a9b55f97d844b4283d3ead1012ffb2, type: 3}
-  - {fileID: 2489878473950744175, guid: bb962f51166e9784f970dd9c9dca8d36, type: 3}
-  - {fileID: 3198128164732370859, guid: 2618eb0890c06ef4c8f7b0e57df2ffe2, type: 3}
+  - {fileID: 6229423138181392607, guid: 6ea278ebf60febe4095e7aa313ef0e33, type: 3}
+  - {fileID: 7450631629257287379, guid: 43600431b26806f4494213587ec1bb4e, type: 3}
+  - {fileID: 1407409570046022855, guid: 2618eb0890c06ef4c8f7b0e57df2ffe2, type: 3}
+  - {fileID: 834025250232937264, guid: 648cf4a9ddce0994894bccf010e49f63, type: 3}
+  - {fileID: 2786538593915082513, guid: 4a55369d9c7b16842b6668057045b7e9, type: 3}

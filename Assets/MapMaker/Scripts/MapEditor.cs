@@ -1,21 +1,24 @@
-﻿using Exerussus._1Extensions;
+﻿
+using Exerussus._1Extensions;
 using Sirenix.OdinInspector;
 using Source.Scripts.Core;
 using Source.Scripts.Extensions;
+using Source.Scripts.Libraries;
 using Source.Scripts.SaveSystem;
 using UnityEngine;
-using FilePathAttribute = UnityEditor.FilePathAttribute;
 
 namespace MapMaker.Scripts
 {
     public class MapEditor : MonoBehaviour
     {
-        public string slotName = "default";
+        public string slotName = "1";
+        public string locationName = "home";
         [HideInInspector] public GameConfigurations gameConfigurations;
+        [HideInInspector] public ViewLibrary viewLibrary;
         [SerializeField] private bool saveEmptyMap;
         private int _index;
 
-        private int Increment
+        public int Increment
         {
             get
             {
@@ -24,12 +27,14 @@ namespace MapMaker.Scripts
             }
         }
         
-        private Transform _all;
-        private Transform _configs;
-        private Transform _prototypes;
-        private Transform _environments;
-        private Transform _towers;
-        private Transform _enemies;
+        private Transform _globals;
+        private Transform _globalsConfigs;
+        private Transform _globalsPrototypes;
+        
+        private Transform _locals;
+        private Transform _localsEnvironments;
+        private Transform _localsItems;
+        private Transform _localsCharacters;
 
         [Button]
         public void SaveLevel()
@@ -37,25 +42,34 @@ namespace MapMaker.Scripts
             _index = 0;
             var entitiesCount = 0;
 
-            var configs = GetAllConfigs();
+            var config = GetConfig();
+            var quests = GetAllQuests();
+            var playerCharacter = GetPlayerCharacter();
+            var playerInfo = GetPlayerInfo();
+            var characters = GetAllCharacters();
             var environments = GetAllEnvironments();
-            var enemies = GetAllEnemies();
-            var towers = GetAllTowers();
+            var items = GetAllItems();
 
-            entitiesCount += configs.Length + environments.Length + enemies.Length + towers.Length;
+            entitiesCount += quests.Length + characters.Length + environments.Length + items.Length;
+            if (playerCharacter != null) entitiesCount++;
             
             if (!saveEmptyMap && entitiesCount == 0) return;
             
             var memorySlot = GetSlot();
             memorySlot.Initialize();
+            var location = memorySlot.GetOrCreateLocation(locationName);
             
             memorySlot.global.Clear();
-            memorySlot.Clear();
+            location.Clear();
             
-            SaveEntities(configs, memorySlot, "global.config");
-            SaveEntities(environments, memorySlot, $"environment");
-            SaveEntities(towers, memorySlot, "towers");
-            SaveEntities(enemies, memorySlot, "enemies");
+            SaveEntities(characters, memorySlot, location, $"{location.ID}.character");
+            SaveEntities(items, memorySlot, location, $"{location.ID}.item");
+            SaveEntities(environments, memorySlot, location, $"{location.ID}.environment");
+            SaveEntities(quests, memorySlot, location, "global.quest");
+            config.Save(SavePath.Config.ID, memorySlot, location);
+            
+            if (playerCharacter != null) playerCharacter.Save($"global.player.character" ,memorySlot, location);
+            if (playerInfo != null) playerInfo.Save($"global.player.info", memorySlot, location);
 
             // var prototypes = new List<CharacterEntity>();
             //
@@ -86,30 +100,35 @@ namespace MapMaker.Scripts
             // }
         }
 
-        private void SaveEntities(IEntityObject[] entities, Slot slot, string prefix)
+        private void SaveEntities(IEntityObject[] entities, Slot slot, Location location, string prefix)
         {
             if (entities is { Length: > 0 })
             {
                 foreach (var entity in entities)
                 {
-                    entity.Save($"{prefix}.{Increment}", slot);
+                    entity.Save($"{prefix}.{Increment}", slot, location);
                 }
             }
         }
 
-        private ConfigEntity[] GetAllConfigs()
+        private ConfigEntity GetConfig()
         {
-            return FindObjectsOfType<ConfigEntity>();
+            return FindObjectOfType<ConfigEntity>();
         }
 
-        private EnemyEntity[] GetAllEnemies()
+        private QuestEntity[] GetAllQuests()
         {
-            return FindObjectsOfType<EnemyEntity>();
+            return FindObjectsOfType<QuestEntity>();
         }
 
-        private TowerEntity[] GetAllTowers()
+        private CharacterEntity[] GetAllCharacters()
         {
-            return FindObjectsOfType<TowerEntity>();
+            return FindObjectsOfType<CharacterEntity>();
+        }
+
+        private ItemEntity[] GetAllItems()
+        {
+            return FindObjectsOfType<ItemEntity>();
         }
 
         private EnvironmentEntity[] GetAllEnvironments()
@@ -117,46 +136,67 @@ namespace MapMaker.Scripts
             return FindObjectsOfType<EnvironmentEntity>();
         }
 
-        private void InitializeTransforms(Slot slot)
+        private PlayerCharacterEntity GetPlayerCharacter()
         {
-            var entities = FindObjectOfType<Entities>();
-            if (entities != null) DestroyImmediate(entities.gameObject);
+            return FindObjectOfType<PlayerCharacterEntity>();
+        }
 
-            _all = new GameObject
+        private PlayerInfoEntity GetPlayerInfo()
+        {
+            return FindObjectOfType<PlayerInfoEntity>();
+        }
+
+        private void InitializeTransforms(Location location)
+        {
+            Clear();
+
+            _globals = new GameObject
             {
                 name = "Global"
             }.transform;
-            _all.gameObject.AddComponent<Entities>();
+            _globals.gameObject.AddComponent<GlobalEntities>();
             
-            _configs = new GameObject
+            _globalsConfigs = new GameObject
             {
                 name = "Configs",
-                transform = { parent = _all}
+                transform = { parent = _globals}
+            }.transform;
+            
+            _globalsQuests = new GameObject
+            {
+                name = "Quests",
+                transform = { parent = _globals}
             }.transform;
             
             
-            _prototypes = new GameObject
+            _globalsPrototypes = new GameObject
             {
                 name = "Prototypes",
-                transform = { parent = _all}
+                transform = { parent = _globals}
             }.transform;
             
-            _environments = new GameObject
+            _locals = new GameObject
+            {
+                name = $"Local.{location.ID}"
+            }.transform;
+            _locals.gameObject.AddComponent<LocalEntities>();
+            
+            _localsEnvironments = new GameObject
             {
                 name = "Environments",
-                transform = { parent = _all}
+                transform = { parent = _locals}
             }.transform;
             
-            _towers = new GameObject
+            _localsItems = new GameObject
             {
-                name = "Towers",
-                transform = { parent = _all}
+                name = "Items",
+                transform = { parent = _locals}
             }.transform;
 
-            (_enemies) = new GameObject
+            (_localsCharacters) = new GameObject
             {
-                name = "Enemies",
-                transform = { parent = _all}
+                name = "Characters",
+                transform = { parent = _locals}
             }.transform;
         }
         
@@ -165,36 +205,106 @@ namespace MapMaker.Scripts
         {
             var memorySlot = GetSlot();
             memorySlot.Initialize();
+            var location = memorySlot.GetOrCreateLocation(locationName);
             
-            InitializeTransforms(memorySlot);
-            
-            LoadEnemies(memorySlot);
-            ProjectTask.AddCode("Load All other Entities");
+            InitializeTransforms(location);
+            LoadConfigs(memorySlot, location);
+            LoadEnvironments(memorySlot, location);
+            LoadItems(memorySlot, location);
+            LoadCharacters(memorySlot, location);
+            LoadPlayerCharacter(memorySlot, location);
+            LoadPlayerInfo(memorySlot, location);
         }
 
-        private void LoadEnemies(Slot slot)
+        private void LoadCharacters(Slot slot, Location location)
         {
-            foreach (var entity in slot.Enemies)
+            foreach (var entity in location.Characters)
             {
-                if (entity.category == EntityCategory.Prototype && 
-                    entity.GetField(SavePath.PrototypeCategory).ParseEntityCategory() == EntityCategory.Enemy)
+                if (entity.category == EntityCategory.Character || 
+                    entity.category == EntityCategory.Prototype && 
+                    entity.GetField(SavePath.Prototype.Category).ParseEntityCategory() == EntityCategory.Character)
                 {
-                    var entityObject = new GameObject { name = entity.id, transform = { parent = _enemies}}.AddComponent<EnemyEntity>();
-                    entityObject.Load(entity, slot);
+                    var entityObject = new GameObject { name = entity.id, transform = { parent = _localsCharacters}}.AddComponent<CharacterEntity>();
+                    entityObject.Load(entity, slot, location);
                 }
             }
+        }
+
+        private void LoadConfigs(Slot slot, Location location)
+        {
+            if (slot.global.Configs == null) slot.global.CreateConfig(new Entity(SavePath.Config.ID, EntityCategory.Config));
+            var entityObject = new GameObject { name = slot.global.Configs.id, transform = { parent = _globalsConfigs}}.AddComponent<ConfigEntity>();
+            entityObject.Load(slot.global.Configs, slot, location);
+        }
+
+        private void LoadEnvironments(Slot slot, Location location)
+        {
+            foreach (var entity in location.Environment)
+            {
+                if (entity.category == EntityCategory.Environment)
+                {
+                    var entityObject = new GameObject { name = entity.id, transform = { parent = (_localsEnvironments)}}.AddComponent<EnvironmentEntity>();
+                    entityObject.Load(entity, slot, location);
+                }
+            }
+        }
+
+        private void LoadItems(Slot slot, Location location)
+        {
+            foreach (var entity in location.Items)
+            {
+                if (entity.category == EntityCategory.Item)
+                {
+                    var entityObject = new GameObject { name = entity.id, transform = { parent = (_localsItems)}}.AddComponent<ItemEntity>();
+                    entityObject.Load(entity, slot, location);
+                }
+            }
+        }
+
+        private void LoadPlayerCharacter(Slot slot, Location location)
+        {
+            var entityObject = new GameObject { name = slot.global.Player.character.id, transform = { parent = _globals}}.AddComponent<PlayerCharacterEntity>();
+            entityObject.Load(slot.global.Player.character, slot, location);
+        }
+
+        private void LoadPlayerInfo(Slot slot, Location location)
+        {
+            var entityObject = new GameObject { name = slot.global.Player.info.id, transform = { parent = _globals}}.AddComponent<PlayerInfoEntity>();
+            entityObject.Load(slot.global.Player.info, slot, location);
         }
 
         [Button]
         public void Clear()
         {
-            DestroyImmediate(_all.gameObject);
+            var globals = FindObjectsOfType<GlobalEntities>();
+            if (globals != null) foreach (var foundObject in globals) DestroyImmediate(foundObject.gameObject);
+            var locals = FindObjectsOfType<LocalEntities>();
+            if (locals != null) foreach (var foundObject in locals) DestroyImmediate(foundObject.gameObject);
+            var playerCharacterEntities = FindObjectsOfType<PlayerCharacterEntity>();
+            if (playerCharacterEntities != null) foreach (var foundObject in playerCharacterEntities) DestroyImmediate(foundObject.gameObject);
+            var playerInfoEntities = FindObjectsOfType<PlayerInfoEntity>();
+            if (playerInfoEntities != null) foreach (var foundObject in playerInfoEntities) DestroyImmediate(foundObject.gameObject);
+            var envs = GetAllEnvironments();
+            if (envs != null) foreach (var foundObject in envs) DestroyImmediate(foundObject.gameObject);
+            var characters = GetAllCharacters();
+            if (characters != null) foreach (var foundObject in characters) DestroyImmediate(foundObject.gameObject);
+            var configs = FindObjectsOfType<ConfigEntity>();
+            if (configs != null) foreach (var foundObject in configs) DestroyImmediate(foundObject.gameObject);
+            var items = GetAllItems();
+            if (items != null) foreach (var foundObject in items) DestroyImmediate(foundObject.gameObject);
+            var quests = GetAllQuests();
+            if (quests != null) foreach (var foundObject in quests) DestroyImmediate(foundObject.gameObject);
         }
 
+        private void TryDel(ref MonoBehaviour[] array)
+        {
+            
+        }
+        
         [Button]
         public void Validate()
         {
-            var entities = FindObjectsOfType<EnemyEntity>();
+            var entities = FindObjectsOfType<CharacterEntity>();
             foreach (var gameEntity in entities) gameEntity.Validate();
         }
 
@@ -208,6 +318,7 @@ namespace MapMaker.Scripts
         private void OnValidate()
         {
             ConfigLoader.TryGetConfigIfNull(ref gameConfigurations, "GameCore");
+            ConfigLoader.TryGetConfigIfNull(ref viewLibrary, "GameCore");
         }
     }
 }

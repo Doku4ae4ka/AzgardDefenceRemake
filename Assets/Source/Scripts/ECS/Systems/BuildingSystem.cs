@@ -1,4 +1,4 @@
-using Source.Scripts.ECS.Core;
+using Source.Scripts.Core;
 
 namespace Source.Scripts.ECS.Systems
 {

@@ -5,7 +5,7 @@ using Exerussus._1Extensions;
 using Exerussus._1Extensions.SignalSystem;
 using Leopotam.EcsLite;
 using Sirenix.OdinInspector;
-using Source.Scripts.ProjectLibraries;
+using Source.Scripts.Libraries;
 using Source.Scripts.SaveSystem;
 using Source.Scripts.Systems;
 using Source.Scripts.Systems.Health;
@@ -14,7 +14,7 @@ using UnityEngine;
 
 namespace Source.Scripts.Core
 {
-    [AddComponentMenu("1Game/GameStarter")]
+    [AddComponentMenu("GameStarter")]
     public class GameStarter : EcsStarter<Pooler>
     {
         [SerializeField] private bool autoLoad;
@@ -22,14 +22,17 @@ namespace Source.Scripts.Core
         [SerializeField] private GameStatus gameStatus;
         [SerializeField, HideInInspector] private SignalHandler signalHandler;
         [SerializeField, HideInInspector] private GameConfigurations gameConfigurations;
-        [SerializeField, HideInInspector] private Libraries libraries;
+        [SerializeField, HideInInspector] private ViewLibrary viewLibrary;
         [SerializeField, HideInInspector] private Memory memory;
+        [SerializeField] private Prototypes prototypes = new Prototypes();
+        [SerializeField] private Configs configs = new Configs();
         
         public GameStatus GameStatus => gameStatus;
         public SignalHandler SignalHandler => signalHandler;
         public GameConfigurations GameConfigurations => gameConfigurations;
-        public Libraries Libraries => libraries;
+        public ViewLibrary ViewLibrary => viewLibrary;
         public Memory Memory => memory;
+        public Prototypes Prototypes => prototypes;
 
         public Pooler Pooler { get; private set; }
 
@@ -55,10 +58,11 @@ namespace Source.Scripts.Core
         public void Load()
         {
             gameStatus.currentState = GameStatus.State.Loading;
+            prototypes.Clear();
             
             var slot = gameConfigurations.slot;
             slot.Initialize();
-            memory.load.Invoke(_world, _pooler, slot);
+            memory.load.Invoke(_world, _pooler, slot, prototypes);
             
             gameStatus.currentState = GameStatus.State.Game;
         }
@@ -74,14 +78,14 @@ namespace Source.Scripts.Core
         {
             initSystems
                     
-                .Add(new EnemyViewSystem())
+                .Add(new ConfigSystem())
+                .Add(new ViewSystem())
                 .Add(new HealthSystem());
         }
 
         protected override void SetFixedUpdateSystems(IEcsSystems fixedUpdateSystems)
         {
             fixedUpdateSystems
-                    
                 .Add(new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem());
         }
 
@@ -89,7 +93,8 @@ namespace Source.Scripts.Core
         {
             updateSystems
                 
-                .Add(new CloneCreatorSystem());
+                .Add(new CloneCreatorSystem())
+                .Add(new LoaderSystem());
         }
 
         protected override void SetLateUpdateSystems(IEcsSystems lateUpdateSystems)
@@ -105,9 +110,12 @@ namespace Source.Scripts.Core
         protected override void SetSharingData(EcsWorld world, GameShare gameShare)
         {
             gameShare.AddSharedObject(gameConfigurations);
-            gameShare.AddSharedObject(libraries);
+            gameShare.AddSharedObject(viewLibrary);
             gameShare.AddSharedObject(gameStatus);
             gameShare.AddSharedObject(memory);
+            gameShare.AddSharedObject(prototypes);
+            gameShare.AddSharedObject(configs);
+            gameShare.AddSharedObject(this);
         }
 
         protected override Signal GetSignal()
@@ -124,12 +132,8 @@ namespace Source.Scripts.Core
         private void OnValidate()
         {
             ConfigLoader.TryGetConfigIfNull(ref signalHandler,"Signals");
-            ConfigLoader.TryGetConfigIfNull(ref gameConfigurations, "GameCore");
-            ProjectTask.TestCode(() =>
-            {
-                var towerLibrary = Libraries.TowerLibrary;
-                ConfigLoader.TryGetConfigIfNull(ref towerLibrary, "Libraries");
-            });
+            GameCore.TryGetConfig(ref gameConfigurations);
+            GameCore.TryGetConfig(ref viewLibrary);
         }
     }
 }

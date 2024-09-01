@@ -1,5 +1,4 @@
 ﻿
-using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using Source.Scripts.Core;
@@ -59,7 +58,7 @@ namespace Source.Scripts.Extensions
             return default;
         }
         
-        public static bool ParseQuaternion(this string quaternionString, out Quaternion result)
+        public static bool TryParseQuaternion(this string quaternionString, out Quaternion result)
         {
             var match = Regex.Match(quaternionString, @"^\((-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)\)$");
 
@@ -134,22 +133,6 @@ namespace Source.Scripts.Extensions
             }
             
             return default;
-        }
-        
-        public static T ParseEnum<T>(this string value) where T : Enum
-        {
-            if (int.TryParse(value, out int result))
-            {
-                return (T)Enum.ToObject(typeof(T), result);
-            }
-            try
-            {
-                return (T)Enum.Parse(typeof(T), value, true);
-            }
-            catch
-            {
-                return default;
-            }
         }
         
         public static EntityCategory ParseEntityCategory(this string value)

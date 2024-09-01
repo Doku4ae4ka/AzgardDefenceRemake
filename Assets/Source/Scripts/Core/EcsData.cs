@@ -14,6 +14,7 @@ namespace Source.Scripts.Core
 
         public struct View : IGameEcsComponent
         {
+            public string ViewId;
             public MonoBehaviours.View Value;
         }
 
@@ -21,6 +22,12 @@ namespace Source.Scripts.Core
         {
             public string EntityID;
             public EntityCategory Category;
+        }
+
+        public struct Health : IGameEcsComponent
+        {
+            public int Max;
+            public float Current;
         }
 
         public struct Prototype : IGameEcsComponent
@@ -44,28 +51,22 @@ namespace Source.Scripts.Core
             
         }
 
-        public struct Health : IGameEcsComponent
-        {
-            public int Max;
-            public float Current;
-        }
-
-        public struct PlayerInfo : IGameEcsComponent
-        {
-            
-        }
-
-        public struct Environment : IGameEcsComponent
-        {
-            
-        }
-        
         public struct Tower : IGameEcsComponent
         {
             
         }
-        
+
         public struct Enemy : IGameEcsComponent
+        {
+            
+        }
+
+        public struct Camera : IGameEcsComponent
+        {
+            
+        }
+
+        public struct BuildingStateMark : IGameEcsComponent
         {
             
         }
@@ -86,22 +87,14 @@ namespace Source.Scripts.Core
             
         }
         
-        /// <summary>
-        /// Сущность глобальная
-        /// </summary>
-        public struct GlobalMark : IGameEcsComponent
-        {
-            
-        }
     }
 
     public enum EntityCategory
     {
-        Tower,
-        Enemy,
+        Dynamic,
+        Static,
         Prototype,
         Config,
-        Environment,
         Trigger
     }
 
