@@ -1,52 +1,31 @@
-﻿using System.Collections.Generic;
-using Source.Scripts.Core;
-
-namespace Source.Scripts.SaveSystem
+﻿namespace Source.Scripts.SaveSystem
 {
     public static class SavePath
     {
-        private static readonly string[] AllPaths = new string[] {
-            "view", 
-            "position", 
-            "rotation", 
-            "prototype.category", 
-            "stamina.max", 
-            "stamina.current", 
-            "health.max", 
-            "health.current", 
-            "speed.default", 
-            "speed.base", 
-            "speed.current", 
-            "speed.sprint.multiply", 
-            "speed.crouch.multiply", 
-            "global.player.info.location",
-        };
-
-        public static class Config
+        public static class EntityCategory
         {
-            public const string ID = "global.configs";
-            public const string FreeEntityID = "config.free.entity.id";
+            public const string Tower = "tower";
+            public const string Enemy = "enemy";
+            public const string Camera = "camera";
+            public const string Waves = "waves";
+            public const string Prototype = "prototype";
+            public const string Config = "config";
+            public const string Environment = "environment";
+            public const string Trigger = "trigger";
+            
+            public static readonly string[] All = new string[] 
+                { Tower, Enemy, Camera, Waves, Environment, Prototype, Config, Trigger };
         }
         
-        public static class Health
+        public static class Config
         {
-            public const string Max = "health.max";
-            public const string Current = "health.current";
+            public const string ID = "config";
+            public const string FreeEntityID = "config.free.entity.id";
         }
 
-        public static class Speed
+        public static class Camera
         {
-            public const string Default = "speed.default";
-            public const string Base = "speed.base";
-            public const string Current = "speed.current";
-            public const string SprintMultiply = "speed.sprint.multiply";
-            public const string CrouchMultiply = "speed.crouch.multiply";
-        }
-
-        public static class Stamina
-        {
-            public const string Max = "stamina.max";
-            public const string Current = "stamina.current";
+            public const string ID = "camera";
         }
         
         public static class Prototype
@@ -54,21 +33,46 @@ namespace Source.Scripts.SaveSystem
             public const string Category = "prototype.category";
         }
         
-        public static class Player
+        public static class View
         {
-            public static class Info
-            {
-                public static string Location = "global.player.info.location";
-            }
+            public const string Tower = "view.tower";
+            public const string Enemy = "view.enemy";
+            public const string Environment = "view.environment";
         }
         
-        public const string View = "view";
-        public const string Position = "position";
-        public const string Rotation = "rotation";
-        
-        public static IEnumerable<string> GetKeyOptions()
+        public static class WorldSpace
         {
-            return AllPaths;
+            public const string Position = "worldspace.position";
+            public const string Rotation = "worldspace.rotation";
         }
+        
+        public static class Health
+        {
+            public const string Max = "health.max";
+            public const string Current = "health.current";
+        }
+        
+        public static readonly string[] AllPathFields = new string[] {
+            EntityCategory.Tower,
+            EntityCategory.Enemy,
+            EntityCategory.Camera,
+            EntityCategory.Waves,
+            EntityCategory.Environment,
+            EntityCategory.Prototype,
+            EntityCategory.Config,
+            EntityCategory.Trigger,
+            Config.ID,
+            Config.FreeEntityID,
+            Camera.ID,
+            Prototype.Category,
+            View.Tower,
+            View.Enemy,
+            View.Environment,
+            WorldSpace.Position,
+            WorldSpace.Rotation,
+            Health.Max,
+            Health.Current
+            
+        };
     }
 }

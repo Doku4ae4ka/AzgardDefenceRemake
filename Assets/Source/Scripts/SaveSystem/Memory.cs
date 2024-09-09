@@ -2,7 +2,6 @@
 using Exerussus._1Extensions;
 using Leopotam.EcsLite;
 using Source.Scripts.Core;
-using Source.Scripts.Extensions;
 using Object = UnityEngine.Object;
 
 namespace Source.Scripts.SaveSystem
@@ -12,6 +11,19 @@ namespace Source.Scripts.SaveSystem
     {
         public Saver save;
         public Loader load;
+        
+        public static Entity GetOrCreateEntityOnSave(Pooler pooler, Slot slot, ref EcsData.Entity entityData, int entity)
+        {
+            if (slot.TryGetEntity(entityData.EntityID, out var foundEntity)) return foundEntity;
+
+            var savingEntity = new Entity(entityData.EntityID, entityData.Category);
+            if (pooler.Tower.Has(entity) ||
+                pooler.Enemy.Has(entity) ||
+                pooler.Camera.Has(entity)) slot.AddDynamic(savingEntity);
+            else if (pooler.Environment.Has(entity)) slot.AddStatic(savingEntity);
+
+            return savingEntity;
+        }
     }
 
     [Serializable]
@@ -45,7 +57,7 @@ namespace Source.Scripts.SaveSystem
 
         #region Static Methods
 
-        private static void InitializeDynamic(EcsWorld world, Pooler pooler, Slot slot)
+        private void InitializeDynamic(EcsWorld world, Pooler pooler, Slot slot)
         {
             foreach (var entity in world.Filter<EcsData.Entity>().Inc<EcsData.DynamicMark>().End())
             {
@@ -55,7 +67,7 @@ namespace Source.Scripts.SaveSystem
             }
         }
 
-        private static void InitializeStatic(EcsWorld world, Pooler pooler, Slot slot)
+        private void InitializeStatic(EcsWorld world, Pooler pooler, Slot slot)
         {
             foreach (var entity in world.Filter<EcsData.Entity>().Inc<EcsData.StaticMark>().End())
             {
@@ -65,7 +77,7 @@ namespace Source.Scripts.SaveSystem
             }
         }
 
-        private static void InitializePrototypes(EcsWorld world, Pooler pooler, Slot slot)
+        private void InitializePrototypes(EcsWorld world, Pooler pooler, Slot slot)
         {
             foreach (var entity in world.Filter<EcsData.Entity>().Inc<EcsData.Prototype>().End())
             {
@@ -75,11 +87,11 @@ namespace Source.Scripts.SaveSystem
                 
                 ref var prototypeData = ref pooler.Prototype.Get(entity);
                 var field = newEntity.GetOrCreateFieldIteration(SavePath.Prototype.Category);
-                field.value = $"{(int)prototypeData.Category}";
+                field.value = prototypeData.Category;
             }
         }
 
-        private static void InitializeConfigs(EcsWorld world, Pooler pooler, Slot slot)
+        private void InitializeConfigs(EcsWorld world, Pooler pooler, Slot slot)
         {
             foreach (var entity in world.Filter<EcsData.Entity>().Inc<EcsData.Config>().End())
             {
@@ -128,11 +140,25 @@ namespace Source.Scripts.SaveSystem
         {
             foreach (var entity in world.Filter<EcsData.Entity>().End())
             {
-                if (pooler.View.Has(entity))
+                if (pooler.TowerView.Has(entity))
                 {
-                    var view = pooler.View.Get(entity).Value;
+                    var view = pooler.TowerView.Get(entity).Value;
                     // сделать возврат в пул вместо уничтожения
-                    if (view != null) ProjectTask.TestCode(() => { Object.Destroy(view.gameObject); });
+                    if (view != null) ProjectTask.TestCode(() => { Object.Destroy(view.TowerAsset.gameObject); });
+                }
+                
+                if (pooler.EnemyView.Has(entity))
+                {
+                    var view = pooler.EnemyView.Get(entity).Value;
+                    // сделать возврат в пул вместо уничтожения
+                    if (view != null) ProjectTask.TestCode(() => { Object.Destroy(view.EnemyAsset.gameObject); });
+                }
+                
+                if (pooler.EnvironmentView.Has(entity))
+                {
+                    var view = pooler.EnvironmentView.Get(entity).Value;
+                    // сделать возврат в пул вместо уничтожения
+                    if (view != null) ProjectTask.TestCode(() => { Object.Destroy(view.EnvironmentAsset.gameObject); });
                 }
                 
                 world.DelEntity(entity);
@@ -141,13 +167,13 @@ namespace Source.Scripts.SaveSystem
         
         private static void InitializeDynamic(EcsWorld world, Pooler pooler, Slot slot)
         {
-            foreach (var itemEntity in slot.Dynamics)
+            foreach (var dynamicEntity in slot.Dynamics)
             {
                 var entity = world.NewEntity();
 
                 ref var entityData = ref pooler.Entity.Add(entity);
-                entityData.EntityID = itemEntity.id;
-                entityData.Category = itemEntity.category;
+                entityData.EntityID = dynamicEntity.id;
+                entityData.Category = dynamicEntity.category;
 
                 pooler.DynamicMark.Add(entity);
             }
@@ -179,29 +205,47 @@ namespace Source.Scripts.SaveSystem
                 entityData.Category = prototypeEntity.category;
                 
                 ref var prototypeData = ref pooler.Prototype.Add(entity);
-                prototypeData.Category = (EntityCategory)prototypeEntity.GetField(SavePath.Prototype.Category).ParseInt();
+                prototypeData.Category = prototypeEntity.GetField(SavePath.Prototype.Category);
                 prototypeData.DataBuilder = new();
                 
                 Action<int> buildAction = null;
                 switch (prototypeData.Category)
                 {
-                    case EntityCategory.Dynamic:
+                    case SavePath.EntityCategory.Tower:
                         buildAction = (int newEntity) =>
                         {
                             pooler.DynamicMark.Add(newEntity);
+                            pooler.Tower.Add(newEntity);
                         };
                         break;
-                    case EntityCategory.Static:
+                    case SavePath.EntityCategory.Enemy:
+                        buildAction = (int newEntity) =>
+                        {
+                            pooler.DynamicMark.Add(newEntity);
+                            pooler.Enemy.Add(newEntity);
+                        };
+                        break;
+                    case SavePath.EntityCategory.Environment:
                         buildAction = (int newEntity) =>
                         {
                             pooler.StaticMark.Add(newEntity);
+                            pooler.Environment.Add(newEntity);
                         };
                         break;
-                    case EntityCategory.Prototype:
+                    case SavePath.EntityCategory.Camera:
+                        buildAction = (int newEntity) =>
+                        {
+                            pooler.DynamicMark.Add(newEntity);
+                            pooler.Camera.Add(newEntity);
+                        };
                         break;
-                    case EntityCategory.Config:
+                    case SavePath.EntityCategory.Waves:
                         break;
-                    case EntityCategory.Trigger:
+                    case SavePath.EntityCategory.Prototype:
+                        break;
+                    case SavePath.EntityCategory.Config:
+                        break;
+                    case SavePath.EntityCategory.Trigger:
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();

@@ -105,18 +105,5 @@ namespace Source.Scripts.SaveSystem
             return _allEntities[entityID];
         }
         
-        [Button]
-        public void Validate()
-        {
-
-            if (Configs != null)
-            {
-                Configs.id = SavePath.Config.ID;
-                Configs.category = EntityCategory.Config;
-            }
-            if (Prototypes != null) foreach (var entity in Prototypes) entity.category = EntityCategory.Prototype;
-            if (Dynamics != null) foreach (var entity in Dynamics) entity.category = EntityCategory.Dynamic;
-            if (Statics != null) foreach (var entity in Statics) entity.category = EntityCategory.Static;
-        }
     }
 }

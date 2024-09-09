@@ -29,8 +29,8 @@ namespace Source.Scripts.ECS.Core.SaveManager
                     FieldInfo enabledField = fieldValue.GetType().GetField("enabled", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
                     if (enabledField != null && (bool)enabledField.GetValue(fieldValue))
                     {
-                        MethodInfo setMethod = fieldValue.GetType().GetMethod("Set", BindingFlags.Public | BindingFlags.Instance);
-                        setMethod?.Invoke(fieldValue, new object[] { entity });
+                        MethodInfo saveMethod = fieldValue.GetType().GetMethod("TrySave", BindingFlags.Public | BindingFlags.Instance);
+                        saveMethod?.Invoke(fieldValue, new object[] { entity });
                     }
 
                     if (field.FieldType.IsClass && field.FieldType != typeof(string) && !field.FieldType.IsArray)
@@ -61,8 +61,8 @@ namespace Source.Scripts.ECS.Core.SaveManager
                 object fieldValue = field.GetValue(obj);
                 if (fieldValue != null)
                 {
-                    MethodInfo tryGetMethod = fieldValue.GetType().GetMethod("TryGet", BindingFlags.Public | BindingFlags.Instance);
-                    tryGetMethod?.Invoke(fieldValue, new object[] { entity });
+                    MethodInfo loadMethod = fieldValue.GetType().GetMethod("TryLoad", BindingFlags.Public | BindingFlags.Instance);
+                    loadMethod?.Invoke(fieldValue, new object[] { entity });
 
                     if (field.FieldType.IsClass && field.FieldType != typeof(string) && !field.FieldType.IsArray)
                     {

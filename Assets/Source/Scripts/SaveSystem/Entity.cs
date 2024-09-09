@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Source.Scripts.Core;
+using Sirenix.OdinInspector;
 using Source.Scripts.Extensions;
 using UnityEngine;
 
@@ -9,7 +9,7 @@ namespace Source.Scripts.SaveSystem
     [Serializable]
     public class Entity
     {
-        public Entity(string entityID, EntityCategory category)
+        public Entity(string entityID, string category)
         {
             id = entityID;
             this.category = category;
@@ -18,7 +18,7 @@ namespace Source.Scripts.SaveSystem
         }
 
         public string id;
-        public EntityCategory category;
+        [ValueDropdown("Dropdown")] public string category;
         public List<Field> fields;
         private Dictionary<string, Field> _fieldsDict;
 
@@ -107,6 +107,21 @@ namespace Source.Scripts.SaveSystem
             return false;
         }
 
+        public bool TryGetVector2Field(string key, out Vector2 value)
+        {
+            if (_fieldsDict.TryGetValue(key, out var resultString))
+            {
+                if (resultString.value.TryParseVector2(out var resultVector2))
+                {
+                    value = resultVector2;
+                    return true;
+                }
+            }
+
+            value = default;
+            return false;
+        }
+        
         public bool TryGetVector3Field(string key, out Vector3 value)
         {
             if (_fieldsDict.TryGetValue(key, out var resultString))

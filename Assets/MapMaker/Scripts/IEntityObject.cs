@@ -7,6 +7,6 @@ namespace MapMaker.Scripts
     {
         public void Save(string entityID, Slot slot);
 
-        public void Load(Entity entity, Slot slot);
+        public void Load(Entity entity, Slot slot, MapEditor mapEditor);
     }
 }

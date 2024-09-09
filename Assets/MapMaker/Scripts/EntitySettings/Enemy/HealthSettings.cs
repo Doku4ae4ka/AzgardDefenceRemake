@@ -12,15 +12,15 @@ namespace MapMaker.Scripts.EntitySettings.Enemy
         public int max;
         public float current;
         
-        public void TryGet(Entity entity)
+        public void TryLoad(Entity entity)
         {
-            if (entity.TryGetField(SavePath.HealthMax, out var maxField))
+            if (entity.TryGetField(SavePath.Health.Max, out var maxField))
             {
                 enabled = true;
                 max = maxField.ParseInt();
                 current = max;
 
-                if (entity.TryGetField(SavePath.HealthCurrent, out var currentField))
+                if (entity.TryGetField(SavePath.Health.Current, out var currentField))
                 {
                     current = currentField.ParseFloat();
                 }
@@ -28,10 +28,12 @@ namespace MapMaker.Scripts.EntitySettings.Enemy
             else enabled = false;
         }
         
-        public void Set(Entity entity)
+        public void TrySave(Entity entity)
         {
-            entity.SetField(SavePath.HealthMax, $"{max}");
-            if (current < max) entity.SetField(SavePath.HealthCurrent, $"{current}");
+            if (!enabled) return;
+            
+            entity.SetField(SavePath.Health.Max, $"{max}");
+            if (current < max) entity.SetField(SavePath.Health.Current, $"{current}");
         }
     }
 }

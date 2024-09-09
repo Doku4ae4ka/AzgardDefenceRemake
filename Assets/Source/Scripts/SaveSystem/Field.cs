@@ -16,9 +16,6 @@ namespace Source.Scripts.SaveSystem
         public string key;
         public string value;
         
-        private static IEnumerable<string> GetKeyOptions()
-        {
-            return SavePath.GetKeyOptions();
-        }
+        private static IEnumerable<string> GetKeyOptions() => SavePath.AllPathFields;
     }
 }

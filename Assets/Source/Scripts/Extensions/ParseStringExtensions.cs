@@ -8,6 +8,52 @@ namespace Source.Scripts.Extensions
 {
     public static class ParserExtensions
     {
+        public static bool TryParseVector2(this string vectorString, out Vector2 result)
+        {
+            result = Vector2.zero;
+
+            var match = Regex.Match(vectorString, @"^\((-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)\)$");
+
+            if (match.Success)
+            {
+                string cleanX = match.Groups[1].Value.Trim();
+                string cleanY = match.Groups[3].Value.Trim();
+                
+                bool xParsed = float.TryParse(cleanX, NumberStyles.Float, CultureInfo.InvariantCulture, out float x);
+                bool yParsed = float.TryParse(cleanY, NumberStyles.Float, CultureInfo.InvariantCulture, out float y);
+
+                if (xParsed && yParsed)
+                {
+                    result = new Vector2(x, y);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        
+        public static Vector3 ParseVector2(this string vectorString)
+        {
+
+            var match = Regex.Match(vectorString, @"^\((-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)\)$");
+
+            if (match.Success)
+            {
+                string cleanX = match.Groups[1].Value.Trim();
+                string cleanY = match.Groups[3].Value.Trim();
+                
+                bool xParsed = float.TryParse(cleanX, NumberStyles.Float, CultureInfo.InvariantCulture, out float x);
+                bool yParsed = float.TryParse(cleanY, NumberStyles.Float, CultureInfo.InvariantCulture, out float y);
+
+                if (xParsed && yParsed)
+                {
+                    return new Vector2(x, y);
+                }
+            }
+
+            return default;
+        }
+        
         public static bool TryParseVector3(this string vectorString, out Vector3 result)
         {
             result = Vector3.zero;
@@ -130,16 +176,6 @@ namespace Source.Scripts.Extensions
             if (int.TryParse(value, out int result))
             {
                 return result;
-            }
-            
-            return default;
-        }
-        
-        public static EntityCategory ParseEntityCategory(this string value)
-        {
-            if (int.TryParse(value, out int result))
-            {
-                return (EntityCategory)result;
             }
             
             return default;

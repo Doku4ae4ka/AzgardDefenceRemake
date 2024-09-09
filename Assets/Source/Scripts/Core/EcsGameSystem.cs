@@ -1,7 +1,5 @@
-
 using Exerussus._1EasyEcs.Scripts.Core;
 using Leopotam.EcsLite;
-using Source.Scripts.Libraries;
 using Source.Scripts.SaveSystem;
 
 namespace Source.Scripts.Core
@@ -9,7 +7,6 @@ namespace Source.Scripts.Core
     public abstract class EcsGameSystem : EasySystem<Pooler>
     {
         protected GameConfigurations GameConfigurations;
-        protected ViewLibrary ViewLibrary;
         protected GameStatus GameStatus;
         protected Memory Memory;
         protected GameStarter GameStarter;
@@ -23,7 +20,6 @@ namespace Source.Scripts.Core
         {
             base.PreInit(gameShare, tickTime, world, initializeType);
             gameShare.GetSharedObject(ref GameConfigurations);
-            gameShare.GetSharedObject(ref ViewLibrary);
             gameShare.GetSharedObject(ref GameStatus);
             gameShare.GetSharedObject(ref Memory);
             gameShare.GetSharedObject(ref GameStarter);

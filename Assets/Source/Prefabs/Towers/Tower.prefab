@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 695788356518263734}
-  - component: {fileID: 8092380914437332738}
+  - component: {fileID: 8705038392440028739}
   m_Layer: 0
   m_Name: Tower
   m_TagString: Tower
@@ -36,7 +36,7 @@ Transform:
   - {fileID: 5356095268808834483}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8092380914437332738
+--- !u!114 &8705038392440028739
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,10 +45,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1946049297234426777}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 779fc47bf7c14cec962bf8e08bc5a58b, type: 3}
+  m_Script: {fileID: 11500000, guid: d96ed36b379f4089974a984519ff4575, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  towerSprite: {fileID: 5700460798426669674}
+  stvolSprite: {fileID: 964105104039760616}
+  projectileSpawnPosition: {fileID: 2894459479047799794}
+  rangeSprite: {fileID: 0}
+  towerSelectSprite: {fileID: 4161569370911972712}
 --- !u!1 &2970511916197156663
 GameObject:
   m_ObjectHideFlags: 0
@@ -96,7 +100,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5356095268808834483
 Transform:
   m_ObjectHideFlags: 0
@@ -119,7 +123,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4290289403217923835}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -342,8 +346,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4652793495380012547}
-  - component: {fileID: 4745834903007002766}
-  - component: {fileID: 6412213929382219714}
+  - component: {fileID: 1460717825036781645}
   m_Layer: 0
   m_Name: Range
   m_TagString: Untagged
@@ -366,42 +369,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 695788356518263734}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &4745834903007002766
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7732819221954544068}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 2.5
---- !u!212 &6412213929382219714
+--- !u!212 &1460717825036781645
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -421,7 +389,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -441,13 +409,13 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 0c578c1bf115a4182a3f02d1f6bb3b38, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 5.3125, y: 5.25}
+  m_Size: {x: 0.85, y: 0.84}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

@@ -1,8 +1,8 @@
-﻿
-using System;
+﻿using System;
+using Exerussus._1Extensions.SignalSystem;
 using Leopotam.EcsLite;
 using Source.Scripts.Core;
-using Source.Scripts.Libraries;
+using Source.Scripts.MonoBehaviours.Views;
 using Source.Scripts.SaveSystem;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -11,92 +11,190 @@ namespace Source.Scripts.Systems.View
 {
     public static class ViewLoader
     {
-        public static void LoadViewPrototype(EcsWorld world, Pooler pooler, Slot slot, ViewLibrary viewLibrary)
+        #region Prototypes
+        
+        public static void LoadViewPrototype(EcsWorld world, Pooler pooler, Slot slot, Signal signal)
         {
-            foreach (var entity in world.Filter<EcsData.Entity>().Inc<EcsData.Prototype>().End())
+            LoadTowerViewPrototype(world, pooler, slot, signal);
+            LoadEnemyViewPrototype(world, pooler, slot, signal);
+        }
+        public static void LoadTowerViewPrototype(EcsWorld world, Pooler pooler, Slot slot, Signal signal)
+        {
+            foreach (var entity in world.Filter<EcsData.Entity>().Inc<EcsData.Prototype>().Inc<EcsData.Tower>().End())
             {
                 ref var entityData = ref pooler.Entity.Get(entity);
                 var savingEntity = slot.GetEntity(entityData.EntityID);
 
-                if (!savingEntity.TryGetField(SavePath.View, out var viewValue)) continue;
+                if (!savingEntity.TryGetField(SavePath.View.Tower, out var viewValue)) continue;
                 
-                ref var prototypeData =ref pooler.Prototype.Get(entity);
+                ref var prototypeData = ref pooler.Prototype.Get(entity);
                 
                 Action<int> buildAction = (int newEntity) =>
                 {
                     ref var entityData = ref pooler.Entity.Get(newEntity);
-                    ref var viewData = ref pooler.View.Add(newEntity);
-                    ref var transformData = ref pooler.Transform.Add(newEntity);
+                    ref var viewData = ref pooler.TowerView.Add(newEntity);
+                    pooler.Position.Add(newEntity);
+                    pooler.Rotation.Add(newEntity);
                     viewData.ViewId = viewValue;
-                    viewData.Value = Object.Instantiate(viewLibrary.GetViewByID(viewValue).gameObject).GetComponent<MonoBehaviours.View>();
-                    viewData.Value.gameObject.name = entityData.EntityID;
-                    transformData.Value = viewData.Value.transform;
+                    viewData.Value = new TowerViewApi();
+                    viewData.Value.LoadView(viewValue, signal, world.PackEntity(newEntity));
+                    viewData.Value.SetName(entityData.EntityID);
                 };
                 
                 buildAction.Invoke(entity);
-                ref var viewData = ref pooler.View.Get(entity);
+                ref var viewData = ref pooler.TowerView.Get(entity);
                 
-                Object.Destroy(viewData.Value.gameObject);
+                Object.Destroy(viewData.Value.TowerAsset.gameObject);
                 
                 prototypeData.DataBuilder.Add(buildAction);
             }
         }
         
-        public static void LoadViewDynamic(EcsWorld world, Pooler pooler, Slot slot, ViewLibrary viewLibrary)
+        public static void LoadEnemyViewPrototype(EcsWorld world, Pooler pooler, Slot slot, Signal signal)
         {
-            var spawnOffset = new Vector3(0, 0.03f, 0);
-            foreach (var entity in world.Filter<EcsData.Entity>().Inc<EcsData.DynamicMark>().Exc<EcsData.Prototype>().End())
+            foreach (var entity in world.Filter<EcsData.Entity>().Inc<EcsData.Prototype>().Inc<EcsData.Enemy>().End())
             {
                 ref var entityData = ref pooler.Entity.Get(entity);
                 var savingEntity = slot.GetEntity(entityData.EntityID);
 
-                if (!savingEntity.TryGetField(SavePath.View, out var viewValue)) continue;
+                if (!savingEntity.TryGetField(SavePath.View.Enemy, out var viewValue)) continue;
                 
-                ref var viewData = ref pooler.View.AddOrGet(entity);
-                ref var transformData = ref pooler.Transform.AddOrGet(entity);
-                viewData.ViewId = viewValue;
-                viewData.Value = Object.Instantiate(viewLibrary.GetViewByID(viewValue).gameObject).GetComponent<MonoBehaviours.View>();
-                viewData.Value.gameObject.name = entityData.EntityID;
-                transformData.Value = viewData.Value.transform;
+                ref var prototypeData = ref pooler.Prototype.Get(entity);
                 
-                if (savingEntity.TryGetVector3Field(SavePath.Position, out var positionValue)) 
+                Action<int> buildAction = (int newEntity) =>
                 {
-                    transformData.Value.position = positionValue + spawnOffset;
-                }
+                    ref var entityData = ref pooler.Entity.Get(newEntity);
+                    ref var viewData = ref pooler.EnemyView.Add(newEntity);
+                    pooler.Position.Add(newEntity);
+                    pooler.Rotation.Add(newEntity);
+                    viewData.ViewId = viewValue;
+                    viewData.Value = new EnemyViewApi();
+                    viewData.Value.LoadView(viewValue, signal, world.PackEntity(newEntity));
+                    viewData.Value.SetName(entityData.EntityID);
+                };
                 
-                if (savingEntity.TryGetQuaternionField(SavePath.Rotation, out var rotationValue))
-                {
-                    transformData.Value.rotation = rotationValue;
-                }
+                buildAction.Invoke(entity);
+                ref var viewData = ref pooler.EnemyView.Get(entity);
+                
+                Object.Destroy(viewData.Value.EnemyAsset.gameObject);
+                
+                prototypeData.DataBuilder.Add(buildAction);
             }
         }
         
-        public static void LoadViewStatic(EcsWorld world, Pooler pooler, Slot slot, ViewLibrary viewLibrary)
+        #endregion
+
+        #region Dynamic
+        
+        public static void LoadViewDynamic(EcsWorld world, Pooler pooler, Slot slot, Signal signal)
         {
-            foreach (var entity in world.Filter<EcsData.Entity>().Inc<EcsData.Enemy>().Exc<EcsData.Prototype>().End())
+            LoadTowerView(world, pooler, slot, signal);
+            LoadEnemyView(world, pooler, slot, signal);
+        }
+        
+        public static void LoadTowerView(EcsWorld world, Pooler pooler, Slot slot, Signal signal)
+        {
+            foreach (var entity in world.Filter<EcsData.Entity>().Inc<EcsData.Tower>().End())
             {
                 ref var entityData = ref pooler.Entity.Get(entity);
                 var savingEntity = slot.GetEntity(entityData.EntityID);
                 
-                if (!savingEntity.TryGetField(SavePath.View, out var viewValue)) continue;
+                if (!savingEntity.TryGetField(SavePath.View.Tower, out var viewValue)) continue;
                 
-                ref var viewData = ref pooler.View.AddOrGet(entity);
-                ref var transformData = ref pooler.Transform.AddOrGet(entity);
+                ref var viewData = ref pooler.TowerView.Add(entity);
+                pooler.Position.Add(entity);
+                pooler.Rotation.Add(entity);
                 viewData.ViewId = viewValue;
-                viewData.Value = Object.Instantiate(viewLibrary.GetViewByID(viewValue).gameObject).GetComponent<MonoBehaviours.View>();
-                viewData.Value.gameObject.name = entityData.EntityID;
-                transformData.Value = viewData.Value.transform;
+                viewData.Value = new TowerViewApi();
+                viewData.Value.LoadView(viewValue, signal, world.PackEntity(entity));
+                viewData.Value.SetName(entityData.EntityID);
                 
-                if (savingEntity.TryGetVector3Field(SavePath.Position, out var positionValue)) 
+                ref var positionData = ref pooler.Position.Add(entity);
+                ref var rotationData = ref pooler.Rotation.Add(entity);
+                if (savingEntity.TryGetVector3Field(SavePath.WorldSpace.Position, out Vector3 positionValue)) 
                 {
-                    transformData.Value.position = positionValue;
+                    positionData.Value = positionValue;
                 }
                 
-                if (savingEntity.TryGetQuaternionField(SavePath.Rotation, out var rotationValue))
+                if (savingEntity.TryGetQuaternionField(SavePath.WorldSpace.Rotation, out var rotationValue))
                 {
-                    transformData.Value.rotation = rotationValue;
+                    rotationData.Value = rotationValue;
                 }
             }
         }
+        
+        public static void LoadEnemyView(EcsWorld world, Pooler pooler, Slot slot, Signal signal)
+        {
+            foreach (var entity in world.Filter<EcsData.Entity>().Inc<EcsData.Enemy>().End())
+            {
+                ref var entityData = ref pooler.Entity.Get(entity);
+                var savingEntity = slot.GetEntity(entityData.EntityID);
+                
+                if (!savingEntity.TryGetField(SavePath.View.Enemy, out var viewValue)) continue;
+                
+                ref var viewData = ref pooler.EnemyView.Add(entity);
+                pooler.Position.Add(entity);
+                pooler.Rotation.Add(entity);
+                viewData.ViewId = viewValue;
+                viewData.Value = new EnemyViewApi();
+                viewData.Value.LoadView(viewValue, signal, world.PackEntity(entity));
+                viewData.Value.SetName(entityData.EntityID);
+                
+                ref var positionData = ref pooler.Position.Add(entity);
+                ref var rotationData = ref pooler.Rotation.Add(entity);
+                if (savingEntity.TryGetVector3Field(SavePath.WorldSpace.Position, out Vector3 positionValue)) 
+                {
+                    positionData.Value = positionValue;
+                }
+                
+                if (savingEntity.TryGetQuaternionField(SavePath.WorldSpace.Rotation, out var rotationValue))
+                {
+                    rotationData.Value = rotationValue;
+                }
+            }
+        }
+        
+        #endregion
+
+        #region Static
+
+        public static void LoadViewStatic(EcsWorld world, Pooler pooler, Slot slot, Signal signal)
+        {
+            LoadEnvironmentView(world, pooler, slot, signal);
+        }
+        
+        private static void LoadEnvironmentView(EcsWorld world, Pooler pooler, Slot slot, Signal signal)
+        {
+            foreach (var entity in world.Filter<EcsData.Entity>().Inc<EcsData.Environment>().End())
+            {
+                ref var entityData = ref pooler.Entity.Get(entity);
+                var savingEntity = slot.GetEntity(entityData.EntityID);
+                
+                if (!savingEntity.TryGetField(SavePath.View.Environment, out var viewValue)) continue;
+                
+                ref var viewData = ref pooler.EnvironmentView.Add(entity);
+                pooler.Position.Add(entity);
+                pooler.Rotation.Add(entity);
+                viewData.ViewId = viewValue;
+                viewData.Value = new EnvironmentViewApi();
+                viewData.Value.LoadView(viewValue, signal, world.PackEntity(entity));
+                viewData.Value.SetName(entityData.EntityID);
+                
+                ref var positionData = ref pooler.Position.Add(entity);
+                ref var rotationData = ref pooler.Rotation.Add(entity);
+                if (savingEntity.TryGetVector3Field(SavePath.WorldSpace.Position, out Vector3 positionValue)) 
+                {
+                    positionData.Value = positionValue;
+                }
+                
+                if (savingEntity.TryGetQuaternionField(SavePath.WorldSpace.Rotation, out var rotationValue))
+                {
+                    rotationData.Value = rotationValue;
+                }
+            }
+        }
+        
+        #endregion
+        
     }
 }

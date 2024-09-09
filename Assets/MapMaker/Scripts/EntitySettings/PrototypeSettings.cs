@@ -5,10 +5,10 @@ namespace MapMaker.Scripts
 {
     public class PrototypeSettings
     {
-        public void Set(Entity entity, Slot slot)
+        public void Set(Entity entity, Slot slot, string category)
         {
-            slot.global.AddPrototype(entity);
-            entity.SetField(SavePath.Prototype.Category, $"{(int)EntityCategory.Item}");
+            slot.AddPrototype(entity);
+            entity.SetField(SavePath.Prototype.Category, category);
         }
     }
 }

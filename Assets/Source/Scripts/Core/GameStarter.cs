@@ -1,11 +1,8 @@
-﻿
-using Exerussus._1EasyEcs.Scripts.Core;
+﻿using Exerussus._1EasyEcs.Scripts.Core;
 using Exerussus._1EasyEcs.Scripts.Custom;
-using Exerussus._1Extensions;
 using Exerussus._1Extensions.SignalSystem;
 using Leopotam.EcsLite;
 using Sirenix.OdinInspector;
-using Source.Scripts.Libraries;
 using Source.Scripts.SaveSystem;
 using Source.Scripts.Systems;
 using Source.Scripts.Systems.Health;
@@ -18,11 +15,9 @@ namespace Source.Scripts.Core
     public class GameStarter : EcsStarter<Pooler>
     {
         [SerializeField] private bool autoLoad;
-        [SerializeField] private string locationName = "home";
         [SerializeField] private GameStatus gameStatus;
         [SerializeField, HideInInspector] private SignalHandler signalHandler;
         [SerializeField, HideInInspector] private GameConfigurations gameConfigurations;
-        [SerializeField, HideInInspector] private ViewLibrary viewLibrary;
         [SerializeField, HideInInspector] private Memory memory;
         [SerializeField] private Prototypes prototypes = new Prototypes();
         [SerializeField] private Configs configs = new Configs();
@@ -30,7 +25,6 @@ namespace Source.Scripts.Core
         public GameStatus GameStatus => gameStatus;
         public SignalHandler SignalHandler => signalHandler;
         public GameConfigurations GameConfigurations => gameConfigurations;
-        public ViewLibrary ViewLibrary => viewLibrary;
         public Memory Memory => memory;
         public Prototypes Prototypes => prototypes;
 
@@ -93,7 +87,7 @@ namespace Source.Scripts.Core
         {
             updateSystems
                 
-                .Add(new CloneCreatorSystem())
+                .Add(new TowerPreviewSystem())
                 .Add(new LoaderSystem());
         }
 
@@ -110,7 +104,6 @@ namespace Source.Scripts.Core
         protected override void SetSharingData(EcsWorld world, GameShare gameShare)
         {
             gameShare.AddSharedObject(gameConfigurations);
-            gameShare.AddSharedObject(viewLibrary);
             gameShare.AddSharedObject(gameStatus);
             gameShare.AddSharedObject(memory);
             gameShare.AddSharedObject(prototypes);
@@ -127,13 +120,6 @@ namespace Source.Scripts.Core
         {
             Pooler = new Pooler(world);
             return Pooler;
-        }
-
-        private void OnValidate()
-        {
-            ConfigLoader.TryGetConfigIfNull(ref signalHandler,"Signals");
-            GameCore.TryGetConfig(ref gameConfigurations);
-            GameCore.TryGetConfig(ref viewLibrary);
         }
     }
 }

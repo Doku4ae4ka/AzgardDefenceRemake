@@ -1,5 +1,7 @@
 ﻿
+using Leopotam.EcsLite;
 using Source.Scripts.Components;
+using UnityEngine;
 
 namespace Source.Scripts.Core
 {
@@ -23,6 +25,12 @@ namespace Source.Scripts.Core
         public struct CommandSpawnTower
         {
             
+        }
+        
+        public struct OnViewAssetLoaded
+        {
+            public EcsPackedEntity PackedEntity;
+            public Transform Transform;
         }
     }
 }
