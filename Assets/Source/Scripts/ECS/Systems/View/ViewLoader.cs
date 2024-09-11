@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Source.Scripts.Extensions;
+using System;
 using System.Collections.Generic;
 using Exerussus._1Extensions.SignalSystem;
 using Leopotam.EcsLite;
 using Source.Scripts.Core;
-using Source.Scripts.Extensions;
 using Source.Scripts.MonoBehaviours.Views;
 using Source.Scripts.SaveSystem;
 using UnityEngine;
@@ -109,12 +109,6 @@ namespace Source.Scripts.ECS.Systems.View
                 
                 if (!savingEntity.TryGetField(SavePath.View.Tower, out var viewValue)) continue;
                 
-                ref var viewData = ref pooler.TowerView.Add(entity);
-                viewData.ViewId = viewValue.ParseToAssetReference();
-                viewData.Value = new TowerViewApi();
-                viewData.Value.LoadView(viewData.ViewId, signal, world.PackEntity(entity));
-                viewData.Value.SetName(entityData.EntityID);
-                
                 ref var tilePositionData = ref pooler.TilePosition.Add(entity);
                 ref var positionData = ref pooler.Position.Add(entity);
                 ref var rotationData = ref pooler.Rotation.Add(entity);
@@ -125,9 +119,13 @@ namespace Source.Scripts.ECS.Systems.View
                 }
                 
                 if (savingEntity.TryGetQuaternionField(SavePath.WorldSpace.Rotation, out var rotationValue))
-                {
                     rotationData.Value = rotationValue;
-                }
+                
+                ref var viewData = ref pooler.TowerView.Add(entity);
+                viewData.ViewId = viewValue.ParseToAssetReference();
+                viewData.Value = new TowerViewApi();
+                viewData.Value.LoadView(viewData.ViewId, signal, world.PackEntity(entity));
+                viewData.Value.SetName(entityData.EntityID);
             }
         }
         
@@ -140,23 +138,19 @@ namespace Source.Scripts.ECS.Systems.View
                 
                 if (!savingEntity.TryGetField(SavePath.View.Enemy, out var viewValue)) continue;
                 
+                ref var positionData = ref pooler.Position.Add(entity);
+                ref var rotationData = ref pooler.Rotation.Add(entity);
+                if (savingEntity.TryGetVector3Field(SavePath.WorldSpace.Position, out Vector3 positionValue)) 
+                    positionData.Value = positionValue;
+                
+                if (savingEntity.TryGetQuaternionField(SavePath.WorldSpace.Rotation, out var rotationValue))
+                    rotationData.Value = rotationValue;
+                
                 ref var viewData = ref pooler.EnemyView.Add(entity);
                 viewData.ViewId = viewValue.ParseToAssetReference();
                 viewData.Value = new EnemyViewApi();
                 viewData.Value.LoadView(viewData.ViewId, signal, world.PackEntity(entity));
                 viewData.Value.SetName(entityData.EntityID);
-                
-                ref var positionData = ref pooler.Position.Add(entity);
-                ref var rotationData = ref pooler.Rotation.Add(entity);
-                if (savingEntity.TryGetVector3Field(SavePath.WorldSpace.Position, out Vector3 positionValue)) 
-                {
-                    positionData.Value = positionValue;
-                }
-                
-                if (savingEntity.TryGetQuaternionField(SavePath.WorldSpace.Rotation, out var rotationValue))
-                {
-                    rotationData.Value = rotationValue;
-                }
             }
         }
         
@@ -169,23 +163,20 @@ namespace Source.Scripts.ECS.Systems.View
                 
                 if (!savingEntity.TryGetField(SavePath.View.BuildingTilemap, out var viewValue)) continue;
                 
+                ref var positionData = ref pooler.Position.Add(entity);
+                ref var rotationData = ref pooler.Rotation.Add(entity);
+                
+                if (savingEntity.TryGetVector3Field(SavePath.WorldSpace.Position, out Vector3 positionValue)) 
+                    positionData.Value = positionValue;
+                
+                if (savingEntity.TryGetQuaternionField(SavePath.WorldSpace.Rotation, out var rotationValue))
+                    rotationData.Value = rotationValue;
+                
                 ref var viewData = ref pooler.BuildingTilemapView.Add(entity);
                 viewData.ViewId = viewValue.ParseToAssetReference();
                 viewData.Value = new BuildingTilemapViewApi();
                 viewData.Value.LoadView(viewData.ViewId, signal, world.PackEntity(entity));
                 viewData.Value.SetName(entityData.EntityID);
-                
-                ref var positionData = ref pooler.Position.Add(entity);
-                ref var rotationData = ref pooler.Rotation.Add(entity);
-                if (savingEntity.TryGetVector3Field(SavePath.WorldSpace.Position, out Vector3 positionValue)) 
-                {
-                    positionData.Value = positionValue;
-                }
-                
-                if (savingEntity.TryGetQuaternionField(SavePath.WorldSpace.Rotation, out var rotationValue))
-                {
-                    rotationData.Value = rotationValue;
-                }
                 
                 ref var tilemapData = ref pooler.BuildingTilemap.Add(entity);
                 tilemapData.CachedTiles = CacheAllTiles();
@@ -214,23 +205,19 @@ namespace Source.Scripts.ECS.Systems.View
                 
                 if (!savingEntity.TryGetField(SavePath.View.Environment, out var viewValue)) continue;
                 
+                ref var positionData = ref pooler.Position.Add(entity);
+                ref var rotationData = ref pooler.Rotation.Add(entity);
+                if (savingEntity.TryGetVector3Field(SavePath.WorldSpace.Position, out Vector3 positionValue)) 
+                    positionData.Value = positionValue;
+                
+                if (savingEntity.TryGetQuaternionField(SavePath.WorldSpace.Rotation, out var rotationValue))
+                    rotationData.Value = rotationValue;
+                
                 ref var viewData = ref pooler.EnvironmentView.Add(entity);
                 viewData.ViewId = viewValue.ParseToAssetReference();
                 viewData.Value = new EnvironmentViewApi();
                 viewData.Value.LoadView(viewData.ViewId, signal, world.PackEntity(entity));
                 viewData.Value.SetName(entityData.EntityID);
-                
-                ref var positionData = ref pooler.Position.Add(entity);
-                ref var rotationData = ref pooler.Rotation.Add(entity);
-                if (savingEntity.TryGetVector3Field(SavePath.WorldSpace.Position, out Vector3 positionValue)) 
-                {
-                    positionData.Value = positionValue;
-                }
-                
-                if (savingEntity.TryGetQuaternionField(SavePath.WorldSpace.Rotation, out var rotationValue))
-                {
-                    rotationData.Value = rotationValue;
-                }
             }
         }
         
