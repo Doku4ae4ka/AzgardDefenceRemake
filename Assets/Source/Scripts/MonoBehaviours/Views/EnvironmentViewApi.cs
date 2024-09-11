@@ -58,17 +58,13 @@ namespace Source.Scripts.MonoBehaviours.Views
             });
         }
 
-        public void Show(string viewId, Signal signal, EcsPackedEntity packedEntity)
+        public void Show()
         {
-            if (_isAssetLoaded)
+            ExecuteOrEnqueue("Show",() =>
             {
                 IsActivated = true;
                 _environmentAsset.Activate();
-            }
-            else
-            {
-                LoadView(viewId, signal, packedEntity);
-            }
+            });
         }
 
         public void SetName(string name)
@@ -88,7 +84,7 @@ namespace Source.Scripts.MonoBehaviours.Views
             });
         }
 
-        public async void LoadView(string viewId, Signal signal, EcsPackedEntity packedEntity)
+        public async void LoadView(AssetReference viewId, Signal signal, EcsPackedEntity packedEntity)
         {
             _signal = signal;
             _packedEntity = packedEntity;
@@ -98,6 +94,11 @@ namespace Source.Scripts.MonoBehaviours.Views
 
             if ( loadResult.instance == null) return;
             _environmentAsset = loadResult.instance.GetComponent<EnvironmentAsset>();
+            if (_environmentAsset == null)
+            {
+                Debug.LogError("Component EnvironmentAsset not set to prefab.");
+                return;
+            }
 
             _isAssetLoaded = true;
             InvokeReadySignal();
@@ -119,9 +120,9 @@ namespace Source.Scripts.MonoBehaviours.Views
             }
         }
 
-        private async Task<(GameObject instance, AsyncOperationHandle<GameObject> handle)> LoadAndInstantiateAsync(string address)
+        private async Task<(GameObject instance, AsyncOperationHandle<GameObject> handle)> LoadAndInstantiateAsync(AssetReference address)
         {
-            if (string.IsNullOrEmpty(address))
+            if (string.IsNullOrEmpty(address.AssetGUID))
             {
                 Debug.LogError("Address is null or empty.");
                 return (null, default);

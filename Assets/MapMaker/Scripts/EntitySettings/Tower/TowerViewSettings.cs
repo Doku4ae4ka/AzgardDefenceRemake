@@ -13,7 +13,7 @@ namespace MapMaker.Scripts.EntitySettings.Tower
     public class TowerViewSettings
     {
         public bool enabled;
-        public string viewPath;
+        public AssetReference viewPath;
         [SerializeField, HideInInspector] private GameObject spawnedView;
 
         public void TryLoadView(Entity entity, Transform transform)
@@ -21,7 +21,7 @@ namespace MapMaker.Scripts.EntitySettings.Tower
             if (entity.TryGetField(SavePath.View.Tower, out var viewField))
             {
                 enabled = true;
-                viewPath = viewField;
+                viewPath = viewField.ParseToAssetReference();
                 if (entity.TryGetField(SavePath.WorldSpace.Position, out var positionField))
                 {
                     transform.position = positionField.ParseVector3();
@@ -41,11 +41,11 @@ namespace MapMaker.Scripts.EntitySettings.Tower
         {
             if (!enabled) return;
             
-            entity.SetField(SavePath.View.Tower, $"{viewPath}");
-            entity.SetField(SavePath.WorldSpace.Position, $"{transform.position.ToString()}");
+            entity.SetField(SavePath.View.Tower, viewPath.AssetGUID);
+            entity.SetField(SavePath.WorldSpace.Position, $"{transform.position}");
             if ("(0.00000, 0.00000, 0.00000, 1.00000)" != transform.rotation.ToString())
             {
-                entity.SetField(SavePath.WorldSpace.Rotation, $"{transform.rotation.ToString()}");
+                entity.SetField(SavePath.WorldSpace.Rotation, $"{transform.rotation}");
             }
         }
 

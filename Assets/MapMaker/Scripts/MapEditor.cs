@@ -28,6 +28,7 @@ namespace MapMaker.Scripts
         private Transform _towers;
         private Transform _enemies;
         private Transform _camera;
+        private Transform _level;
         private Transform _environments;
         private Transform _waves;
 
@@ -39,13 +40,15 @@ namespace MapMaker.Scripts
 
             var config = GetConfig();
             var environments = GetAllEnvironments();
+            var level = GetLevel();
             var enemies = GetAllEnemies();
             var towers = GetAllTowers();
             var waves = GetAllWaves();
-            var camera = GetCamera();
+            var cameraEntity = GetCamera();
 
             entitiesCount += environments.Length + enemies.Length + towers.Length + waves.Length;
-            if (camera != null) entitiesCount++;
+            if (cameraEntity != null) entitiesCount++;
+            if (level != null) entitiesCount++;
 
             if (!saveEmptyMap && entitiesCount == 0) return;
 
@@ -54,11 +57,12 @@ namespace MapMaker.Scripts
             
             memorySlot.Clear();
             
-            SaveEntities(environments, memorySlot, $"environment");
+            SaveEntities(environments, memorySlot, "environment");
             SaveEntities(towers, memorySlot, "towers");
             SaveEntities(enemies, memorySlot, "enemies");
             SaveEntities(waves, memorySlot, "waves");
-            camera.Save(SavePath.Camera.ID, memorySlot);
+            level.Save(SavePath.Level.ID, memorySlot);
+            cameraEntity.Save(SavePath.Camera.ID, memorySlot);
             config.Save(SavePath.Config.ID, memorySlot);
 
             // var prototypes = new List<CharacterEntity>();
@@ -126,6 +130,11 @@ namespace MapMaker.Scripts
             return FindObjectOfType<CameraEntity>();
         }
         
+        private LevelEntity GetLevel()
+        {
+            return FindObjectOfType<LevelEntity>();
+        }
+        
         private ConfigEntity GetConfig()
         {
             return FindObjectOfType<ConfigEntity>();
@@ -139,7 +148,7 @@ namespace MapMaker.Scripts
 
             _all = new GameObject
             {
-                name = "Global"
+                name = "Level"
             }.transform;
             _all.gameObject.AddComponent<Entities>();
 
@@ -149,6 +158,11 @@ namespace MapMaker.Scripts
                 transform = { parent = _all}
             }.transform;
 
+            _level = new GameObject
+            {
+                name = "Level",
+                transform = { parent = _all}
+            }.transform;
 
             _prototypes = new GameObject
             {
@@ -197,21 +211,29 @@ namespace MapMaker.Scripts
             LoadConfigs(memorySlot);
             LoadEnvironments(memorySlot);
             LoadTowers(memorySlot);
+            LoadLevel(memorySlot);
             LoadCamera(memorySlot);
             LoadWaves(memorySlot);
             LoadEnemies(memorySlot);
-            ProjectTask.AddCode("Load All other Entities");
         }
 
         private void LoadEnemies(Slot slot)
         {
             foreach (var entity in slot.Dynamics)
             {
-                if (entity.category == SavePath.EntityCategory.Enemy || 
-                    entity.category == SavePath.EntityCategory.Prototype && 
-                    entity.GetField(SavePath.Prototype.Category) == SavePath.EntityCategory.Enemy)
+                if (entity.category == SavePath.EntityCategory.Enemy)
                 {
                     var entityObject = new GameObject { name = entity.id, transform = { parent = _enemies}}.AddComponent<EnemyEntity>();
+                    entityObject.Load(entity, slot, this);
+                }
+            }
+            
+            foreach (var entity in slot.Prototypes)
+            {
+                if (entity.category == SavePath.EntityCategory.Prototype && 
+                    entity.GetField(SavePath.Prototype.Category) == SavePath.EntityCategory.Enemy)
+                {
+                    var entityObject = new GameObject { name = entity.id, transform = { parent = _prototypes}}.AddComponent<EnemyEntity>();
                     entityObject.Load(entity, slot, this);
                 }
             }
@@ -221,11 +243,19 @@ namespace MapMaker.Scripts
         {
             foreach (var entity in slot.Dynamics)
             {
-                if (entity.category == SavePath.EntityCategory.Tower || 
-                    entity.category == SavePath.EntityCategory.Prototype && 
-                    entity.GetField(SavePath.Prototype.Category) == SavePath.EntityCategory.Tower)
+                if (entity.category == SavePath.EntityCategory.Tower)
                 {
                     var entityObject = new GameObject { name = entity.id, transform = { parent = _towers}}.AddComponent<TowerEntity>();
+                    entityObject.Load(entity, slot, this);
+                }
+            }
+            
+            foreach (var entity in slot.Prototypes)
+            {
+                if (entity.category == SavePath.EntityCategory.Prototype && 
+                    entity.GetField(SavePath.Prototype.Category) == SavePath.EntityCategory.Tower)
+                {
+                    var entityObject = new GameObject { name = entity.id, transform = { parent = _prototypes}}.AddComponent<TowerEntity>();
                     entityObject.Load(entity, slot, this);
                 }
             }
@@ -238,13 +268,25 @@ namespace MapMaker.Scripts
             entityObject.Load(slot.Configs, slot, this);
         }
         
+        private void LoadLevel(Slot slot)
+        {
+            foreach (var entity in slot.Dynamics)
+            {
+                if (entity.category == SavePath.EntityCategory.Level)
+                {
+                    var entityObject = new GameObject { name = entity.id, transform = { parent = _level}}.AddComponent<LevelEntity>();
+                    entityObject.Load(entity, slot, this);
+                }
+            }
+        }
+        
         private void LoadCamera(Slot slot)
         {
             foreach (var entity in slot.Dynamics)
             {
                 if (entity.category == SavePath.EntityCategory.Config)
                 {
-                    var entityObject = new GameObject { name = slot.Configs.id, transform = { parent = _camera}}.AddComponent<CameraEntity>();
+                    var entityObject = new GameObject { name = entity.id, transform = { parent = _camera}}.AddComponent<CameraEntity>();
                     entityObject.Load(entity, slot, this);
                 }
             }
@@ -254,7 +296,7 @@ namespace MapMaker.Scripts
         {
             foreach (var entity in slot.Statics)
             {
-                if (entity.category == SavePath.EntityCategory.Environment)
+                if (entity.category == SavePath.EntityCategory.Waves)
                 {
                     var entityObject = new GameObject { name = entity.id, transform = { parent = (_waves)}}.AddComponent<WavesEntity>();
                     entityObject.Load(entity, slot, this);
@@ -307,12 +349,15 @@ namespace MapMaker.Scripts
             
             var towerEntities = FindObjectsOfType<TowerEntity>();
             foreach (var gameEntity in towerEntities) gameEntity.Validate();
+            
+            var evnironment = FindObjectsOfType<EnvironmentEntity>();
+            foreach (var gameEntity in evnironment) gameEntity.Validate();
         }
 
         private Slot GetSlot()
         {
             if (gameConfigurations.slot == null) gameConfigurations.slot = new Slot(slotName);
-
+            
             return gameConfigurations.slot;
         }
     }

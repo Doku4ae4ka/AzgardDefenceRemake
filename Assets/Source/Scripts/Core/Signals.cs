@@ -22,9 +22,15 @@ namespace Source.Scripts.Core
             public string SlotName;
         }
 
+        public struct CommandSpawnTowerPreview
+        {
+            public string TowerId;
+        }
+        
         public struct CommandSpawnTower
         {
-            
+            public int PrototypeEntity;
+            public Vector3Int Position;
         }
         
         public struct OnViewAssetLoaded

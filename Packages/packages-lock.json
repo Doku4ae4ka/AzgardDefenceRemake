@@ -12,7 +12,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "8fa8b01f630e4d259da587cf9851101ccb8cba2c"
+      "hash": "101846de253f5ae0716f8b619dffdd4fa067f77d"
     },
     "com.leopotam.ecslite": {
       "version": "https://github.com/Leopotam/ecslite.git",

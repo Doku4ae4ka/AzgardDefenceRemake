@@ -1,11 +1,9 @@
-﻿
-using Source.Scripts.Core;
-using Source.Scripts.SaveSystem;
+﻿using Source.Scripts.SaveSystem;
 using UnityEngine;
 
 namespace MapMaker.Scripts
 {
-    [SelectionBase]
+    [AddComponentMenu("ADR/ConfigEntity"), SelectionBase]
     public class ConfigEntity : MonoBehaviour, IEntityObject
     {
         public void Save(string entityID, Slot slot)

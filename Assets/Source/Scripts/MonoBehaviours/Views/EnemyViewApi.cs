@@ -20,7 +20,7 @@ namespace Source.Scripts.MonoBehaviours.Views
         private EcsPackedEntity _packedEntity;
 
         private bool _isAssetLoaded = false;
-        private Dictionary<string, Action> _pendingActions = new Dictionary<string, Action>();
+        private readonly Dictionary<string, Action> _pendingActions = new Dictionary<string, Action>();
 
         public EnemyAsset EnemyAsset => _enemyAsset;
 
@@ -58,24 +58,20 @@ namespace Source.Scripts.MonoBehaviours.Views
             });
         }
 
-        public void Show(string viewId, Signal signal, EcsPackedEntity packedEntity)
+        public void Show()
         {
-            if (_isAssetLoaded)
+            ExecuteOrEnqueue("Show",() =>
             {
                 IsActivated = true;
                 _enemyAsset.Activate();
-            }
-            else
-            {
-                LoadView(viewId, signal, packedEntity);
-            }
+            });
         }
 
         public void SetName(string name)
         {
             ExecuteOrEnqueue("SetName",() =>
             {
-                _enemyAsset.transform.name = name;
+                _enemyAsset.gameObject.transform.name = name;
             });
         }
 
@@ -84,11 +80,11 @@ namespace Source.Scripts.MonoBehaviours.Views
             _signal.RegistryRaise(new Signals.OnViewAssetLoaded()
             {
                 PackedEntity = _packedEntity,
-                Transform = _enemyAsset.transform
+                Transform = _enemyAsset.gameObject.transform
             });
         }
 
-        public async void LoadView(string viewId, Signal signal, EcsPackedEntity packedEntity)
+        public async void LoadView(AssetReference viewId, Signal signal, EcsPackedEntity packedEntity)
         {
             _signal = signal;
             _packedEntity = packedEntity;
@@ -98,7 +94,12 @@ namespace Source.Scripts.MonoBehaviours.Views
 
             if ( loadResult.instance == null) return;
             _enemyAsset = loadResult.instance.GetComponent<EnemyAsset>();
-
+            if (_enemyAsset == null)
+            {
+                Debug.LogError("Component EnemyAsset not set to prefab.");
+                return;
+            }
+            
             _isAssetLoaded = true;
             InvokeReadySignal();
             ExecutePendingActions();
@@ -119,9 +120,9 @@ namespace Source.Scripts.MonoBehaviours.Views
             }
         }
 
-        private async Task<(GameObject instance, AsyncOperationHandle<GameObject> handle)> LoadAndInstantiateAsync(string address)
+        private async Task<(GameObject instance, AsyncOperationHandle<GameObject> handle)> LoadAndInstantiateAsync(AssetReference address)
         {
-            if (string.IsNullOrEmpty(address))
+            if (string.IsNullOrEmpty(address.AssetGUID))
             {
                 Debug.LogError("Address is null or empty.");
                 return (null, default);

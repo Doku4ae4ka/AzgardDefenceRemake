@@ -1,4 +1,6 @@
-﻿namespace Source.Scripts.SaveSystem
+﻿using System.Collections.Generic;
+
+namespace Source.Scripts.SaveSystem
 {
     public static class SavePath
     {
@@ -7,6 +9,7 @@
             public const string Tower = "tower";
             public const string Enemy = "enemy";
             public const string Camera = "camera";
+            public const string Level = "level";
             public const string Waves = "waves";
             public const string Prototype = "prototype";
             public const string Config = "config";
@@ -14,12 +17,12 @@
             public const string Trigger = "trigger";
             
             public static readonly string[] All = new string[] 
-                { Tower, Enemy, Camera, Waves, Environment, Prototype, Config, Trigger };
+                { Tower, Enemy, Camera, Level, Waves, Environment, Prototype, Config, Trigger };
         }
         
         public static class Config
         {
-            public const string ID = "config";
+            public const string ID = "configs";
             public const string FreeEntityID = "config.free.entity.id";
         }
 
@@ -28,9 +31,19 @@
             public const string ID = "camera";
         }
         
+        public static class Level
+        {
+            public const string ID = "level";
+        }
+        
         public static class Prototype
         {
             public const string Category = "prototype.category";
+        }
+        
+        public static class BuildingTilemap
+        {
+            public const string Tilemap = "building_tilemap";
         }
         
         public static class View
@@ -38,6 +51,7 @@
             public const string Tower = "view.tower";
             public const string Enemy = "view.enemy";
             public const string Environment = "view.environment";
+            public const string BuildingTilemap = "view.building_tilemap";
         }
         
         public static class WorldSpace
@@ -56,6 +70,7 @@
             EntityCategory.Tower,
             EntityCategory.Enemy,
             EntityCategory.Camera,
+            EntityCategory.Level,
             EntityCategory.Waves,
             EntityCategory.Environment,
             EntityCategory.Prototype,
@@ -68,10 +83,12 @@
             View.Tower,
             View.Enemy,
             View.Environment,
+            View.BuildingTilemap,
             WorldSpace.Position,
             WorldSpace.Rotation,
             Health.Max,
-            Health.Current
+            Health.Current,
+            BuildingTilemap.Tilemap
             
         };
     }

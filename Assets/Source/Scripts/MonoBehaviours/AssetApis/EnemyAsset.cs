@@ -12,7 +12,7 @@ namespace Source.Scripts.MonoBehaviours.AssetApis
         
         public void Activate()
         {
-            gameObject.SetActive(false);
+            gameObject.SetActive(true);
         }
         
     }

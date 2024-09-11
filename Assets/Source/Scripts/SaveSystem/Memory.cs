@@ -2,6 +2,7 @@
 using Exerussus._1Extensions;
 using Leopotam.EcsLite;
 using Source.Scripts.Core;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace Source.Scripts.SaveSystem
@@ -59,7 +60,8 @@ namespace Source.Scripts.SaveSystem
 
         private void InitializeDynamic(EcsWorld world, Pooler pooler, Slot slot)
         {
-            foreach (var entity in world.Filter<EcsData.Entity>().Inc<EcsData.DynamicMark>().End())
+            foreach (var entity in world.Filter<EcsData.Entity>().Inc<EcsData.DynamicMark>()
+                         .Exc<EcsData.Prototype>().End())
             {
                 ref var entityData = ref pooler.Entity.Get(entity);
                 var newEntity = new Entity(entityData.EntityID, entityData.Category);
@@ -69,7 +71,8 @@ namespace Source.Scripts.SaveSystem
 
         private void InitializeStatic(EcsWorld world, Pooler pooler, Slot slot)
         {
-            foreach (var entity in world.Filter<EcsData.Entity>().Inc<EcsData.StaticMark>().End())
+            foreach (var entity in world.Filter<EcsData.Entity>().Inc<EcsData.StaticMark>()
+                         .Exc<EcsData.Prototype>().End())
             {
                 ref var entityData = ref pooler.Entity.Get(entity);
                 var newEntity = new Entity(entityData.EntityID, entityData.Category);
@@ -176,6 +179,20 @@ namespace Source.Scripts.SaveSystem
                 entityData.Category = dynamicEntity.category;
 
                 pooler.DynamicMark.Add(entity);
+                switch (entityData.Category)
+                {
+                    case SavePath.EntityCategory.Tower:
+                        pooler.Tower.Add(entity);
+                        break;
+                    case SavePath.EntityCategory.Enemy:
+                        pooler.Enemy.Add(entity);
+                        break;
+                    case SavePath.EntityCategory.Level:
+                        pooler.Level.Add(entity);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             }
         }
 
@@ -190,6 +207,14 @@ namespace Source.Scripts.SaveSystem
                 entityData.Category = environmentEntity.category;
 
                 pooler.StaticMark.Add(entity);
+                switch (entityData.Category)
+                {
+                    case SavePath.EntityCategory.Environment:
+                        pooler.Environment.Add(entity);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             }
         }
 
@@ -251,7 +276,11 @@ namespace Source.Scripts.SaveSystem
                         throw new ArgumentOutOfRangeException();
                 }
 
-                if (buildAction != null) prototypeData.DataBuilder.Add(buildAction);
+                if (buildAction != null)
+                {
+                    buildAction.Invoke(entity);   
+                    prototypeData.DataBuilder.Add(buildAction);
+                }
             }
         }
         

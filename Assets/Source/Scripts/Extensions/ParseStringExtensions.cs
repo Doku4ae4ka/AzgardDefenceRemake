@@ -1,8 +1,12 @@
 ﻿
+using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using Source.Scripts.Core;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.Tilemaps;
 
 namespace Source.Scripts.Extensions
 {
@@ -154,6 +158,44 @@ namespace Source.Scripts.Extensions
             }
 
             return default;
+        }
+        
+        public static bool TryParseTileEntries(this string serializedData, Dictionary<string, TileBase> tileDictionary, out List<KeyValuePair<Vector3Int, TileBase>> result)
+        {
+            result = new List<KeyValuePair<Vector3Int, TileBase>>();
+            var tileEntries = serializedData.Split(';', StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var entry in tileEntries)
+            {
+                var tileInfo = entry.Trim('(', ')').Split(',');
+                if (tileInfo.Length == 3)
+                {
+                    bool xParsed = int.TryParse(tileInfo[0].Trim(), out int x);
+                    bool yParsed = int.TryParse(tileInfo[1].Trim(), out int y);
+                    string tileName = tileInfo[2].Trim();
+
+                    if (xParsed && yParsed)
+                    {
+                        if (tileDictionary.TryGetValue(tileName, out var tile))
+                        {
+                            result.Add(new KeyValuePair<Vector3Int, TileBase>(new Vector3Int(x, y, 0), tile));
+                        }
+                        else
+                        {
+                            Debug.LogWarning($"Tile with name {tileName} not found in the dictionary.");
+                            result = default;
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            return true;
+        }
+        
+        public static AssetReference ParseToAssetReference(this string assetGuidOrPath)
+        {
+            return new AssetReference(assetGuidOrPath);
         }
         
         public static float ParseFloat(this string value)

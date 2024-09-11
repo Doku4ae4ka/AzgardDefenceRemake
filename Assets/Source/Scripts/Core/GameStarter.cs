@@ -3,10 +3,10 @@ using Exerussus._1EasyEcs.Scripts.Custom;
 using Exerussus._1Extensions.SignalSystem;
 using Leopotam.EcsLite;
 using Sirenix.OdinInspector;
+using Source.Scripts.ECS.Systems;
+using Source.Scripts.ECS.Systems.Health;
+using Source.Scripts.ECS.Systems.View;
 using Source.Scripts.SaveSystem;
-using Source.Scripts.Systems;
-using Source.Scripts.Systems.Health;
-using Source.Scripts.Systems.View;
 using UnityEngine;
 
 namespace Source.Scripts.Core
@@ -74,6 +74,7 @@ namespace Source.Scripts.Core
                     
                 .Add(new ConfigSystem())
                 .Add(new ViewSystem())
+                //.Add(new BuildingTilemapSystem())
                 .Add(new HealthSystem());
         }
 
@@ -88,6 +89,7 @@ namespace Source.Scripts.Core
             updateSystems
                 
                 .Add(new TowerPreviewSystem())
+                .Add(new TowerSpawnSystem())
                 .Add(new LoaderSystem());
         }
 

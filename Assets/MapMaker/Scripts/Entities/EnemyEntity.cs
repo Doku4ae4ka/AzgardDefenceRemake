@@ -1,23 +1,30 @@
+using MapMaker.Scripts.EntitySettings;
 using MapMaker.Scripts.EntitySettings.Enemy;
 using Sirenix.OdinInspector;
+using Source.Scripts.Core;
 using Source.Scripts.ECS.Core.SaveManager;
 using Source.Scripts.SaveSystem;
 using UnityEngine;
 
 namespace MapMaker.Scripts
 {
-    [SelectionBase]
+    [AddComponentMenu("ADR/EnemyEntity"), SelectionBase]
     public class EnemyEntity : MonoBehaviour, IEntityObject
     {
         public bool autoValidate;
         public bool isPrototype;
-        [HideInInspector] public PrototypeSettings prototype;
-        public EnemySettings enemy;
+        [ShowIf("isPrototype"), CustomAttributes.ValueDropdown("Dropdown")] public string prototypeID;
+        private PrototypeSettings prototype = new();
         public EnemyViewSettings view;
+        [SerializeField] public EnemySettings enemy;
+        
+        public static string[] Dropdown() => Constants.PrototypesId.Enemies.All;
         
         public void Save(string entityID, Slot slot)
         {
-            var entity = new Entity(entityID, SavePath.EntityCategory.Enemy);
+            var entity = isPrototype ?
+                         new Entity(prototypeID, SavePath.EntityCategory.Tower) :
+                         new Entity(entityID, SavePath.EntityCategory.Tower);
 
             if (isPrototype)
             {

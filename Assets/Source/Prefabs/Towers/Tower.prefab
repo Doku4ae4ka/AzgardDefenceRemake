@@ -51,7 +51,7 @@ MonoBehaviour:
   towerSprite: {fileID: 5700460798426669674}
   stvolSprite: {fileID: 964105104039760616}
   projectileSpawnPosition: {fileID: 2894459479047799794}
-  rangeSprite: {fileID: 0}
+  rangeSprite: {fileID: 1460717825036781645}
   towerSelectSprite: {fileID: 4161569370911972712}
 --- !u!1 &2970511916197156663
 GameObject:

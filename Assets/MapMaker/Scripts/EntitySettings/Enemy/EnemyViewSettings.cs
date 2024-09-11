@@ -13,7 +13,7 @@ namespace MapMaker.Scripts.EntitySettings.Enemy
     public class EnemyViewSettings
     {
         public bool enabled;
-        public string viewPath;
+        public AssetReference viewPath;
         [SerializeField, HideInInspector] private GameObject spawnedView;
 
         public void TryLoadView(Entity entity, Transform transform)
@@ -21,7 +21,7 @@ namespace MapMaker.Scripts.EntitySettings.Enemy
             if (entity.TryGetField(SavePath.View.Enemy, out var viewField))
             {
                 enabled = true;
-                viewPath = viewField;
+                viewPath = viewField.ParseToAssetReference();
                 if (entity.TryGetField(SavePath.WorldSpace.Position, out var positionField))
                 {
                     transform.position = positionField.ParseVector3();
@@ -34,18 +34,23 @@ namespace MapMaker.Scripts.EntitySettings.Enemy
 
                 LoadView(transform);
             }
-            else enabled = false;
+            else
+            {
+                Debug.Log(viewField);
+                Debug.Log("pupupu)");
+                enabled = false;
+            }
         }
 
         public void TrySaveView(Entity entity, Transform transform)
         {
             if (!enabled) return;
             
-            entity.SetField(SavePath.View.Enemy, $"{viewPath}");
-            entity.SetField(SavePath.WorldSpace.Position, $"{transform.position.ToString()}");
+            entity.SetField(SavePath.View.Enemy, viewPath.AssetGUID);
+            entity.SetField(SavePath.WorldSpace.Position, $"{transform.position}");
             if ("(0.00000, 0.00000, 0.00000, 1.00000)" != transform.rotation.ToString())
             {
-                entity.SetField(SavePath.WorldSpace.Rotation, $"{transform.rotation.ToString()}");
+                entity.SetField(SavePath.WorldSpace.Rotation, $"{transform.rotation}");
             }
         }
 

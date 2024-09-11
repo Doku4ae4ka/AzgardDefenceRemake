@@ -3,16 +3,15 @@ using UnityEngine;
 
 namespace MapMaker.Scripts
 {
+    [AddComponentMenu("ADR/CameraEntity"), SelectionBase]
     public class CameraEntity : MonoBehaviour, IEntityObject
     {
         public void Save(string entityID, Slot slot)
         {
-            throw new System.NotImplementedException();
         }
 
         public void Load(Entity entity, Slot slot, MapEditor mapEditor)
         {
-            throw new System.NotImplementedException();
         }
     }
 }

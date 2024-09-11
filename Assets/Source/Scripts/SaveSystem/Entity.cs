@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using Source.Scripts.Extensions;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace Source.Scripts.SaveSystem
 {
@@ -21,6 +22,8 @@ namespace Source.Scripts.SaveSystem
         [ValueDropdown("Dropdown")] public string category;
         public List<Field> fields;
         private Dictionary<string, Field> _fieldsDict;
+        
+        public static string[] Dropdown() => SavePath.EntityCategory.All;
 
         public void Initialize()
         {
@@ -51,18 +54,6 @@ namespace Source.Scripts.SaveSystem
             var newField = new Field(fieldKey);
             fields.Add(newField);
             return newField;
-        }
-
-        public bool TryGetFieldIteration(string key, out string value)
-        {
-            if (_fieldsDict.TryGetValue(key, out var result))
-            {
-                value = result.value;
-                return true;
-            }
-
-            value = default;
-            return false;
         }
 
         public bool TryGetField(string key, out string value)
@@ -144,6 +135,21 @@ namespace Source.Scripts.SaveSystem
                 if (resultString.value.TryParseQuaternion(out var resultQuaternion))
                 {
                     value = resultQuaternion;
+                    return true;
+                }
+            }
+
+            value = default;
+            return false;
+        }
+        
+        public bool TryGetTileEntriesField(string key, Dictionary<string,TileBase> tileDictionary, out List<KeyValuePair<Vector3Int, TileBase>> value)
+        {
+            if (_fieldsDict.TryGetValue(key, out var resultString))
+            {
+                if (resultString.value.TryParseTileEntries(tileDictionary, out var resultList))
+                {
+                    value = resultList;
                     return true;
                 }
             }

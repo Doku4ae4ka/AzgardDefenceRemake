@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Exerussus._1EasyEcs.Scripts.Core;
 using Source.Scripts.MonoBehaviours.Views;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.Tilemaps;
 
 namespace Source.Scripts.Core
 {
@@ -14,6 +16,11 @@ namespace Source.Scripts.Core
         public struct Transform : IGameEcsComponent
         {
             public UnityEngine.Transform Value;
+        }
+        
+        public struct TilePosition : IGameEcsComponent
+        {
+            public Vector3Int Value;
         }
         
         public struct Position : IGameEcsComponent
@@ -37,20 +44,26 @@ namespace Source.Scripts.Core
         
         public struct TowerView : IGameEcsComponent
         {
-            public string ViewId;
+            public AssetReference ViewId;
             public TowerViewApi Value;
         }
         
         public struct EnemyView : IGameEcsComponent
         {
-            public string ViewId;
+            public AssetReference ViewId;
             public EnemyViewApi Value;
         }
         
         public struct EnvironmentView : IGameEcsComponent
         {
-            public string ViewId;
+            public AssetReference ViewId;
             public EnvironmentViewApi Value;
+        }
+        
+        public struct BuildingTilemapView : IGameEcsComponent
+        {
+            public AssetReference ViewId;
+            public BuildingTilemapViewApi Value;
         }
         
         #endregion
@@ -86,6 +99,24 @@ namespace Source.Scripts.Core
         }
         
         #endregion
+        
+        public struct TowerPreview : IGameEcsComponent
+        {
+            public Tilemap Tilemap;
+            public Dictionary<string, TileBase> CachedTiles;
+        }
+        
+        public struct BuildValidMark : IGameEcsComponent
+        {
+            
+        }
+        
+        public struct BuildingTileMap : IGameEcsComponent
+        {
+            public Tilemap Value;
+            public List<KeyValuePair<Vector3Int, TileBase>> RawValue;
+            public Dictionary<string, TileBase> CachedTiles;
+        }
 
         public struct Health : IGameEcsComponent
         {
@@ -119,6 +150,11 @@ namespace Source.Scripts.Core
         }
 
         public struct Environment : IGameEcsComponent
+        {
+            
+        }
+        
+        public struct Level : IGameEcsComponent
         {
             
         }

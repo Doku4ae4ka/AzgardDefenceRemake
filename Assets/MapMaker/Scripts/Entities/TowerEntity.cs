@@ -1,24 +1,31 @@
+using MapMaker.Scripts.EntitySettings;
 using MapMaker.Scripts.EntitySettings.Tower;
 using Sirenix.OdinInspector;
+using Source.Scripts.Core;
 using Source.Scripts.ECS.Core.SaveManager;
 using Source.Scripts.SaveSystem;
 using UnityEngine;
 
 namespace MapMaker.Scripts
 {
-    [SelectionBase]
+    [AddComponentMenu("ADR/TowerEntity"), SelectionBase]
     public class TowerEntity : MonoBehaviour, IEntityObject
     {
         public bool autoValidate;
         public bool isPrototype;
-        [HideInInspector] public PrototypeSettings prototype;
-        public TowerSettings tower;
+        [ShowIf("isPrototype"), CustomAttributes.ValueDropdown("Dropdown")] public string prototypeID;
+        private PrototypeSettings prototype = new();
         public TowerViewSettings view;
+        [SerializeField] public TowerSettings tower;
+        
+        private static string[] Dropdown() => Constants.PrototypesId.Towers.All;
         
         public void Save(string entityID, Slot slot)
         {
-            var entity = new Entity(entityID, SavePath.EntityCategory.Tower);
-
+            var entity = isPrototype ?
+                        new Entity(prototypeID, SavePath.EntityCategory.Tower) :
+                        new Entity(entityID, SavePath.EntityCategory.Tower);
+            
             if (isPrototype)
             {
                 entity.category = SavePath.EntityCategory.Prototype;
@@ -28,10 +35,10 @@ namespace MapMaker.Scripts
             else slot.AddDynamic(entity);
             
             if (view.enabled) view.TrySaveView(entity, transform);
-
+        
             this.SerializeObject(entity);
         }
-
+        
         public void Load(Entity entity, Slot slot, MapEditor mapEditor)
         {
             isPrototype = entity.category == SavePath.EntityCategory.Prototype;

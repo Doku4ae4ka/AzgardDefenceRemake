@@ -57,6 +57,14 @@ namespace Source.Scripts.MonoBehaviours.Views
                 _towerAsset.SetRadius(radius);
             });
         }
+        
+        public void SetTowerPreviewView()
+        {
+            ExecuteOrEnqueue("SetTowerPreviewView",() =>
+            {
+                _towerAsset.SetTowerPreviewView();
+            });
+        }
 
         public void SetDefaultView(float radius)
         {
@@ -64,6 +72,30 @@ namespace Source.Scripts.MonoBehaviours.Views
             {
                 _towerAsset.SetDefault();
                 _towerAsset.SetRadius(radius);
+            });
+        }
+        
+        public void SetTowerSelectValid()
+        {
+            ExecuteOrEnqueue("SetTowerSelectColor",() =>
+            {
+                _towerAsset.SetTowerSelectValid();
+            });
+        }
+        
+        public void SetTowerSelectInvalid()
+        {
+            ExecuteOrEnqueue("SetTowerSelectColor",() =>
+            {
+                _towerAsset.SetTowerSelectInvalid();
+            });
+        }
+        
+        public void SetTowerSelectSelected()
+        {
+            ExecuteOrEnqueue("SetTowerSelectColor",() =>
+            {
+                _towerAsset.SetTowerSelectSelected();
             });
         }
 
@@ -84,17 +116,13 @@ namespace Source.Scripts.MonoBehaviours.Views
             });
         }
 
-        public void Show(string viewId, Signal signal, EcsPackedEntity packedEntity)
+        public void Show()
         {
-            if (_isAssetLoaded)
+            ExecuteOrEnqueue("Show",() =>
             {
                 IsActivated = true;
                 _towerAsset.Activate();
-            }
-            else
-            {
-                LoadView(viewId, signal, packedEntity);
-            }
+            });
         }
 
         public void SetName(string name)
@@ -114,7 +142,7 @@ namespace Source.Scripts.MonoBehaviours.Views
             });
         }
 
-        public async void LoadView(string viewId, Signal signal, EcsPackedEntity packedEntity)
+        public async void LoadView(AssetReference viewId, Signal signal, EcsPackedEntity packedEntity)
         {
             _signal = signal;
             _packedEntity = packedEntity;
@@ -124,7 +152,12 @@ namespace Source.Scripts.MonoBehaviours.Views
 
             if ( loadResult.instance == null) return;
             _towerAsset = loadResult.instance.GetComponent<TowerAsset>();
-
+            if (_towerAsset == null)
+            {
+                Debug.LogError("Component TowerAsset not set to prefab.");
+                return;
+            }
+            
             _isAssetLoaded = true;
             InvokeReadySignal();
             ExecutePendingActions();
@@ -145,9 +178,9 @@ namespace Source.Scripts.MonoBehaviours.Views
             }
         }
 
-        private async Task<(GameObject instance, AsyncOperationHandle<GameObject> handle)> LoadAndInstantiateAsync(string address)
+        private async Task<(GameObject instance, AsyncOperationHandle<GameObject> handle)> LoadAndInstantiateAsync(AssetReference address)
         {
-            if (string.IsNullOrEmpty(address))
+            if (string.IsNullOrEmpty(address.AssetGUID))
             {
                 Debug.LogError("Address is null or empty.");
                 return (null, default);

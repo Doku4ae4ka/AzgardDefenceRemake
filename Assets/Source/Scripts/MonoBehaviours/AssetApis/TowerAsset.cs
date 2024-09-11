@@ -46,9 +46,20 @@ namespace Source.Scripts.MonoBehaviours.AssetApis
             stvolSprite.color = color;
         }
         
-        public void SetTowerSelectColor(Color color)
+        
+        public void SetTowerSelectValid()
         {
-            towerSelectSprite.color = color;
+            towerSelectSprite.color = new Color(0f, 1f, 0f, 0.6f);
+        }
+        
+        public void SetTowerSelectInvalid()
+        {
+            towerSelectSprite.color = new Color(1f, 0f, 0f, 0.6f);
+        }
+        
+        public void SetTowerSelectSelected()
+        {
+            towerSelectSprite.color = Color.cyan;
         }
         
         
@@ -80,7 +91,7 @@ namespace Source.Scripts.MonoBehaviours.AssetApis
         
         public void Activate()
         {
-            gameObject.SetActive(false);
+            gameObject.SetActive(true);
         }
     }
 }
