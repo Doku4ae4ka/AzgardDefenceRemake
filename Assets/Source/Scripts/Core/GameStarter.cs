@@ -4,8 +4,10 @@ using Exerussus._1Extensions.SignalSystem;
 using Leopotam.EcsLite;
 using Sirenix.OdinInspector;
 using Source.Scripts.ECS.Systems;
-using Source.Scripts.ECS.Systems.Health;
-using Source.Scripts.ECS.Systems.View;
+using Source.Scripts.ECS.Systems.SaveLoadSystems;
+using Source.Scripts.ECS.Systems.SaveLoadSystems.BuildingTilemap;
+using Source.Scripts.ECS.Systems.SaveLoadSystems.Health;
+using Source.Scripts.ECS.Systems.SaveLoadSystems.View;
 using Source.Scripts.SaveSystem;
 using UnityEngine;
 
@@ -19,6 +21,7 @@ namespace Source.Scripts.Core
         [SerializeField, HideInInspector] private SignalHandler signalHandler;
         [SerializeField, HideInInspector] private GameConfigurations gameConfigurations;
         [SerializeField, HideInInspector] private Memory memory;
+        private SpaceHash<EcsData.TransformData, EcsData.Tower> _spaceHash;
         [SerializeField] private Prototypes prototypes = new Prototypes();
         [SerializeField] private Configs configs = new Configs();
         
@@ -74,7 +77,7 @@ namespace Source.Scripts.Core
                     
                 .Add(new ConfigSystem())
                 .Add(new ViewSystem())
-                //.Add(new BuildingTilemapSystem())
+                .Add(new BuildingTilemapSystem())
                 .Add(new HealthSystem());
         }
 
@@ -90,6 +93,8 @@ namespace Source.Scripts.Core
                 
                 .Add(new TowerPreviewSystem())
                 .Add(new TowerSpawnSystem())
+                .Add(new EnemySpawnSystem())
+                .Add(new TargetingSystem())
                 .Add(new LoaderSystem());
         }
 
@@ -105,10 +110,12 @@ namespace Source.Scripts.Core
 
         protected override void SetSharingData(EcsWorld world, GameShare gameShare)
         {
+            _spaceHash = new SpaceHash<EcsData.TransformData, EcsData.Tower>(world, new Vector4(40, 40, -40, -40), 2);
             gameShare.AddSharedObject(gameConfigurations);
             gameShare.AddSharedObject(gameStatus);
             gameShare.AddSharedObject(memory);
             gameShare.AddSharedObject(prototypes);
+            gameShare.AddSharedObject(_spaceHash);
             gameShare.AddSharedObject(configs);
             gameShare.AddSharedObject(this);
         }

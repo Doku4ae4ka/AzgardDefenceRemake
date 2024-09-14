@@ -3,7 +3,7 @@ using Source.Scripts.Core;
 using Source.Scripts.SaveSystem;
 using UnityEngine;
 
-namespace Source.Scripts.ECS.Systems.Health
+namespace Source.Scripts.ECS.Systems.SaveLoadSystems.Health
 {
     public static class HealthSaver
     {

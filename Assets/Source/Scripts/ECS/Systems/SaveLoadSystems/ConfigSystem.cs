@@ -2,7 +2,7 @@
 using Source.Scripts.Core;
 using Source.Scripts.SaveSystem;
 
-namespace Source.Scripts.ECS.Systems
+namespace Source.Scripts.ECS.Systems.SaveLoadSystems
 {
     public class ConfigSystem : EcsGameSystem
     {
@@ -29,6 +29,7 @@ namespace Source.Scripts.ECS.Systems
         private void LoadConfigs(EcsWorld world, Pooler pooler, Slot slot)
         {
             if (slot.Configs.TryGetIntField(SavePath.Config.FreeEntityID, out var id)) Configs.SetFreeId(id);
+            if (slot.Configs.TryGetVector4Field(SavePath.Config.MapBorders, out var vector4Value)) SpaceHash.ResizeSpaceHash(vector4Value);
         }
     }
 }

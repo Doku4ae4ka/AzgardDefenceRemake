@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Exerussus._1EasyEcs.Scripts.Core;
+using Leopotam.EcsLite;
 using Source.Scripts.MonoBehaviours.Views;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -13,9 +14,10 @@ namespace Source.Scripts.Core
     {
         #region Core
         
-        public struct Transform : IGameEcsComponent
+        public struct TransformData : IGameEcsComponent, ISpaceHashTransform
         {
-            public UnityEngine.Transform Value;
+            public Transform Value;
+            public Transform Transform => Value;
         }
         
         public struct TilePosition : IGameEcsComponent
@@ -60,12 +62,6 @@ namespace Source.Scripts.Core
             public EnvironmentViewApi Value;
         }
         
-        public struct BuildingTilemapView : IGameEcsComponent
-        {
-            public AssetReference ViewId;
-            public BuildingTilemapViewApi Value;
-        }
-        
         #endregion
 
         #region SaveSystem
@@ -100,12 +96,6 @@ namespace Source.Scripts.Core
         
         #endregion
         
-        public struct TowerPreview : IGameEcsComponent
-        {
-            public Tilemap Tilemap;
-            public Dictionary<string, TileBase> CachedTiles;
-        }
-        
         public struct BuildValidMark : IGameEcsComponent
         {
             
@@ -118,6 +108,56 @@ namespace Source.Scripts.Core
             public Dictionary<string, TileBase> CachedTiles;
         }
 
+        public struct Config : IGameEcsComponent
+        {
+            
+        }
+
+        #region TowerData
+        
+        public struct TowerPreview : IGameEcsComponent
+        {
+            public Tilemap Tilemap;
+            public Dictionary<string, TileBase> CachedTiles;
+        }
+        
+        public struct Tower : IGameEcsComponent
+        {
+            public int BaseCost;
+            public int Damage;
+            public float AttackSpeed;
+            public float Radius;
+            public EnemyType EnemyType;
+            public TargetingType TargetingType;
+        }
+        
+        public struct TowerLevel : IGameEcsComponent
+        {
+            public int Value;
+            public int Cost;
+        }
+        
+        public struct Upgradable : IGameEcsComponent
+        {
+            public string[] Variants;
+            public int Cost;
+        }
+        
+        public struct Target : IGameEcsComponent
+        {
+            public EcsPackedEntity PackedTarget;
+        }
+        
+        #endregion
+
+        #region EnemyData
+        
+        public struct Enemy : IGameEcsComponent
+        {
+            public int DamageToCastle;
+            public EnemyType EnemyType;
+        }
+        
         public struct Health : IGameEcsComponent
         {
             public int Max;
@@ -126,23 +166,33 @@ namespace Source.Scripts.Core
 
         public struct Movable : IGameEcsComponent
         {
-            
+            public float DistanceToCastle;
+            public float Speed;
         }
 
-        public struct Config : IGameEcsComponent
+        #endregion
+
+        #region PathSystem
+
+        public struct Waypoint : IGameEcsComponent
         {
-            
+            public Vector2 Position;
+            public int[] NextWaypoints; // Массив ID следующих Waypoints (для пересечений)
+        }
+        
+        public struct Route : IGameEcsComponent
+        {
+            public int StartWaypoint; // ID начальной точки маршрута
+            public int EndWaypoint;   // ID конечной точки (замка)
+        }
+        
+        public struct SpawnPoint : IGameEcsComponent
+        {
+            public Vector2 Position;
+            public int RouteId; // ID маршрута, по которому будет двигаться враг
         }
 
-        public struct Tower : IGameEcsComponent
-        {
-            
-        }
-
-        public struct Enemy : IGameEcsComponent
-        {
-            
-        }
+        #endregion
 
         public struct Camera : IGameEcsComponent
         {
@@ -160,6 +210,22 @@ namespace Source.Scripts.Core
         }
         
     }
+
+    public enum EnemyType
+    {
+        Ground,
+        Air,
+        Both
+    }
+    
+    public enum TargetingType
+    {
+        Closest,
+        Weakest,
+        Random
+    }
+    
+    
 
     public interface IGameEcsComponent : IEcsComponent
     {

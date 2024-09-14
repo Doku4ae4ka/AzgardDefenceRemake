@@ -1,7 +1,7 @@
 ﻿using Source.Scripts.Core;
 using UnityEngine;
 
-namespace Source.Scripts.ECS.Systems
+namespace Source.Scripts.ECS.Systems.SaveLoadSystems
 {
     public class LoaderSystem : EcsGameSystem
     {

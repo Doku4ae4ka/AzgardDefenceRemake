@@ -24,10 +24,13 @@ namespace Source.Scripts.Core
         }
         public static class Resources
         {
-            public static class ExcludeTiles
+            public static class Tiles
             {
-                public const string Empty = "ExcludeTiles/CyanEmpty";
-                public const string Exclude = "ExcludeTiles/PurpleExclusion";   
+                public const string Empty = "Tiles/CyanEmpty";
+                public const string Exclude = "Tiles/PurpleExclusion";
+                public const string Path = "Tiles/Path";
+                public const string Castle = "Tiles/Castle";
+                public const string Portal = "Tiles/Portal";
             }
         }
     }

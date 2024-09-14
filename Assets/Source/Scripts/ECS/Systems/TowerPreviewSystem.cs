@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Exerussus._1EasyEcs.Scripts.Core;
 using Leopotam.EcsLite;
 using Source.Scripts.Core;
 using Source.Scripts.Extensions;
@@ -14,50 +15,52 @@ namespace Source.Scripts.ECS.Systems
         {
             _towerPreviewFilter = PrototypeMask.Inc<EcsData.TowerPreview>().End();
         }
-
+        
         protected override void Update()
         {
-            foreach (var entity in _towerPreviewFilter)
+            _towerPreviewFilter.Foreach(OnUpdate);
+        }
+
+        private void OnUpdate(int entity)
+        {
+            ref var towerPreview = ref Pooler.TowerPreview.Get(entity);
+            var exclusionTilemap = towerPreview.Tilemap;
+                
+            Vector3Int currentPos = exclusionTilemap.GetMouseOnGridPos();
+            ref var tilePositionData = ref Pooler.TilePosition.Get(entity);
+            tilePositionData.Value = currentPos;
+            ref var positionData = ref Pooler.Position.Get(entity);
+            positionData.Value = currentPos;
+            if (Pooler.Transform.Has(entity))
             {
-                ref var towerPreview = ref Pooler.TowerPreview.Get(entity);
-                var exclusionTilemap = towerPreview.Tilemap;
-                
-                Vector3Int currentPos = exclusionTilemap.GetMouseOnGridPos();
-                ref var tilePositionData = ref Pooler.TilePosition.Get(entity);
-                tilePositionData.Value = currentPos;
-                ref var positionData = ref Pooler.Position.Get(entity);
-                positionData.Value = currentPos;
-                if (Pooler.Transform.Has(entity))
-                {
-                    ref var transformData = ref Pooler.Transform.Get(entity);
-                    transformData.Value.position = currentPos;
-                }
+                ref var transformData = ref Pooler.Transform.Get(entity);
+                transformData.Value.position = currentPos;
+            }
 
-                var currentTile = exclusionTilemap.GetTile(currentPos);
-                if (currentTile.name == "CyanEmpty")
-                {
-                    ref var towerViewData = ref Pooler.TowerView.Get(entity);
-                    towerViewData.Value.SetTowerSelectValid();
-                    if(!Pooler.BuildValidMark.Has(entity)) 
-                        Pooler.BuildValidMark.Add(entity);
+            var currentTile = exclusionTilemap.GetTile(currentPos);
+            if (currentTile.name == "CyanEmpty")
+            {
+                ref var towerViewData = ref Pooler.TowerView.Get(entity);
+                towerViewData.Value.SetTowerSelectValid();
+                if(!Pooler.BuildValidMark.Has(entity)) 
+                    Pooler.BuildValidMark.Add(entity);
 
-                }
-                else if (currentTile.name == "PurpleExclusion")
-                {
-                    ref var towerViewData = ref Pooler.TowerView.Get(entity);
-                    towerViewData.Value.SetTowerSelectInvalid();
-                    if(Pooler.BuildValidMark.Has(entity)) 
-                        Pooler.BuildValidMark.Del(entity);
-                }
+            }
+            else if (currentTile.name == "PurpleExclusion")
+            {
+                ref var towerViewData = ref Pooler.TowerView.Get(entity);
+                towerViewData.Value.SetTowerSelectInvalid();
+                if(Pooler.BuildValidMark.Has(entity)) 
+                    Pooler.BuildValidMark.Del(entity);
+            }
                 
-                if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                if (Pooler.BuildValidMark.Has(entity))
                 {
-                    if (Pooler.BuildValidMark.Has(entity))
-                    {
-                        var exclusionTile = GetTile(towerPreview.CachedTiles, "PurpleExclusion");
-                        SpawnTower(entity, tilePositionData.Value);
-                        exclusionTilemap.SetTile(tilePositionData.Value, exclusionTile);
-                    }
+                    var exclusionTile = GetTile(towerPreview.CachedTiles, "PurpleExclusion");
+                    SpawnTower(entity, tilePositionData.Value);
+                    exclusionTilemap.SetTile(tilePositionData.Value, exclusionTile);
                 }
             }
         }

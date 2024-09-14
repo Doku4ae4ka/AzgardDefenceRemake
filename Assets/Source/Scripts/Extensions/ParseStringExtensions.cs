@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
-using Source.Scripts.Core;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Tilemaps;
@@ -36,7 +35,7 @@ namespace Source.Scripts.Extensions
             return false;
         }
         
-        public static Vector3 ParseVector2(this string vectorString)
+        public static Vector2 ParseVector2(this string vectorString)
         {
 
             var match = Regex.Match(vectorString, @"^\((-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)\)$");
@@ -102,6 +101,58 @@ namespace Source.Scripts.Extensions
                 if (xParsed && yParsed && zParsed)
                 {
                     return new Vector3(x, y, z);
+                }
+            }
+
+            return default;
+        }
+        
+        public static bool TryParseVector4(this string vectorString, out Vector4 result)
+        {
+            var match = Regex.Match(vectorString, @"^\((-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)\)$");
+
+            if (match.Success)
+            {
+                string cleanX = match.Groups[1].Value.Trim();
+                string cleanY = match.Groups[3].Value.Trim();
+                string cleanZ = match.Groups[5].Value.Trim();
+                string cleanW = match.Groups[7].Value.Trim();
+
+                bool xParsed = float.TryParse(cleanX, NumberStyles.Float, CultureInfo.InvariantCulture, out float x);
+                bool yParsed = float.TryParse(cleanY, NumberStyles.Float, CultureInfo.InvariantCulture, out float y);
+                bool zParsed = float.TryParse(cleanZ, NumberStyles.Float, CultureInfo.InvariantCulture, out float z);
+                bool wParsed = float.TryParse(cleanW, NumberStyles.Float, CultureInfo.InvariantCulture, out float w);
+
+                if (xParsed && yParsed && zParsed && wParsed)
+                {
+                    result = new Vector4(x, y, z, w);
+                    return true;
+                }
+            }
+
+            result = default;
+            return false;
+        }
+        
+        public static Vector4 ParseVector4(this string vectorString)
+        {
+            var match = Regex.Match(vectorString, @"^\((-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)\)$");
+
+            if (match.Success)
+            {
+                string cleanX = match.Groups[1].Value.Trim();
+                string cleanY = match.Groups[3].Value.Trim();
+                string cleanZ = match.Groups[5].Value.Trim();
+                string cleanW = match.Groups[7].Value.Trim();
+
+                bool xParsed = float.TryParse(cleanX, NumberStyles.Float, CultureInfo.InvariantCulture, out float x);
+                bool yParsed = float.TryParse(cleanY, NumberStyles.Float, CultureInfo.InvariantCulture, out float y);
+                bool zParsed = float.TryParse(cleanZ, NumberStyles.Float, CultureInfo.InvariantCulture, out float z);
+                bool wParsed = float.TryParse(cleanW, NumberStyles.Float, CultureInfo.InvariantCulture, out float w);
+
+                if (xParsed && yParsed && zParsed && wParsed)
+                {
+                    return new Vector4(x, y, z, w);
                 }
             }
 

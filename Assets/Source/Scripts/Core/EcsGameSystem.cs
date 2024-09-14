@@ -15,6 +15,7 @@ namespace Source.Scripts.Core
         protected EcsWorld.Mask AllEntitiesMask => World.Filter<EcsData.Entity>();
         protected Prototypes Prototypes;
         protected Configs Configs;
+        protected SpaceHash<EcsData.TransformData, EcsData.Tower> SpaceHash;
         
         public override void PreInit(GameShare gameShare, float tickTime, EcsWorld world, InitializeType initializeType = InitializeType.None)
         {
@@ -25,6 +26,7 @@ namespace Source.Scripts.Core
             gameShare.GetSharedObject(ref GameStarter);
             gameShare.GetSharedObject(ref Prototypes);
             gameShare.GetSharedObject(ref Configs);
+            gameShare.GetSharedObject(ref SpaceHash);
         }
     }
     

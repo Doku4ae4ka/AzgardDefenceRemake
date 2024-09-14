@@ -1,15 +1,13 @@
-﻿using Source.Scripts.Extensions;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using Exerussus._1Extensions.SignalSystem;
 using Leopotam.EcsLite;
 using Source.Scripts.Core;
+using Source.Scripts.Extensions;
 using Source.Scripts.MonoBehaviours.Views;
 using Source.Scripts.SaveSystem;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
-namespace Source.Scripts.ECS.Systems.View
+namespace Source.Scripts.ECS.Systems.SaveLoadSystems.View
 {
     public static class ViewLoader
     {
@@ -20,7 +18,8 @@ namespace Source.Scripts.ECS.Systems.View
             LoadTowerViewPrototype(world, pooler, slot, signal);
             LoadEnemyViewPrototype(world, pooler, slot, signal);
         }
-        public static void LoadTowerViewPrototype(EcsWorld world, Pooler pooler, Slot slot, Signal signal)
+
+        private static void LoadTowerViewPrototype(EcsWorld world, Pooler pooler, Slot slot, Signal signal)
         {
             foreach (var entity in world.Filter<EcsData.Entity>().Inc<EcsData.Prototype>().Inc<EcsData.Tower>().End())
             {
@@ -47,15 +46,12 @@ namespace Source.Scripts.ECS.Systems.View
                 };
                 
                 buildAction.Invoke(entity);
-                //ref var viewData = ref pooler.TowerView.Get(entity);
-                
-                //Object.Destroy(viewData.Value.TowerAsset.gameObject);
                 
                 prototypeData.DataBuilder.Add(buildAction);
             }
         }
-        
-        public static void LoadEnemyViewPrototype(EcsWorld world, Pooler pooler, Slot slot, Signal signal)
+
+        private static void LoadEnemyViewPrototype(EcsWorld world, Pooler pooler, Slot slot, Signal signal)
         {
             foreach (var entity in world.Filter<EcsData.Entity>().Inc<EcsData.Prototype>().Inc<EcsData.Enemy>().End())
             {
@@ -81,9 +77,6 @@ namespace Source.Scripts.ECS.Systems.View
                 };
                 
                 buildAction.Invoke(entity);
-                //ref var viewData = ref pooler.EnemyView.Get(entity);
-                
-                //Object.Destroy(viewData.Value.EnemyAsset.gameObject);
                 
                 prototypeData.DataBuilder.Add(buildAction);
             }
@@ -97,10 +90,9 @@ namespace Source.Scripts.ECS.Systems.View
         {
             LoadTowerView(world, pooler, slot, signal);
             LoadEnemyView(world, pooler, slot, signal);
-            LoadBuildingTilemapView(world, pooler, slot, signal);
         }
-        
-        public static void LoadTowerView(EcsWorld world, Pooler pooler, Slot slot, Signal signal)
+
+        private static void LoadTowerView(EcsWorld world, Pooler pooler, Slot slot, Signal signal)
         {
             foreach (var entity in world.Filter<EcsData.Entity>().Inc<EcsData.Tower>().Exc<EcsData.Prototype>().End())
             {
@@ -128,8 +120,8 @@ namespace Source.Scripts.ECS.Systems.View
                 viewData.Value.SetName(entityData.EntityID);
             }
         }
-        
-        public static void LoadEnemyView(EcsWorld world, Pooler pooler, Slot slot, Signal signal)
+
+        private static void LoadEnemyView(EcsWorld world, Pooler pooler, Slot slot, Signal signal)
         {
             foreach (var entity in world.Filter<EcsData.Entity>().Inc<EcsData.Enemy>().Exc<EcsData.Prototype>().End())
             {
@@ -151,39 +143,6 @@ namespace Source.Scripts.ECS.Systems.View
                 viewData.Value = new EnemyViewApi();
                 viewData.Value.LoadView(viewData.ViewId, signal, world.PackEntity(entity));
                 viewData.Value.SetName(entityData.EntityID);
-            }
-        }
-        
-        public static void LoadBuildingTilemapView(EcsWorld world, Pooler pooler, Slot slot, Signal signal)
-        {
-            foreach (var entity in world.Filter<EcsData.Entity>().Inc<EcsData.Level>().Exc<EcsData.Prototype>().End())
-            {
-                ref var entityData = ref pooler.Entity.Get(entity);
-                var savingEntity = slot.GetEntity(entityData.EntityID);
-                
-                if (!savingEntity.TryGetField(SavePath.View.BuildingTilemap, out var viewValue)) continue;
-                
-                ref var positionData = ref pooler.Position.Add(entity);
-                ref var rotationData = ref pooler.Rotation.Add(entity);
-                
-                if (savingEntity.TryGetVector3Field(SavePath.WorldSpace.Position, out Vector3 positionValue)) 
-                    positionData.Value = positionValue;
-                
-                if (savingEntity.TryGetQuaternionField(SavePath.WorldSpace.Rotation, out var rotationValue))
-                    rotationData.Value = rotationValue;
-                
-                ref var viewData = ref pooler.BuildingTilemapView.Add(entity);
-                viewData.ViewId = viewValue.ParseToAssetReference();
-                viewData.Value = new BuildingTilemapViewApi();
-                viewData.Value.LoadView(viewData.ViewId, signal, world.PackEntity(entity));
-                viewData.Value.SetName(entityData.EntityID);
-                
-                ref var tilemapData = ref pooler.BuildingTilemap.Add(entity);
-                tilemapData.CachedTiles = CacheAllTiles();
-                if (savingEntity.TryGetTileEntriesField(SavePath.BuildingTilemap.Tilemap, tilemapData.CachedTiles, out var loadedList))
-                {
-                    tilemapData.RawValue = loadedList;
-                }
             }
         }
         
@@ -222,21 +181,5 @@ namespace Source.Scripts.ECS.Systems.View
         }
         
         #endregion
-        
-        private static Dictionary<string, TileBase> CacheAllTiles()
-        {
-            var dict = new Dictionary<string, TileBase>();
-            
-            var exclude = Resources.Load<TileBase>(Constants.Resources.ExcludeTiles.Exclude);
-            var empty = Resources.Load<TileBase>(Constants.Resources.ExcludeTiles.Empty);
-
-            if (exclude != null) dict.TryAdd("PurpleExclusion", exclude);
-            else Debug.LogError($"Tile '{Constants.Resources.ExcludeTiles.Exclude}' not found in Resources.");
-
-            if (empty != null) dict.TryAdd("CyanEmpty", empty);
-            else Debug.LogError($"Tile '{Constants.Resources.ExcludeTiles.Empty}' not found in Resources.");
-
-            return dict;
-        }
     }
 }

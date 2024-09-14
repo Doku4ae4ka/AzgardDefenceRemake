@@ -2,7 +2,7 @@
 using Source.Scripts.Core;
 using UnityEngine;
 
-namespace Source.Scripts.ECS.Systems.Health
+namespace Source.Scripts.ECS.Systems.SaveLoadSystems.Health
 {
     public class HealthSystem : EcsGameSystem
     {

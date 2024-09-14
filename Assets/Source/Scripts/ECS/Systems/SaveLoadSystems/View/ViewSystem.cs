@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Exerussus._1Extensions;
+﻿using Exerussus._1Extensions;
 using Leopotam.EcsLite;
 using Source.Scripts.Core;
-using Source.Scripts.Extensions;
 using Source.Scripts.SaveSystem;
-using UnityEngine;
-using UnityEngine.Tilemaps;
 using Object = UnityEngine.Object;
 
-namespace Source.Scripts.ECS.Systems.View
+namespace Source.Scripts.ECS.Systems.SaveLoadSystems.View
 {
     public class ViewSystem : EcsGameSystem<Signals.OnViewAssetLoaded>
     {
@@ -18,7 +13,7 @@ namespace Source.Scripts.ECS.Systems.View
         protected override void Initialize()
         {
             _viewFilter = InGameMask.Inc<EcsData.TowerView>().Inc<EcsData.EnemyView>().Inc<EcsData.EnvironmentView>()
-                .Inc<EcsData.Transform>().Inc<EcsData.Position>().End();
+                .Inc<EcsData.TransformData>().Inc<EcsData.Position>().End();
             Memory.save.OnDynamic += ViewSaver.TrySaveDynamic;
             Memory.save.OnStatic += ViewSaver.TrySaveStatic;
             
@@ -59,15 +54,6 @@ namespace Source.Scripts.ECS.Systems.View
                 ref var rotation = ref Pooler.Rotation.Get(unpackedEntity);
                 transformData.Value.position = position.Value;
                 transformData.Value.rotation = rotation.Value;
-            }
-
-            if (Pooler.Level.Has(unpackedEntity))
-            {
-                ref var viewData = ref Pooler.BuildingTilemapView.Get(unpackedEntity);
-                ref var buildingTilemapData = ref Pooler.BuildingTilemap.Get(unpackedEntity);
-                buildingTilemapData.Value = viewData.Value.GetTilemap();
-
-                buildingTilemapData.Value.FillTilemap(buildingTilemapData.RawValue);
             }
         }
 

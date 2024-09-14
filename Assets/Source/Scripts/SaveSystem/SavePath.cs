@@ -23,7 +23,9 @@ namespace Source.Scripts.SaveSystem
         public static class Config
         {
             public const string ID = "configs";
-            public const string FreeEntityID = "config.free.entity.id";
+            public const string FreeEntityID = "config.free_entity_id";
+
+            public const string MapBorders = "config.map_borders";
         }
 
         public static class Camera
@@ -78,6 +80,7 @@ namespace Source.Scripts.SaveSystem
             EntityCategory.Trigger,
             Config.ID,
             Config.FreeEntityID,
+            Config.MapBorders,
             Camera.ID,
             Prototype.Category,
             View.Tower,

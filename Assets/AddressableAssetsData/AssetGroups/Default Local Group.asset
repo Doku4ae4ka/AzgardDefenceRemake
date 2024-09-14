@@ -42,11 +42,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 1ad16162f87f84443b7670f268aa39b3
-    m_Address: Assets/Source/Prefabs/Levels/TheSearchOfDestiny/TowerExclusionGrid.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 150d9164ea403e14b86144882844b4f1, type: 2}
   m_SchemaSet:

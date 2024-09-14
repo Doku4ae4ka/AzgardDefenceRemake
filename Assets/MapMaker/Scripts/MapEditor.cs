@@ -44,10 +44,10 @@ namespace MapMaker.Scripts
             var enemies = GetAllEnemies();
             var towers = GetAllTowers();
             var waves = GetAllWaves();
-            var cameraEntity = GetCamera();
+            //var cameraEntity = GetCamera();
 
             entitiesCount += environments.Length + enemies.Length + towers.Length + waves.Length;
-            if (cameraEntity != null) entitiesCount++;
+            //if (cameraEntity != null) entitiesCount++;
             if (level != null) entitiesCount++;
 
             if (!saveEmptyMap && entitiesCount == 0) return;
@@ -62,7 +62,7 @@ namespace MapMaker.Scripts
             SaveEntities(enemies, memorySlot, "enemies");
             SaveEntities(waves, memorySlot, "waves");
             level.Save(SavePath.Level.ID, memorySlot);
-            cameraEntity.Save(SavePath.Camera.ID, memorySlot);
+            //cameraEntity.Save(SavePath.Camera.ID, memorySlot);
             config.Save(SavePath.Config.ID, memorySlot);
 
             // var prototypes = new List<CharacterEntity>();
@@ -212,7 +212,7 @@ namespace MapMaker.Scripts
             LoadEnvironments(memorySlot);
             LoadTowers(memorySlot);
             LoadLevel(memorySlot);
-            LoadCamera(memorySlot);
+            //LoadCamera(memorySlot);
             LoadWaves(memorySlot);
             LoadEnemies(memorySlot);
         }

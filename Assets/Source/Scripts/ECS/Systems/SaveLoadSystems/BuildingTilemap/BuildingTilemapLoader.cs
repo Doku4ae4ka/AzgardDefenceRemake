@@ -1,39 +1,35 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
-using Sirenix.OdinInspector;
+using Leopotam.EcsLite;
 using Source.Scripts.Core;
 using Source.Scripts.Extensions;
 using Source.Scripts.SaveSystem;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace MapMaker.Scripts.EntitySettings.Level
+namespace Source.Scripts.ECS.Systems.SaveLoadSystems.BuildingTilemap
 {
-    [Serializable, Toggle("enabled")]
-    public class BuildingTilemapSettings
+    public static class BuildingTilemapLoader
     {
-        public bool enabled;
-        public Tilemap tilemap;
-        
-        public void TryLoad(Entity entity)
+        public static void TryLoadDynamic(EcsWorld world, Pooler pooler, Slot slot)
         {
-            if (entity.TryGetTileEntriesField(SavePath.BuildingTilemap.Tilemap, CacheAllTiles(), out var loadedList))
+            foreach (var entity in world.Filter<EcsData.Entity>().Exc<EcsData.Prototype>().Inc<EcsData.Level>().End())
             {
-                enabled = true;
-                tilemap = InstantiateTilemapGameObject();
-                tilemap.FillTilemap(loadedList);
+                ref var entityData = ref pooler.Entity.Get(entity);
+                var savingEntity = slot.GetEntity(entityData.EntityID);
+                
+                ref var tilemapData = ref pooler.BuildingTilemap.Add(entity);
+                tilemapData.CachedTiles = CacheAllTiles();
+                if (savingEntity.TryGetTileEntriesField(SavePath.BuildingTilemap.Tilemap, tilemapData.CachedTiles, out var loadedList))
+                {
+                    tilemapData.RawValue = loadedList;
+                }
+
+                tilemapData.Value = InstantiateTilemapGameObject();
+                tilemapData.Value.FillTilemap(tilemapData.RawValue);
                 
             }
-            else enabled = false;
         }
-        
-        public void TrySave(Entity entity)
-        {
-            if (!enabled) return;
-            entity.SetField(SavePath.BuildingTilemap.Tilemap, SerializeTilemap(tilemap));
-        }
-        
+
         private static Tilemap InstantiateTilemapGameObject(string gridName = "TowerGrid", string tilemapName = "BuildingTilemap")
         {
             GameObject gridObject = new GameObject(gridName);
@@ -51,13 +47,13 @@ namespace MapMaker.Scripts.EntitySettings.Level
             return tilemap;
         }
         
-        private Dictionary<string, TileBase> CacheAllTiles()
+        private static Dictionary<string, TileBase> CacheAllTiles()
         {
             var dict = new Dictionary<string, TileBase>();
             
             var exclude = Resources.Load<TileBase>(Constants.Resources.Tiles.Exclude);
             var empty = Resources.Load<TileBase>(Constants.Resources.Tiles.Empty);
-
+            
             if (exclude != null) dict.TryAdd("PurpleExclusion", exclude);
             else Debug.LogError($"Tile '{Constants.Resources.Tiles.Exclude}' not found in Resources.");
 
@@ -65,20 +61,6 @@ namespace MapMaker.Scripts.EntitySettings.Level
             else Debug.LogError($"Tile '{Constants.Resources.Tiles.Empty}' not found in Resources.");
 
             return dict;
-        }
-        
-        private string SerializeTilemap(Tilemap tilemap)
-        {
-            var sb = new StringBuilder();
-
-            BoundsInt bounds = tilemap.cellBounds;
-            foreach (var position in bounds.allPositionsWithin)
-            {
-                TileBase tile = tilemap.GetTile(position);
-                if (tile != null) sb.Append($"({position.x},{position.y},{tile.name});");
-            }
-
-            return sb.ToString();
         }
     }
 }

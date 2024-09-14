@@ -127,6 +127,21 @@ namespace Source.Scripts.SaveSystem
             value = default;
             return false;
         }
+        
+        public bool TryGetVector4Field(string key, out Vector4 value)
+        {
+            if (_fieldsDict.TryGetValue(key, out var resultString))
+            {
+                if (resultString.value.TryParseVector4(out var resultVector4))
+                {
+                    value = resultVector4;
+                    return true;
+                }
+            }
+
+            value = default;
+            return false;
+        }
 
         public bool TryGetQuaternionField(string key, out Quaternion value)
         {

@@ -1,11 +1,8 @@
-﻿using System.Text;
-using Leopotam.EcsLite;
+﻿using Leopotam.EcsLite;
 using Source.Scripts.Core;
 using Source.Scripts.SaveSystem;
-using UnityEngine;
-using UnityEngine.Tilemaps;
 
-namespace Source.Scripts.ECS.Systems.View
+namespace Source.Scripts.ECS.Systems.SaveLoadSystems.View
 {
     public static class ViewSaver
     {
@@ -15,12 +12,12 @@ namespace Source.Scripts.ECS.Systems.View
         {
             TrySaveTower(world, pooler, slot);
             TrySaveEnemy(world, pooler, slot);
-            TrySaveBuildingTilemap(world, pooler, slot);
         }
-        public static void TrySaveTower(EcsWorld world, Pooler pooler, Slot slot)
+
+        private static void TrySaveTower(EcsWorld world, Pooler pooler, Slot slot)
         {
             foreach (var entity in world.Filter<EcsData.Entity>().Inc<EcsData.TowerView>()
-                         .Inc<EcsData.Transform>().End())
+                         .Inc<EcsData.TransformData>().End())
             {
                 ref var viewData = ref pooler.TowerView.Get(entity);
                 ref var entityData = ref pooler.Entity.Get(entity);
@@ -41,57 +38,27 @@ namespace Source.Scripts.ECS.Systems.View
                 }
             }
         }
-        
-        public static void TrySaveEnemy(EcsWorld world, Pooler pooler, Slot slot)
+
+        private static void TrySaveEnemy(EcsWorld world, Pooler pooler, Slot slot)
         {
             foreach (var entity in world.Filter<EcsData.Entity>().Inc<EcsData.EnemyView>()
-                         .Inc<EcsData.Transform>().End())
+                         .Inc<EcsData.TransformData>().End())
             {
                 ref var viewData = ref pooler.EnemyView.Get(entity);
                 ref var entityData = ref pooler.Entity.Get(entity);
                 ref var transformData = ref pooler.Transform.Get(entity);
                 
                 if (!slot.TryGetEntity(entityData.EntityID, out var foundEntity)) return;
-                var savingEntity = foundEntity;
-                
-                savingEntity.SetField(SavePath.View.Enemy, viewData.ViewId.AssetGUID);
-                
-                if (pooler.Prototype.Has(entity)) continue;
-                
-                savingEntity.SetField(SavePath.WorldSpace.Position, $"{transformData.Value.position}");
-                
-                if ("(0.00000, 0.00000, 0.00000, 1.00000)" != $"{transformData.Value.rotation}")
-                {
-                    savingEntity.SetField(SavePath.WorldSpace.Rotation, $"{transformData.Value.rotation}");
-                }
-            }
-        }
-        
-        public static void TrySaveBuildingTilemap(EcsWorld world, Pooler pooler, Slot slot)
-        {
-            foreach (var entity in world.Filter<EcsData.Entity>().Inc<EcsData.BuildingTilemapView>()
-                         .Inc<EcsData.BuildingTileMap>().Inc<EcsData.Transform>().End())
-            {
-                Debug.Log("TilemapSave?");
-                ref var buildingTilemapData = ref pooler.BuildingTilemap.Get(entity);
-                ref var viewData = ref pooler.BuildingTilemapView.Get(entity);
-                ref var entityData = ref pooler.Entity.Get(entity);
-                ref var transformData = ref pooler.Transform.Get(entity);
-                
-                if (!slot.TryGetEntity(entityData.EntityID, out var foundEntity)) return;
-                var savingEntity = foundEntity;
-                
-                savingEntity.SetField(SavePath.View.BuildingTilemap, viewData.ViewId.AssetGUID);
 
-                savingEntity.SetField(SavePath.BuildingTilemap.Tilemap, SerializeTilemap(buildingTilemapData.Value));
+                foundEntity.SetField(SavePath.View.Enemy, viewData.ViewId.AssetGUID);
                 
                 if (pooler.Prototype.Has(entity)) continue;
                 
-                savingEntity.SetField(SavePath.WorldSpace.Position, $"{transformData.Value.position}");
+                foundEntity.SetField(SavePath.WorldSpace.Position, $"{transformData.Value.position}");
                 
                 if ("(0.00000, 0.00000, 0.00000, 1.00000)" != $"{transformData.Value.rotation}")
                 {
-                    savingEntity.SetField(SavePath.WorldSpace.Rotation, $"{transformData.Value.rotation}");
+                    foundEntity.SetField(SavePath.WorldSpace.Rotation, $"{transformData.Value.rotation}");
                 }
             }
         }
@@ -104,13 +71,12 @@ namespace Source.Scripts.ECS.Systems.View
         {
             TrySaveEnvironment(world, pooler, slot);
         }
-        
-        public static void TrySaveEnvironment(EcsWorld world, Pooler pooler, Slot slot)
+
+        private static void TrySaveEnvironment(EcsWorld world, Pooler pooler, Slot slot)
         {
             foreach (var entity in world.Filter<EcsData.Entity>().Inc<EcsData.Environment>()
-                         .Inc<EcsData.Transform>().End())
+                         .Inc<EcsData.TransformData>().End())
             {
-                Debug.Log("EnvSave?");
                 ref var viewData = ref pooler.EnvironmentView.Get(entity);
                 ref var entityData = ref pooler.Entity.Get(entity);
                 ref var transformData = ref pooler.Transform.Get(entity);
@@ -132,19 +98,5 @@ namespace Source.Scripts.ECS.Systems.View
         }
 
         #endregion
-        
-        public static string SerializeTilemap(Tilemap tilemap)
-        {
-            var sb = new StringBuilder();
-
-            BoundsInt bounds = tilemap.cellBounds;
-            foreach (var position in bounds.allPositionsWithin)
-            {
-                TileBase tile = tilemap.GetTile(position);
-                if (tile != null) sb.Append($"({position.x},{position.y},{tile.name});");
-            }
-
-            return sb.ToString();
-        }
     }
 }

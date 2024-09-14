@@ -3,7 +3,7 @@ using Leopotam.EcsLite;
 using Source.Scripts.Core;
 using Source.Scripts.SaveSystem;
 
-namespace Source.Scripts.ECS.Systems.Health
+namespace Source.Scripts.ECS.Systems.SaveLoadSystems.Health
 {
     public static class HealthLoader
     {

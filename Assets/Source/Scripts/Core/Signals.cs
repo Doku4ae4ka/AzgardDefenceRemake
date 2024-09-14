@@ -33,6 +33,12 @@ namespace Source.Scripts.Core
             public Vector3Int Position;
         }
         
+        public struct CommandSpawnEnemy
+        {
+            public int PrototypeEntity;
+            public Vector3Int Position;
+        }
+        
         public struct OnViewAssetLoaded
         {
             public EcsPackedEntity PackedEntity;
