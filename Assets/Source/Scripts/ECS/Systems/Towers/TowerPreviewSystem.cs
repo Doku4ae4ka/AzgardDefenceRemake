@@ -40,27 +40,26 @@ namespace Source.Scripts.ECS.Systems.Towers
             var currentTile = exclusionTilemap.GetTile(currentPos);
             if (currentTile == null) return;
             
+            ref var towerView = ref Pooler.TowerView.Get(entity);
             switch (currentTile.name)
             {
                 case "CyanEmpty":
                 {
-                    ref var towerViewData = ref Pooler.TowerView.Get(entity);
-                    towerViewData.Value.SetTowerSelectValid();
+                    towerView.Value.SetTowerSelectValid();
                     if(!Pooler.BuildValidMark.Has(entity)) 
                         Pooler.BuildValidMark.Add(entity);
                     break;
                 }
                 case "PurpleExclusion":
                 {
-                    ref var towerViewData = ref Pooler.TowerView.Get(entity);
-                    towerViewData.Value.SetTowerSelectInvalid();
+                    towerView.Value.SetTowerSelectInvalid();
                     if(Pooler.BuildValidMark.Has(entity)) 
                         Pooler.BuildValidMark.Del(entity);
                     break;
                 }
             }
                 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetMouseButtonDown(0))
             {
                 if (Pooler.BuildValidMark.Has(entity))
                 {
@@ -68,6 +67,17 @@ namespace Source.Scripts.ECS.Systems.Towers
                     SpawnTower(entity, tilePositionData.Value);
                     exclusionTilemap.SetTile(tilePositionData.Value, exclusionTile);
                 }
+                else
+                {
+                    towerView.Value.Hide();
+                    Pooler.TowerPreview.Del(entity);
+                }
+            }
+            
+            if (Input.GetMouseButtonDown(1))
+            {
+                towerView.Value.Hide();
+                Pooler.TowerPreview.Del(entity);
             }
         }
 
