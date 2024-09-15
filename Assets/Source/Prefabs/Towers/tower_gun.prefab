@@ -64,9 +64,17 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1460717825036781645, guid: 5c7c354ab70514214bba21a33b676a1c, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1946049297234426777, guid: 5c7c354ab70514214bba21a33b676a1c, type: 3}
       propertyPath: m_Name
-      value: TowerGun
+      value: tower_gun
+      objectReference: {fileID: 0}
+    - target: {fileID: 4161569370911972712, guid: 5c7c354ab70514214bba21a33b676a1c, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4652793495380012547, guid: 5c7c354ab70514214bba21a33b676a1c, type: 3}
       propertyPath: m_LocalScale.x

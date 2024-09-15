@@ -75,6 +75,14 @@ namespace Source.Scripts.MonoBehaviours.Views
             });
         }
         
+        public void SetTarget(Vector3 targetPosition)
+        {
+            ExecuteOrEnqueue("SetTarget",() =>
+            {
+                _towerAsset.SetTarget(targetPosition);
+            });
+        }
+        
         public void SetTowerSelectValid()
         {
             ExecuteOrEnqueue("SetTowerSelectColor",() =>

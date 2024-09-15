@@ -1,6 +1,6 @@
 using Source.Scripts.Core;
 
-namespace Source.Scripts.ECS.Systems
+namespace Source.Scripts.ECS.Systems.Towers
 {
     public class TowerSpawnSystem : EcsGameSystem<Signals.CommandSpawnTower>
     {
@@ -16,14 +16,15 @@ namespace Source.Scripts.ECS.Systems
             foreach (var action in prototypeData.DataBuilder) action.Invoke(newEntity);
             
             ref var tilePositionData = ref Pooler.TilePosition.Get(newEntity);
-            tilePositionData.Value = data.Position;
+            tilePositionData.Value = data.TilePosition;
             ref var positionData = ref Pooler.Position.Get(newEntity);
-            positionData.Value = data.Position;
+            positionData.Value = data.TilePosition;
             if (Pooler.Transform.Has(newEntity))
             {
                 ref var transformData = ref Pooler.Transform.Get(newEntity);
-                transformData.Value.position = data.Position;
+                transformData.Value.position = data.TilePosition;
             }
+            
             ref var viewData = ref Pooler.TowerView.Get(newEntity);
             viewData.Value.Show();
         }

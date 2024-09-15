@@ -5,6 +5,7 @@ namespace MapMaker.Scripts.EntitySettings.Enemy
     [Serializable]
     public class EnemySettings
     {
-        public HealthSettings healthSettings = new();
+        public HealthSettings health = new();
+        public MovableSettings movable = new();
     }
 }

@@ -22,25 +22,9 @@ MonoBehaviour:
         value: 6
       - key: config.map_borders
         value: (-30.00, -10.00, 17.00, 27.00)
+      - key: config.routes
+        value: 0:(-43,3)/(-43,1)/(-43,-1)/(-43,-3)/(-43,-5)/(-43,-7)/(-43,-9)/(-43,-11)/(-43,-13)/(-41,-13)/(-39,-13)/(-39,-11)/(-39,-9)/(-39,-7)/(-39,-5)/(-39,-3)/(-39,-1)/(-39,1)/(-39,3)/(-39,5)/(-39,7)/(-39,9)/(-39,11)/(-39,13)/(-37,13)/(-35,13)/(-33,13)/(-33,11)/(-33,9)/(-33,7)/(-33,5)/(-33,3)/(-33,1)/(-33,-1)/(-33,-3)/(-33,-5)/(-31,-5)/(-29,-5)/(-27,-5)/(-25,-5)/(-23,-5);1:(-1,17)/(-1,15)/(-1,13)/(-1,11)/(-1,9)/(-1,7)/(-3,7)/(-5,7)/(-7,7)/(-9,7)/(-11,7)/(-13,7)/(-15,7)/(-17,7)/(-19,7)/(-21,7)/(-23,7)/(-23,9)/(-23,11)/(-23,13)/(-23,15)/(-23,17)/(-23,19)/(-23,21)/(-21,21)/(-19,21)/(-17,21)/(-15,21)/(-13,21)/(-11,21)/(-9,21)/(-7,21)/(-5,21)/(-3,21)/(-1,21)/(1,21)/(3,21)/(5,21)/(7,21)/(9,21)/(11,21)/(13,21)/(13,19)/(13,17)/(13,15)/(13,13)/(13,11)/(13,9)/(13,7)/(13,5)/(13,3)/(13,1)/(11,1)/(9,1)/(7,1)/(5,1)/(3,1)/(1,1)/(-1,1)/(-3,1)/(-5,1)/(-7,1)/(-9,1)/(-11,1)/(-13,1)/(-15,1)/(-17,1)/(-19,1)/(-21,1)/(-23,1)/(-23,-1)/(-23,-3)/(-23,-5);2:(19,25)/(19,23)/(19,21)/(19,19)/(19,17)/(19,15)/(21,15)/(21,13)/(21,11)/(21,9)/(21,7)/(21,5)/(21,3)/(21,1)/(21,-1)/(21,-3)/(21,-5)/(21,-7)/(19,-7)/(19,-9)/(19,-11)/(17,-11)/(15,-11)/(13,-11)/(11,-11)/(9,-11)/(7,-11)/(5,-11)/(3,-11)/(1,-11)/(-1,-11)/(-3,-11)/(-5,-11)/(-7,-11)/(-9,-11)/(-11,-11)/(-13,-11)/(-15,-11)/(-17,-11)/(-19,-11)/(-21,-11)/(-23,-11)/(-23,-9)/(-23,-7)/(-23,-5);
     prototypes:
-    - id: tower_archer
-      category: prototype
-      fields:
-      - key: prototype.category
-        value: tower
-      - key: view.tower
-        value: 14635cd7965e54e18b4d6aaeee578484
-      - key: worldspace.position
-        value: (0.00, 0.00, 0.00)
-    - id: tower_wind
-      category: prototype
-      fields:
-      - key: prototype.category
-        value: tower
-      - key: view.tower
-        value: 29ebc2dc711af46c7bd44ef8dcfb05de
-      - key: worldspace.position
-        value: (0.00, 0.00, 0.00)
     - id: tower_gun
       category: prototype
       fields:
@@ -50,6 +34,54 @@ MonoBehaviour:
         value: f49e5b2a692124ebcbee92ffd3e68028
       - key: worldspace.position
         value: (0.00, 0.00, 0.00)
+      - key: tower.base_cost
+        value: 50
+      - key: tower.damage
+        value: 50
+      - key: tower.attack_speed
+        value: 0,75
+      - key: tower.radius
+        value: 4
+      - key: tower.enemy_type
+        value: Ground
+    - id: tower_wind
+      category: prototype
+      fields:
+      - key: prototype.category
+        value: tower
+      - key: view.tower
+        value: 29ebc2dc711af46c7bd44ef8dcfb05de
+      - key: worldspace.position
+        value: (0.00, 0.00, 0.00)
+      - key: tower.base_cost
+        value: 30
+      - key: tower.damage
+        value: 30
+      - key: tower.attack_speed
+        value: 1
+      - key: tower.radius
+        value: 6
+      - key: tower.enemy_type
+        value: Air
+    - id: tower_archer
+      category: prototype
+      fields:
+      - key: prototype.category
+        value: tower
+      - key: view.tower
+        value: 14635cd7965e54e18b4d6aaeee578484
+      - key: worldspace.position
+        value: (0.00, 0.00, 0.00)
+      - key: tower.base_cost
+        value: 20
+      - key: tower.damage
+        value: 10
+      - key: tower.attack_speed
+        value: 1
+      - key: tower.radius
+        value: 5
+      - key: tower.enemy_type
+        value: Both
     - id: enemy_sand_golem
       category: prototype
       fields:
@@ -60,9 +92,11 @@ MonoBehaviour:
       - key: worldspace.position
         value: (0.00, 0.00, 0.00)
       - key: health.max
-        value: 10
+        value: 20
       - key: health.current
         value: 0
+      - key: movable.speed
+        value: 6
     statics:
     - id: environment.1
       category: environment

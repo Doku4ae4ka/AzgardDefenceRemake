@@ -6,7 +6,7 @@ using Source.Scripts.Extensions;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Source.Scripts.ECS.Systems
+namespace Source.Scripts.ECS.Systems.Towers
 {
     public class TowerPreviewSystem : EcsGameSystem<Signals.CommandSpawnTowerPreview>
     {
@@ -25,8 +25,8 @@ namespace Source.Scripts.ECS.Systems
         {
             ref var towerPreview = ref Pooler.TowerPreview.Get(entity);
             var exclusionTilemap = towerPreview.Tilemap;
-                
-            Vector3Int currentPos = exclusionTilemap.GetMouseOnGridPos();
+            
+            var currentPos = exclusionTilemap.GetMouseOnGridPos();
             ref var tilePositionData = ref Pooler.TilePosition.Get(entity);
             tilePositionData.Value = currentPos;
             ref var positionData = ref Pooler.Position.Get(entity);
@@ -38,20 +38,26 @@ namespace Source.Scripts.ECS.Systems
             }
 
             var currentTile = exclusionTilemap.GetTile(currentPos);
-            if (currentTile.name == "CyanEmpty")
+            if (currentTile == null) return;
+            
+            switch (currentTile.name)
             {
-                ref var towerViewData = ref Pooler.TowerView.Get(entity);
-                towerViewData.Value.SetTowerSelectValid();
-                if(!Pooler.BuildValidMark.Has(entity)) 
-                    Pooler.BuildValidMark.Add(entity);
-
-            }
-            else if (currentTile.name == "PurpleExclusion")
-            {
-                ref var towerViewData = ref Pooler.TowerView.Get(entity);
-                towerViewData.Value.SetTowerSelectInvalid();
-                if(Pooler.BuildValidMark.Has(entity)) 
-                    Pooler.BuildValidMark.Del(entity);
+                case "CyanEmpty":
+                {
+                    ref var towerViewData = ref Pooler.TowerView.Get(entity);
+                    towerViewData.Value.SetTowerSelectValid();
+                    if(!Pooler.BuildValidMark.Has(entity)) 
+                        Pooler.BuildValidMark.Add(entity);
+                    break;
+                }
+                case "PurpleExclusion":
+                {
+                    ref var towerViewData = ref Pooler.TowerView.Get(entity);
+                    towerViewData.Value.SetTowerSelectInvalid();
+                    if(Pooler.BuildValidMark.Has(entity)) 
+                        Pooler.BuildValidMark.Del(entity);
+                    break;
+                }
             }
                 
             if (Input.GetKeyDown(KeyCode.Space))
@@ -71,12 +77,12 @@ namespace Source.Scripts.ECS.Systems
             return tileBase;
         }
         
-        public void SpawnTower(int prototypeEntity, Vector3Int position)
+        public void SpawnTower(int prototypeEntity, Vector3Int tilePosition)
         {
             Signal.RegistryRaise(new Signals.CommandSpawnTower
             {
                 PrototypeEntity = prototypeEntity,
-                Position = position
+                TilePosition = tilePosition
             });
         }
 
@@ -84,9 +90,10 @@ namespace Source.Scripts.ECS.Systems
         {
             if (!Prototypes.TryGet(data.TowerId, out var prototypeEntity)) return;
             if (!Pooler.TryGetBuildingTilemapEntity(World, out var tilemapEntity)) return;
+            ref var tower = ref Pooler.Tower.Get(prototypeEntity);
             
             ref var towerView = ref Pooler.TowerView.Get(prototypeEntity);
-            towerView.Value.SetTowerPreviewView();
+            towerView.Value.SetTowerPreviewView(tower.Radius);
             towerView.Value.Show();
             ref var tilemapData = ref Pooler.BuildingTilemap.Get(tilemapEntity);
             ref var towerPreviewData = ref Pooler.TowerPreview.Add(prototypeEntity);

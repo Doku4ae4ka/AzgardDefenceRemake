@@ -1,17 +1,30 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Source.Scripts.MonoBehaviours.AssetApis
 {
     public class TowerAsset : MonoBehaviour
     {
-        [SerializeField] private SpriteRenderer towerSprite;
-        [SerializeField] private SpriteRenderer stvolSprite;
+        private const int RangeSpritePixelOffset = 14;
         
+        [PropertySpace(SpaceBefore = 15)]
+        [SerializeField] private SpriteRenderer towerSprite;
+        
+        [PropertySpace(SpaceBefore = 15)]
+        [SerializeField] private SpriteRenderer stvolSprite;
+        [SerializeField] private Transform stvolTransform;
+        
+        [PropertySpace(SpaceBefore = 15)]
         [SerializeField] private Transform projectileSpawnPosition;
         
+        [PropertySpace(SpaceBefore = 15)]
         [SerializeField] private SpriteRenderer rangeSprite;
         
+        [PropertySpace(SpaceBefore = 15)]
         [SerializeField] private SpriteRenderer towerSelectSprite;
+
+        [PropertySpace(SpaceBefore = 15)]
+        [SerializeField, ReadOnly] private float currentRadius;
 
         public void SetTowerPreviewView()
         {
@@ -45,6 +58,15 @@ namespace Source.Scripts.MonoBehaviours.AssetApis
         {
             stvolSprite.color = color;
         }
+
+
+        public void SetTarget(Vector3 targetPosition)
+        {
+            var stvolPosition = stvolTransform.position;
+            var direction = targetPosition - stvolPosition;
+            var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            stvolTransform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+        }
         
         
         public void SetTowerSelectValid()
@@ -75,11 +97,15 @@ namespace Source.Scripts.MonoBehaviours.AssetApis
         
         public void SetRadius(float radius)
         {
-            float spriteWidth = rangeSprite.sprite.bounds.size.x;
-            float spriteHeight = rangeSprite.sprite.bounds.size.y;
+            currentRadius = radius;
             
-            float scaleX = (radius * 2) / spriteWidth;
-            float scaleY = (radius * 2) / spriteHeight;
+            var offsetInUnits = RangeSpritePixelOffset / rangeSprite.sprite.pixelsPerUnit;
+            
+            var spriteWidth = rangeSprite.sprite.bounds.size.x - offsetInUnits;
+            var spriteHeight = rangeSprite.sprite.bounds.size.y - offsetInUnits;
+            
+            var scaleX = (radius * 2) / spriteWidth;
+            var scaleY = (radius * 2) / spriteHeight;
             
             rangeSprite.transform.localScale = new Vector3(scaleX, scaleY, 1);
         }
@@ -92,6 +118,12 @@ namespace Source.Scripts.MonoBehaviours.AssetApis
         public void Activate()
         {
             gameObject.SetActive(true);
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, currentRadius);
         }
     }
 }

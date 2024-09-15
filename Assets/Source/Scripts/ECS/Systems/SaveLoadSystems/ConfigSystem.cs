@@ -24,12 +24,15 @@ namespace Source.Scripts.ECS.Systems.SaveLoadSystems
         private void SaveConfigs(EcsWorld world, Pooler pooler, Slot slot)
         {
             slot.Configs.SetField(SavePath.Config.FreeEntityID, $"{Configs.FreeID}");
+            slot.Configs.SetField(SavePath.Config.MapBounds, $"{SpaceHash.MapBounds}");
+            slot.Configs.SetField(SavePath.Config.Routes, Configs.SerializePaths());
         }
 
         private void LoadConfigs(EcsWorld world, Pooler pooler, Slot slot)
         {
             if (slot.Configs.TryGetIntField(SavePath.Config.FreeEntityID, out var id)) Configs.SetFreeId(id);
-            if (slot.Configs.TryGetVector4Field(SavePath.Config.MapBorders, out var vector4Value)) SpaceHash.ResizeSpaceHash(vector4Value);
+            if (slot.Configs.TryGetVector4Field(SavePath.Config.MapBounds, out var vector4Value)) SpaceHash.ResizeSpaceHash(vector4Value);
+            if (slot.Configs.TryGetRoutesField(SavePath.Config.Routes, out var dictionary)) Configs.SetRoutes(dictionary);
         }
     }
 }

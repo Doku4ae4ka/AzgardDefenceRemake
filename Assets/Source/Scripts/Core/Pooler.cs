@@ -27,6 +27,7 @@ namespace Source.Scripts.Core
             Enemy = new PoolerModule<EcsData.Enemy>(ecsWorld);
             Health = new PoolerModule<EcsData.Health>(ecsWorld);
             Movable = new PoolerModule<EcsData.Movable>(ecsWorld);
+            Route = new PoolerModule<EcsData.Route>(ecsWorld);
             
             Config = new PoolerModule<EcsData.Config>(ecsWorld);
             Environment = new PoolerModule<EcsData.Environment>(ecsWorld);
@@ -61,6 +62,7 @@ namespace Source.Scripts.Core
         public readonly PoolerModule<EcsData.Enemy> Enemy;
         public readonly PoolerModule<EcsData.Health> Health;
         public readonly PoolerModule<EcsData.Movable> Movable;
+        public readonly PoolerModule<EcsData.Route> Route;
         
         public readonly PoolerModule<EcsData.Config> Config;
         public readonly PoolerModule<EcsData.Environment> Environment;

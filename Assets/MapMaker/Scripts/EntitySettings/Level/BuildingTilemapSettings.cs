@@ -55,14 +55,14 @@ namespace MapMaker.Scripts.EntitySettings.Level
         {
             var dict = new Dictionary<string, TileBase>();
             
-            var exclude = Resources.Load<TileBase>(Constants.Resources.Tiles.Exclude);
-            var empty = Resources.Load<TileBase>(Constants.Resources.Tiles.Empty);
+            var exclude = Resources.Load<TileBase>(Constants.Resources.TilePaths.Exclude);
+            var empty = Resources.Load<TileBase>(Constants.Resources.TilePaths.Empty);
 
-            if (exclude != null) dict.TryAdd("PurpleExclusion", exclude);
-            else Debug.LogError($"Tile '{Constants.Resources.Tiles.Exclude}' not found in Resources.");
+            if (exclude != null) dict.TryAdd(Constants.Tiles.Exclude, exclude);
+            else Debug.LogError($"Tile '{Constants.Resources.TilePaths.Exclude}' not found in Resources.");
 
-            if (empty != null) dict.TryAdd("CyanEmpty", empty);
-            else Debug.LogError($"Tile '{Constants.Resources.Tiles.Empty}' not found in Resources.");
+            if (empty != null) dict.TryAdd(Constants.Tiles.Empty, empty);
+            else Debug.LogError($"Tile '{Constants.Resources.TilePaths.Empty}' not found in Resources.");
 
             return dict;
         }

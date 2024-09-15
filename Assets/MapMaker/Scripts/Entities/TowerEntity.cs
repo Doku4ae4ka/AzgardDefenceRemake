@@ -1,3 +1,4 @@
+using System;
 using MapMaker.Scripts.EntitySettings;
 using MapMaker.Scripts.EntitySettings.Tower;
 using Sirenix.OdinInspector;
@@ -42,6 +43,8 @@ namespace MapMaker.Scripts
         public void Load(Entity entity, Slot slot, MapEditor mapEditor)
         {
             isPrototype = entity.category == SavePath.EntityCategory.Prototype;
+            prototypeID = 
+                Dropdown()[Array.IndexOf(Dropdown(), entity.id)];
             
             prototype = new ();
             tower = new ();

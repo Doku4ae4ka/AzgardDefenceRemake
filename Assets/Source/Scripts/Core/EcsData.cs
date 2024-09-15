@@ -124,7 +124,7 @@ namespace Source.Scripts.Core
         public struct Tower : IGameEcsComponent
         {
             public int BaseCost;
-            public int Damage;
+            public float Damage;
             public float AttackSpeed;
             public float Radius;
             public EnemyType EnemyType;
@@ -145,7 +145,9 @@ namespace Source.Scripts.Core
         
         public struct Target : IGameEcsComponent
         {
-            public EcsPackedEntity PackedTarget;
+            public bool HasTarget;
+            public int TargetEntity;
+            public float TickRemaining;
         }
         
         #endregion
@@ -166,30 +168,20 @@ namespace Source.Scripts.Core
 
         public struct Movable : IGameEcsComponent
         {
-            public float DistanceToCastle;
+            public int CurrentWaypointIndex; 
+            public float PassedDistance;
             public float Speed;
+            public Vector2 LastDirection;
         }
 
         #endregion
 
         #region PathSystem
-
-        public struct Waypoint : IGameEcsComponent
-        {
-            public Vector2 Position;
-            public int[] NextWaypoints; // Массив ID следующих Waypoints (для пересечений)
-        }
         
         public struct Route : IGameEcsComponent
         {
-            public int StartWaypoint; // ID начальной точки маршрута
-            public int EndWaypoint;   // ID конечной точки (замка)
-        }
-        
-        public struct SpawnPoint : IGameEcsComponent
-        {
-            public Vector2 Position;
-            public int RouteId; // ID маршрута, по которому будет двигаться враг
+            public int RouteId;
+            public List<Vector2> Waypoints;
         }
 
         #endregion

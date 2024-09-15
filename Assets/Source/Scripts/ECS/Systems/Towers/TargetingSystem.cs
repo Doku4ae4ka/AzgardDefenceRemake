@@ -7,7 +7,7 @@ using Source.Scripts.Core;
 using Source.Scripts.Extensions;
 using UnityEngine;
 
-namespace Source.Scripts.ECS.Systems
+namespace Source.Scripts.ECS.Systems.Towers
 {
     public class TargetingSystem : EcsGameSystem
     {
@@ -16,7 +16,7 @@ namespace Source.Scripts.ECS.Systems
         
         protected override void Initialize()
         {
-            _towerFilter = InGameMask.Inc<EcsData.Tower>().End();
+            _towerFilter = InGameMask.Inc<EcsData.Tower>().Inc<EcsData.Target>().End();
         }
 
         protected override void Update()
@@ -26,8 +26,13 @@ namespace Source.Scripts.ECS.Systems
 
         private void OnUpdate(int towerEntity)
         {
-            ref var towerData = ref Pooler.Tower.Get(towerEntity);
+            ref var targetData = ref Pooler.Target.Get(towerEntity);
+            
+            targetData.TickRemaining -= DeltaTime;
+            if (targetData.TickRemaining > 0) return;
 
+            ref var towerData = ref Pooler.Tower.Get(towerEntity);
+        
             var enemyEntities = new List<int>();
             var originPosition = Pooler.GetPosition(towerEntity);
             _result = SpaceHash.GetAllInRadius(originPosition, towerData.Radius);
@@ -39,34 +44,37 @@ namespace Source.Scripts.ECS.Systems
 
                 ref var enemyData = ref Pooler.Enemy.Get(foundedEntity);
                 if (!IsEnemyCompatible(towerData.EnemyType, enemyData.EnemyType)) continue;
-                
+            
                 enemyEntities.Add(foundedEntity);
             }
-
-            ref var targetData = ref Pooler.Target.Get(towerEntity);
-            targetData.PackedTarget = SelectTarget(enemyEntities, towerData.TargetingType);
+            
+            targetData.HasTarget = !(enemyEntities.Count < 1);
+        
+            if(!targetData.HasTarget) return;
+            targetData.TargetEntity = SelectTarget(enemyEntities, towerData.TargetingType);
+            targetData.TickRemaining = Constants.Main.TickTime;
         }
         
-        private EcsPackedEntity SelectTarget(List<int> entities, TargetingType targetingType)
+        private int SelectTarget(List<int> entities, TargetingType targetingType)
         {
             switch (targetingType)
             {
                 case TargetingType.Closest:
-                    return World.PackEntity(entities.OrderBy(GetDistanceToCastle).First());
+                    return entities.OrderBy(GetDistanceToCastle).Last();
                 case TargetingType.Weakest:
-                    return World.PackEntity(entities.OrderBy(GetHealth).First());
+                    return entities.OrderBy(GetHealth).First();
                 case TargetingType.Random:
                     int randomIndex = Random.Range(0, entities.Count);
-                    return World.PackEntity(entities[randomIndex]);
+                    return entities[randomIndex];
 
                 default:
-                    return World.PackEntity(entities[0]);
+                    return entities[0];
             }
         }
         
         private float GetDistanceToCastle(int enemyEntity)
         {
-            return Pooler.Movable.Get(enemyEntity).DistanceToCastle;
+            return Pooler.Movable.Get(enemyEntity).PassedDistance;
         }
 
         // Получение здоровья из компонента HealthData

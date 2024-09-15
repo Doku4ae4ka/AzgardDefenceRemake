@@ -1,6 +1,7 @@
 using Source.Scripts.Core;
+using UnityEngine;
 
-namespace Source.Scripts.ECS.Systems
+namespace Source.Scripts.ECS.Systems.Enemies
 {
     public class EnemySpawnSystem : EcsGameSystem<Signals.CommandSpawnEnemy>
     {
@@ -15,15 +16,27 @@ namespace Source.Scripts.ECS.Systems
 
             foreach (var action in prototypeData.DataBuilder) action.Invoke(newEntity);
             
+            ref var viewData = ref Pooler.EnemyView.Get(newEntity);
+            viewData.Value.Show();
+
+            ref var routeData = ref Pooler.Route.Add(newEntity);
+            if (Configs.Routes.TryGetValue(data.RouteId, out var waypoints))
+            {
+                routeData.RouteId = data.RouteId;
+                routeData.Waypoints = waypoints;
+            }
+                        
             ref var positionData = ref Pooler.Position.Get(newEntity);
-            positionData.Value = data.Position;
+            positionData.Value = routeData.Waypoints[0];
             if (Pooler.Transform.Has(newEntity))
             {
                 ref var transformData = ref Pooler.Transform.Get(newEntity);
-                transformData.Value.position = data.Position;
+                transformData.Value.position = positionData.Value;
+                
+                var direction = (routeData.Waypoints[1] - routeData.Waypoints[0]).normalized;
+                var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                transformData.Value.rotation = Quaternion.Euler(0, 0, angle);
             }
-            ref var viewData = ref Pooler.EnemyView.Get(newEntity);
-            viewData.Value.Show();
         }
     }
 }

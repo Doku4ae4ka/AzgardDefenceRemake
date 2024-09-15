@@ -1,8 +1,8 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using MapMaker.Scripts.EntitySettings.Configs;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Tilemaps;
@@ -51,6 +51,28 @@ namespace Source.Scripts.Extensions
                 if (xParsed && yParsed)
                 {
                     return new Vector2(x, y);
+                }
+            }
+
+            return default;
+        }
+        
+        public static Vector2Int ParseVector2Int(this string vectorString)
+        {
+
+            var match = Regex.Match(vectorString, @"^\((-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)\)$");
+
+            if (match.Success)
+            {
+                string cleanX = match.Groups[1].Value.Trim();
+                string cleanY = match.Groups[3].Value.Trim();
+                
+                bool xParsed = int.TryParse(cleanX, out var x);
+                bool yParsed = int.TryParse(cleanY, out var y);
+
+                if (xParsed && yParsed)
+                {
+                    return new Vector2Int(x, y);
                 }
             }
 
@@ -244,6 +266,70 @@ namespace Source.Scripts.Extensions
             return true;
         }
         
+        public static bool TryParseRoutes(this string listString, out Dictionary<int, List<Vector2>> result)
+        {
+            result = new Dictionary<int, List<Vector2>>();
+            if (string.IsNullOrEmpty(listString))
+            {
+                return false;
+            }
+    
+            var entries = listString.Split(';', StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var entry in entries)
+            {
+                var idAndPoints = entry.Split(':');
+        
+                // Проверяем, что idAndPoints содержит хотя бы 2 элемента
+                if (idAndPoints.Length != 2)
+                {
+                    Debug.LogWarning($"Некорректный формат маршрута: {entry}");
+                    continue;
+                }
+
+                // Пробуем распарсить ID маршрута
+                if (!int.TryParse(idAndPoints[0].Trim(), out var id))
+                {
+                    Debug.LogWarning($"Не удалось распарсить ID маршрута: {idAndPoints[0]}");
+                    continue;
+                }
+        
+                // Пробуем распарсить точки маршрута
+                var points = idAndPoints[1].Split('/');
+                var waypoints = new List<Vector2>();
+
+                foreach (var point in points)
+                {
+                    var vectorStr = point.Trim('(', ')').Split(',');
+                    if (vectorStr.Length == 2)
+                    {
+                        bool xParsed = int.TryParse(vectorStr[0].Trim(), out int x);
+                        bool yParsed = int.TryParse(vectorStr[1].Trim(), out int y);
+                        if (xParsed && yParsed)
+                        {
+                            waypoints.Add(new Vector2(x, y));
+                        }
+                        else
+                        {
+                            Debug.LogWarning($"Не удалось распарсить точку маршрута: {point}");
+                        }
+                    }
+                }
+
+                // Если удалось распарсить хотя бы одну точку, добавляем маршрут
+                if (waypoints.Count > 0)
+                {
+                    result[id] = waypoints;
+                }
+                else
+                {
+                    Debug.LogWarning($"Маршрут с ID {id} не содержит валидных точек");
+                }
+            }
+
+            return result.Count > 0;
+        }
+        
         public static AssetReference ParseToAssetReference(this string assetGuidOrPath)
         {
             return new AssetReference(assetGuidOrPath);
@@ -272,6 +358,27 @@ namespace Source.Scripts.Extensions
             }
             
             return default;
+        }
+        
+        
+        public static void PrintDictionary<TKey, TValue>(this Dictionary<TKey, TValue> dictionary)
+        {
+            foreach (var kvp in dictionary)
+            {
+                Debug.Log($"Key: {kvp.Key}, Value: {kvp.Value}");
+            }
+        }
+        
+        public static void PrintDictionary<TKey>(this Dictionary<TKey, List<Vector2Int>> dictionary)
+        {
+            foreach (var kvp in dictionary)
+            {
+                Debug.Log($"Key: {kvp.Key}, Value: ");
+                foreach (var vector in kvp.Value)
+                {
+                    Debug.Log(vector);
+                }
+            }
         }
     }
 }

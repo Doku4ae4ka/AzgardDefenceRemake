@@ -3,11 +3,14 @@ using Exerussus._1EasyEcs.Scripts.Custom;
 using Exerussus._1Extensions.SignalSystem;
 using Leopotam.EcsLite;
 using Sirenix.OdinInspector;
-using Source.Scripts.ECS.Systems;
+using Source.Scripts.ECS.Systems.Enemies;
 using Source.Scripts.ECS.Systems.SaveLoadSystems;
 using Source.Scripts.ECS.Systems.SaveLoadSystems.BuildingTilemap;
 using Source.Scripts.ECS.Systems.SaveLoadSystems.Health;
+using Source.Scripts.ECS.Systems.SaveLoadSystems.Movable;
+using Source.Scripts.ECS.Systems.SaveLoadSystems.TowerData;
 using Source.Scripts.ECS.Systems.SaveLoadSystems.View;
+using Source.Scripts.ECS.Systems.Towers;
 using Source.Scripts.SaveSystem;
 using UnityEngine;
 
@@ -78,7 +81,11 @@ namespace Source.Scripts.Core
                 .Add(new ConfigSystem())
                 .Add(new ViewSystem())
                 .Add(new BuildingTilemapSystem())
-                .Add(new HealthSystem());
+                .Add(new TowerSystem())
+                .Add(new MovableSystem())
+                .Add(new HealthSystem())
+                .Add(new TowerSpawnSystem())
+                .Add(new EnemySpawnSystem());
         }
 
         protected override void SetFixedUpdateSystems(IEcsSystems fixedUpdateSystems)
@@ -92,8 +99,8 @@ namespace Source.Scripts.Core
             updateSystems
                 
                 .Add(new TowerPreviewSystem())
-                .Add(new TowerSpawnSystem())
-                .Add(new EnemySpawnSystem())
+                .Add(new TowerAttackSystem())
+                .Add(new MovementSystem())
                 .Add(new TargetingSystem())
                 .Add(new LoaderSystem());
         }
@@ -105,12 +112,12 @@ namespace Source.Scripts.Core
 
         protected override void SetTickUpdateSystems(IEcsSystems tickUpdateSystems)
         {
-            
+
         }
 
         protected override void SetSharingData(EcsWorld world, GameShare gameShare)
         {
-            _spaceHash = new SpaceHash<EcsData.TransformData, EcsData.Tower>(world, new Vector4(40, 40, -40, -40), 2);
+            _spaceHash = new SpaceHash<EcsData.TransformData, EcsData.Tower>(world, new Vector4(-40, -40, 45, 45), 2);
             gameShare.AddSharedObject(gameConfigurations);
             gameShare.AddSharedObject(gameStatus);
             gameShare.AddSharedObject(memory);

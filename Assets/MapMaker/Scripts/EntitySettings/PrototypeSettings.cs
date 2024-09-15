@@ -8,5 +8,6 @@ namespace MapMaker.Scripts.EntitySettings
         {
             entity.SetField(SavePath.Prototype.Category, category);
         }
+        
     }
 }

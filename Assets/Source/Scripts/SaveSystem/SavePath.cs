@@ -25,7 +25,8 @@ namespace Source.Scripts.SaveSystem
             public const string ID = "configs";
             public const string FreeEntityID = "config.free_entity_id";
 
-            public const string MapBorders = "config.map_borders";
+            public const string MapBounds = "config.map_borders";
+            public const string Routes = "config.routes";
         }
 
         public static class Camera
@@ -62,10 +63,33 @@ namespace Source.Scripts.SaveSystem
             public const string Rotation = "worldspace.rotation";
         }
         
+        public static class Tower 
+        {
+            public const string BaseCost = "tower.base_cost";
+            public const string Damage = "tower.damage";
+            public const string AttackSpeed = "tower.attack_speed";
+            public const string Radius = "tower.radius";
+            public const string EnemyType = "tower.enemy_type";
+            public const string TargetingType = "tower.targeting_type";
+        }
+        
+        public static class TowerLevel 
+        {
+            public const string Level = "tower.level";
+            public const string Cost = "tower.cost";
+        }
+        
         public static class Health
         {
             public const string Max = "health.max";
             public const string Current = "health.current";
+        }
+        
+        public static class Movable
+        {
+            public const string DistanceToCastle = "movable.distance_to_castle";
+            public const string CurrentWaypointIndex = "movable.current_waypoint_index";
+            public const string Speed = "movable.speed";
         }
         
         public static readonly string[] AllPathFields = new string[] {
@@ -80,7 +104,7 @@ namespace Source.Scripts.SaveSystem
             EntityCategory.Trigger,
             Config.ID,
             Config.FreeEntityID,
-            Config.MapBorders,
+            Config.MapBounds,
             Camera.ID,
             Prototype.Category,
             View.Tower,
@@ -91,6 +115,17 @@ namespace Source.Scripts.SaveSystem
             WorldSpace.Rotation,
             Health.Max,
             Health.Current,
+            Movable.Speed,
+            Movable.CurrentWaypointIndex,
+            Movable.DistanceToCastle,
+            Tower.BaseCost,
+            Tower.Damage,
+            Tower.AttackSpeed,
+            Tower.Radius,
+            Tower.EnemyType,
+            Tower.TargetingType,
+            TowerLevel.Level,
+            TowerLevel.Cost,
             BuildingTilemap.Tilemap
             
         };

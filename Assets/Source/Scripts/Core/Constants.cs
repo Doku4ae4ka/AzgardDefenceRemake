@@ -24,14 +24,31 @@ namespace Source.Scripts.Core
         }
         public static class Resources
         {
-            public static class Tiles
+            public static class TilePaths
             {
                 public const string Empty = "Tiles/CyanEmpty";
                 public const string Exclude = "Tiles/PurpleExclusion";
-                public const string Path = "Tiles/Path";
+                public const string Road = "Tiles/Road";
                 public const string Castle = "Tiles/Castle";
                 public const string Portal = "Tiles/Portal";
             }
+        }
+        
+        public static class Tiles
+        {
+            public const string Empty = "CyanEmpty";
+            public const string Exclude = "PurpleExclusion";
+            public const string Road = "Road";
+            public const string Castle = "Castle";
+            public const string Portal = "Portal";
+            
+            public static readonly string[] All = new string[] 
+                { Empty, Exclude, Road, Castle, Portal };
+        }
+        
+        public static class Main
+        {
+            public const float TickTime = 0.25f;
         }
     }
 }

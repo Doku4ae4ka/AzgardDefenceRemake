@@ -50,6 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towerSprite: {fileID: 5700460798426669674}
   stvolSprite: {fileID: 964105104039760616}
+  stvolTransform: {fileID: 8977522718836831671}
   projectileSpawnPosition: {fileID: 2894459479047799794}
   rangeSprite: {fileID: 1460717825036781645}
   towerSelectSprite: {fileID: 4161569370911972712}
@@ -409,7 +410,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 0c578c1bf115a4182a3f02d1f6bb3b38, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

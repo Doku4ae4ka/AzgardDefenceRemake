@@ -30,13 +30,13 @@ namespace Source.Scripts.Core
         public struct CommandSpawnTower
         {
             public int PrototypeEntity;
-            public Vector3Int Position;
+            public Vector3Int TilePosition;
         }
         
         public struct CommandSpawnEnemy
         {
             public int PrototypeEntity;
-            public Vector3Int Position;
+            public int RouteId;
         }
         
         public struct OnViewAssetLoaded

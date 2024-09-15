@@ -27,7 +27,7 @@ namespace Source.Scripts.ECS.Systems.SaveLoadSystems.Health
                 
                 Action<int> buildAction = (int newEntity) =>
                 {
-                    ref var healthData = ref pooler.Health.AddOrGet(newEntity);
+                    ref var healthData = ref pooler.Health.Add(newEntity);
                     healthData.Max = maxHealth;
                     healthData.Current = currentHealth;
                 };
@@ -58,47 +58,5 @@ namespace Source.Scripts.ECS.Systems.SaveLoadSystems.Health
                 }
             }
         }
-        
-        // protected override void OnSignal(Signals.CommandLoadGame data)
-        // {  
-        //     foreach (var entity in AllEntitiesMask.End())
-        //     {
-        //         ref var entityData = ref Pooler.Entity.Get(entity);
-        //         
-        //         if (GameConfigurations.memory.TryGetField(
-        //                 data.SlotName, 
-        //                 entityData.EntityID, 
-        //                 SavePath.HealthMax, 
-        //                 out var maxValue))
-        //         {
-        //             var maxHealth = int.Parse(maxValue);
-        //             var currentHealth = (float)maxHealth;
-        //
-        //             if (GameConfigurations.memory.TryGetField(
-        //                     data.SlotName,
-        //                     entityData.EntityID,
-        //                     SavePath.HealthCurrent,
-        //                     out var currentValue))
-        //             {
-        //                 currentHealth = float.Parse(currentValue);
-        //             }
-        //
-        //             Action<int> addDataAction = ent =>
-        //             {
-        //                 ref var healthData = ref Pooler.Health.AddOrGet(ent);
-        //                 healthData.Max = maxHealth;
-        //                 healthData.Current = currentHealth;
-        //             };
-        //             
-        //             addDataAction.Invoke(entity);
-        //             
-        //             if (Pooler.Prototype.Has(entity))
-        //             {
-        //                 ref var prototypeData = ref Pooler.Prototype.Get(entity);
-        //                 prototypeData.DataBuilder.Add(addDataAction);
-        //             }
-        //         }
-        //     }
-        // }
     }
 }

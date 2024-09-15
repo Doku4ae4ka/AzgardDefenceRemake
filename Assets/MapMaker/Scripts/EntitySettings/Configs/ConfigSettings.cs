@@ -6,5 +6,6 @@ namespace MapMaker.Scripts.EntitySettings.Configs
     public class ConfigSettings
     {
         public MapBordersSettings mapBorders = new ();
+        public RoutesSettings routesTilemap = new();
     }
 }

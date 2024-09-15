@@ -27,12 +27,12 @@ namespace Source.Scripts.Core
         private SpaceHash2<int> _spaceHash;
         private List<SpaceHashHit<int>> _result = new(15);
         private int _lastFrame;
+        public Vector4 MapBounds;
         
         public void ResizeSpaceHash(Vector4 mapBounds)
         {
-            float width = mapBounds.z - mapBounds.x;
-            float height = mapBounds.w - mapBounds.y;
-            _spaceHash = new(width * height * 0.1f, mapBounds.x, mapBounds.y, mapBounds.z, mapBounds.w);
+            MapBounds = mapBounds;
+            _spaceHash = new(4f, mapBounds.x, mapBounds.y, mapBounds.z, mapBounds.w);
             _lastFrame = 0;
         }
         

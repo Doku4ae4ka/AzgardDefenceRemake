@@ -14,7 +14,7 @@
 
          public void TryLoad(Entity entity)
          {
-             if (entity.TryGetField(SavePath.Config.MapBorders, out var field))
+             if (entity.TryGetField(SavePath.Config.MapBounds, out var field))
              {
                  enabled = true;
                  mapBorders = field.ParseVector4();
@@ -25,7 +25,7 @@
          public void TrySave(Entity entity)
          {
              if (!enabled) return;
-             entity.SetField(SavePath.Config.MapBorders, $"{mapBorders}");
+             entity.SetField(SavePath.Config.MapBounds, $"{mapBorders}");
          }
      }
 }

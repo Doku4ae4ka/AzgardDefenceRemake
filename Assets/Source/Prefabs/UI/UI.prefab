@@ -466,6 +466,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8607948983693794215}
   - component: {fileID: 4618431543807741922}
+  - component: {fileID: 3913819947507118637}
   m_Layer: 5
   m_Name: Item Information1
   m_TagString: Untagged
@@ -504,6 +505,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1028218492209593816}
   m_CullTransparentMesh: 1
+--- !u!114 &3913819947507118637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1028218492209593816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c80282000f94c3a82ba6d10aeefb04d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  signalHandler: {fileID: 11400000, guid: 9bbbcd99f433b304c9e0119d88020b90, type: 2}
+  towerId: tower_archer
 --- !u!1 &1129046587933198422
 GameObject:
   m_ObjectHideFlags: 0
@@ -1221,7 +1236,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   signalHandler: {fileID: 11400000, guid: 9bbbcd99f433b304c9e0119d88020b90, type: 2}
-  towerId: 
+  towerId: tower_gun
 --- !u!1 &2632536074106625551
 GameObject:
   m_ObjectHideFlags: 0
@@ -1633,7 +1648,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   signalHandler: {fileID: 11400000, guid: 9bbbcd99f433b304c9e0119d88020b90, type: 2}
-  towerId: 
+  towerId: tower_wind
 --- !u!1 &3796112066228346079
 GameObject:
   m_ObjectHideFlags: 0
@@ -4025,7 +4040,6 @@ GameObject:
   - component: {fileID: 6285410290347454247}
   - component: {fileID: 5452528107356456831}
   - component: {fileID: 4860831389861313723}
-  - component: {fileID: 2328888542664085440}
   m_Layer: 5
   m_Name: TowerArcherBtn
   m_TagString: TowerButton
@@ -4135,7 +4149,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2328888542664085440}
+      - m_Target: {fileID: 3913819947507118637}
         m_TargetAssemblyTypeName: Source.Scripts.UI.ShopButtonUI, Assembly-CSharp
         m_MethodName: SpawnTowerPreview
         m_Mode: 1
@@ -4147,20 +4161,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &2328888542664085440
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7825611471945333289}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c80282000f94c3a82ba6d10aeefb04d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  signalHandler: {fileID: 11400000, guid: 9bbbcd99f433b304c9e0119d88020b90, type: 2}
-  towerId: tower_archer
 --- !u!1 &7987661501210214807
 GameObject:
   m_ObjectHideFlags: 0
@@ -4264,7 +4264,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7994933009822366416}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

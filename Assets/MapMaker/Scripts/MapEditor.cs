@@ -1,5 +1,4 @@
-﻿using Exerussus._1Extensions;
-using Sirenix.OdinInspector;
+﻿using Sirenix.OdinInspector;
 using Source.Scripts.Core;
 using Source.Scripts.SaveSystem;
 using UnityEngine;

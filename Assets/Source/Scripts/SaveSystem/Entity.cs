@@ -87,13 +87,28 @@ namespace Source.Scripts.SaveSystem
         {
             if (_fieldsDict.TryGetValue(key, out var resultString))
             {
-                if (int.TryParse(resultString.value, out int resultFloat))
+                if (int.TryParse(resultString.value, out int resultInt))
                 {
-                    value = resultFloat;
+                    value = resultInt;
                     return true;
                 }
             }
 
+            value = default;
+            return false;
+        }
+        
+        public bool TryGetEnumField<T>(string key, out T value) where T : struct, Enum
+        {
+            if (_fieldsDict.TryGetValue(key, out var resultString))
+            {
+                if (Enum.TryParse(resultString.value, true, out T parsedValue))
+                {
+                    value = parsedValue;
+                    return true;
+                }
+            }
+            
             value = default;
             return false;
         }
@@ -155,6 +170,21 @@ namespace Source.Scripts.SaveSystem
             }
 
             value = default;
+            return false;
+        }
+        
+        public bool TryGetRoutesField(string key, out Dictionary<int, List<Vector2>> result)
+        {
+            if (_fieldsDict.TryGetValue(key, out var resultString))
+            {
+                if (resultString.value.TryParseRoutes(out var value))
+                {
+                    result = value;
+                    return true;
+                }
+            }
+
+            result = default;
             return false;
         }
         
