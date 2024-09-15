@@ -5,14 +5,14 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "5e1624f395bb2ef0be021e248f14f6221b616553"
+      "hash": "ab900a61f5c75797392a725e9d7db18bc70e6dc4"
     },
     "com.exerussus.1extensions": {
       "version": "https://github.com/exerussus/1Extensions.git",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "101846de253f5ae0716f8b619dffdd4fa067f77d"
+      "hash": "bdf4d1902aea8133d1aade0098308dcfd3348727"
     },
     "com.leopotam.ecslite": {
       "version": "https://github.com/Leopotam/ecslite.git",
