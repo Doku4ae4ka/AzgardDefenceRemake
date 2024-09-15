@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: fcf92ad98ed9ebb409b63f5a8ac843f6
+  m_SerializeEntries:
+  - m_GUID: 14635cd7965e54e18b4d6aaeee578484
+    m_Address: tower_archer
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f49e5b2a692124ebcbee92ffd3e68028
+    m_Address: tower_gun
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 29ebc2dc711af46c7bd44ef8dcfb05de
+    m_Address: tower_wind
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2b8c03e2c5479439f83dbd19e3e36bbe
+    m_Address: Assets/Source/Prefabs/Levels/Level_TheSearchOfDestiny.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1ab33fd29798449b38b68bedf6db99cf
+    m_Address: Assets/Source/Prefabs/Enemies/SandGolem.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 150d9164ea403e14b86144882844b4f1, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 447becf6e2f72ca46bd03b7235e4a652, type: 2}
+    - {fileID: 11400000, guid: 9d81873d46d4c494794d3919e2a3df00, type: 2}

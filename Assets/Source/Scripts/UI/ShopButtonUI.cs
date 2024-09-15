@@ -1,19 +1,21 @@
 using Exerussus._1Extensions.SignalSystem;
-using Source.Scripts.ECS.Core;
-using Source.Scripts.ProjectLibraries;
+using Source.Scripts.Core;
 using UnityEngine;
 
 namespace Source.Scripts.UI
 {
     public class ShopButtonUI : MonoSignalListener
     {
-        [SerializeField] private TowerKeys towerID;
+        [CustomAttributes.ValueDropdown("Dropdown")] 
+        [SerializeField] private string towerId;
+        
+        private static string[] Dropdown() => Constants.PrototypesId.Towers.All;
         
         public void SpawnTowerPreview()
         {
-            Signal.RegistryRaise(new CommandSpawnTower
+            Signal.RegistryRaise(new Signals.CommandSpawnTowerPreview
             {
-                TowerID = towerID 
+                TowerId = towerId 
             });
         }
     }
