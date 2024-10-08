@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using Leopotam.EcsLite;
 using Source.Scripts.Core;
+using Ecs.Modules.PauldokDev.SlotSaver.Core;
 using Source.Scripts.Extensions;
-using Source.Scripts.SaveSystem;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 

@@ -1,7 +1,7 @@
 ﻿using Exerussus._1Extensions;
 using Leopotam.EcsLite;
 using Source.Scripts.Core;
-using Source.Scripts.SaveSystem;
+using Ecs.Modules.PauldokDev.SlotSaver.Core;
 using Object = UnityEngine.Object;
 
 namespace Source.Scripts.ECS.Systems.SaveLoadSystems.View

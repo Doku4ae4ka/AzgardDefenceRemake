@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using Sirenix.OdinInspector;
 using Source.Scripts.Core;
+using Ecs.Modules.PauldokDev.SlotSaver.Core;
 using Source.Scripts.Extensions;
-using Source.Scripts.SaveSystem;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -16,9 +16,9 @@ namespace MapMaker.Scripts.EntitySettings.Level
         public bool enabled;
         public Tilemap tilemap;
         
-        public void TryLoad(Entity entity)
+        public void TryLoad(SlotEntity slotEntity)
         {
-            if (entity.TryGetTileEntriesField(SavePath.BuildingTilemap.Tilemap, CacheAllTiles(), out var loadedList))
+            if (slotEntity.TryGetTileEntriesField(SavePath.BuildingTilemap.Tilemap, CacheAllTiles(), out var loadedList))
             {
                 enabled = true;
                 tilemap = InstantiateTilemapGameObject();
@@ -28,10 +28,10 @@ namespace MapMaker.Scripts.EntitySettings.Level
             else enabled = false;
         }
         
-        public void TrySave(Entity entity)
+        public void TrySave(SlotEntity slotEntity)
         {
             if (!enabled) return;
-            entity.SetField(SavePath.BuildingTilemap.Tilemap, SerializeTilemap(tilemap));
+            slotEntity.SetField(SavePath.BuildingTilemap.Tilemap, SerializeTilemap(tilemap));
         }
         
         private static Tilemap InstantiateTilemapGameObject(string gridName = "TowerGrid", string tilemapName = "BuildingTilemap")

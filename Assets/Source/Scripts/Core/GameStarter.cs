@@ -1,8 +1,11 @@
-﻿using Exerussus._1EasyEcs.Scripts.Core;
+﻿using System;
+using Exerussus._1EasyEcs.Scripts.Core;
 using Exerussus._1EasyEcs.Scripts.Custom;
 using Exerussus._1Extensions.SignalSystem;
 using Leopotam.EcsLite;
 using Sirenix.OdinInspector;
+using Source.Scripts.ECS.Groups.Debug;
+using Ecs.Modules.PauldokDev.SlotSaver.Core;
 using Source.Scripts.ECS.Systems.Enemies;
 using Source.Scripts.ECS.Systems.SaveLoadSystems;
 using Source.Scripts.ECS.Systems.SaveLoadSystems.BuildingTilemap;
@@ -11,13 +14,12 @@ using Source.Scripts.ECS.Systems.SaveLoadSystems.Movable;
 using Source.Scripts.ECS.Systems.SaveLoadSystems.TowerData;
 using Source.Scripts.ECS.Systems.SaveLoadSystems.View;
 using Source.Scripts.ECS.Systems.Towers;
-using Source.Scripts.SaveSystem;
 using UnityEngine;
 
 namespace Source.Scripts.Core
 {
     [AddComponentMenu("GameStarter")]
-    public class GameStarter : EcsStarter<Pooler>
+    public class GameStarter : EcsStarter
     {
         [SerializeField] private bool autoLoad;
         [SerializeField] private GameStatus gameStatus;
@@ -73,46 +75,33 @@ namespace Source.Scripts.Core
             if (gameStatus.currentState == GameStatus.State.Game) gameStatus.currentState = GameStatus.State.Pause;
             else if (gameStatus.currentState == GameStatus.State.Pause) gameStatus.currentState = GameStatus.State.Game;
         }
+        
+            // initSystems
+            //         
+            //     .Add(new ConfigSystem())
+            //     .Add(new ViewSystem())
+            //     .Add(new BuildingTilemapSystem())
+            //     .Add(new TowerSystem())
+            //     .Add(new MovableSystem())
+            //     .Add(new HealthSystem())
+            //     .Add(new TowerSpawnSystem())
+            //     .Add(new EnemySpawnSystem());
+        
+        // updateSystems
+        //     
+        //     .Add(new TowerPreviewSystem())
+        //     .Add(new TowerAttackSystem())
+        //     .Add(new MovementSystem())
+        //     .Add(new TargetingSystem())
+        //     .Add(new LoaderSystem());
 
-        protected override void SetInitSystems(IEcsSystems initSystems)
+        protected override EcsGroup[] GetGroups()
         {
-            initSystems
-                    
-                .Add(new ConfigSystem())
-                .Add(new ViewSystem())
-                .Add(new BuildingTilemapSystem())
-                .Add(new TowerSystem())
-                .Add(new MovableSystem())
-                .Add(new HealthSystem())
-                .Add(new TowerSpawnSystem())
-                .Add(new EnemySpawnSystem());
-        }
-
-        protected override void SetFixedUpdateSystems(IEcsSystems fixedUpdateSystems)
-        {
-            fixedUpdateSystems
-                .Add(new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem());
-        }
-
-        protected override void SetUpdateSystems(IEcsSystems updateSystems)
-        {
-            updateSystems
-                
-                .Add(new TowerPreviewSystem())
-                .Add(new TowerAttackSystem())
-                .Add(new MovementSystem())
-                .Add(new TargetingSystem())
-                .Add(new LoaderSystem());
-        }
-
-        protected override void SetLateUpdateSystems(IEcsSystems lateUpdateSystems)
-        {
-            
-        }
-
-        protected override void SetTickUpdateSystems(IEcsSystems tickUpdateSystems)
-        {
-
+            return new EcsGroup[]
+            {
+                //asdasd,
+                new DebugGroup()
+            };
         }
 
         protected override void SetSharingData(EcsWorld world, GameShare gameShare)
@@ -127,15 +116,8 @@ namespace Source.Scripts.Core
             gameShare.AddSharedObject(this);
         }
 
-        protected override Signal GetSignal()
-        {
-            return signalHandler.Signal;
-        }
-
-        protected override Pooler GetPooler(EcsWorld world)
-        {
-            Pooler = new Pooler(world);
-            return Pooler;
-        }
+        protected override Func<float> FixedUpdateDelta { get; }
+        protected override Func<float> UpdateDelta { get; }
+        protected override Signal Signal { get; }
     }
 }

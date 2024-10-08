@@ -3,8 +3,7 @@ using MapMaker.Scripts.EntitySettings;
 using MapMaker.Scripts.EntitySettings.Tower;
 using Sirenix.OdinInspector;
 using Source.Scripts.Core;
-using Source.Scripts.ECS.Core.SaveManager;
-using Source.Scripts.SaveSystem;
+using Ecs.Modules.PauldokDev.SlotSaver.Core;
 using UnityEngine;
 
 namespace MapMaker.Scripts
@@ -24,8 +23,8 @@ namespace MapMaker.Scripts
         public void Save(string entityID, Slot slot)
         {
             var entity = isPrototype ?
-                        new Entity(prototypeID, SavePath.EntityCategory.Tower) :
-                        new Entity(entityID, SavePath.EntityCategory.Tower);
+                        new SlotEntity(prototypeID, SavePath.EntityCategory.Tower) :
+                        new SlotEntity(entityID, SavePath.EntityCategory.Tower);
             
             if (isPrototype)
             {
@@ -40,18 +39,18 @@ namespace MapMaker.Scripts
             this.SerializeObject(entity);
         }
         
-        public void Load(Entity entity, Slot slot, MapEditor mapEditor)
+        public void Load(SlotEntity slotEntity, Slot slot, MapEditor mapEditor)
         {
-            isPrototype = entity.category == SavePath.EntityCategory.Prototype;
+            isPrototype = slotEntity.category == SavePath.EntityCategory.Prototype;
             prototypeID = 
-                Dropdown()[Array.IndexOf(Dropdown(), entity.id)];
+                Dropdown()[Array.IndexOf(Dropdown(), slotEntity.id)];
             
             prototype = new ();
             tower = new ();
             view = new();
             
-            view.TryLoadView(entity, transform);
-            this.DeserializeObject(entity);
+            view.TryLoadView(slotEntity, transform);
+            this.DeserializeObject(slotEntity);
         }
         
         [Button]

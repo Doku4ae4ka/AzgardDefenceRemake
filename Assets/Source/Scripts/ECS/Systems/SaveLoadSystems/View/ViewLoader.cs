@@ -2,9 +2,9 @@
 using Exerussus._1Extensions.SignalSystem;
 using Leopotam.EcsLite;
 using Source.Scripts.Core;
+using Ecs.Modules.PauldokDev.SlotSaver.Core;
 using Source.Scripts.Extensions;
 using Source.Scripts.MonoBehaviours.Views;
-using Source.Scripts.SaveSystem;
 using UnityEngine;
 
 namespace Source.Scripts.ECS.Systems.SaveLoadSystems.View

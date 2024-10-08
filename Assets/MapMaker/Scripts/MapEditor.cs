@@ -1,6 +1,6 @@
 ﻿using Sirenix.OdinInspector;
 using Source.Scripts.Core;
-using Source.Scripts.SaveSystem;
+using Ecs.Modules.PauldokDev.SlotSaver.Core;
 using UnityEngine;
 
 namespace MapMaker.Scripts
@@ -262,7 +262,7 @@ namespace MapMaker.Scripts
 
         private void LoadConfigs(Slot slot)
         {
-            if (slot.Configs == null) slot.CreateConfig(new Entity(SavePath.Config.ID, SavePath.EntityCategory.Config));
+            if (slot.Configs == null) slot.CreateConfig(new SlotEntity(SavePath.Config.ID, SavePath.EntityCategory.Config));
             var entityObject = new GameObject { name = slot.Configs.id, transform = { parent = _config}}.AddComponent<ConfigEntity>();
             entityObject.Load(slot.Configs, slot, this);
         }

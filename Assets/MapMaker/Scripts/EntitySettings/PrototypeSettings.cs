@@ -1,12 +1,12 @@
-﻿using Source.Scripts.SaveSystem;
+﻿using Ecs.Modules.PauldokDev.SlotSaver.Core;
 
 namespace MapMaker.Scripts.EntitySettings
 {
     public class PrototypeSettings
     {
-        public void Set(Entity entity, Slot slot, string category)
+        public void Set(SlotEntity slotEntity, Slot slot, string category)
         {
-            entity.SetField(SavePath.Prototype.Category, category);
+            slotEntity.SetField(SavePath.Prototype.Category, category);
         }
         
     }

@@ -1,7 +1,7 @@
 using System;
 using Sirenix.OdinInspector;
+using Ecs.Modules.PauldokDev.SlotSaver.Core;
 using Source.Scripts.Extensions;
-using Source.Scripts.SaveSystem;
 
 namespace MapMaker.Scripts.EntitySettings.Enemy
 {
@@ -11,9 +11,9 @@ namespace MapMaker.Scripts.EntitySettings.Enemy
         public bool enabled;
         public float speed;
         
-        public void TryLoad(Entity entity)
+        public void TryLoad(SlotEntity slotEntity)
         {
-            if (entity.TryGetField(SavePath.Movable.Speed, out var field))
+            if (slotEntity.TryGetField(SavePath.Movable.Speed, out var field))
             {
                 enabled = true;
                 speed = field.ParseFloat();
@@ -21,10 +21,10 @@ namespace MapMaker.Scripts.EntitySettings.Enemy
             else enabled = false;
         }
         
-        public void TrySave(Entity entity)
+        public void TrySave(SlotEntity slotEntity)
         {
             if (!enabled) return;
-            entity.SetField(SavePath.Movable.Speed, $"{speed}");
+            slotEntity.SetField(SavePath.Movable.Speed, $"{speed}");
         }
     }
 }

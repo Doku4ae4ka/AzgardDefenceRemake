@@ -1,7 +1,7 @@
 using System.Text;
 using Leopotam.EcsLite;
 using Source.Scripts.Core;
-using Source.Scripts.SaveSystem;
+using Ecs.Modules.PauldokDev.SlotSaver.Core;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 

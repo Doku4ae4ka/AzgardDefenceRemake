@@ -1,6 +1,6 @@
 ﻿using Leopotam.EcsLite;
 using Source.Scripts.Core;
-using Source.Scripts.SaveSystem;
+using Ecs.Modules.PauldokDev.SlotSaver.Core;
 
 namespace Source.Scripts.ECS.Systems.SaveLoadSystems.View
 {

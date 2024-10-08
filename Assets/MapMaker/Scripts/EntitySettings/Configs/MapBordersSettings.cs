@@ -1,7 +1,7 @@
  using System;
  using Sirenix.OdinInspector;
+ using Ecs.Modules.PauldokDev.SlotSaver.Core;
  using Source.Scripts.Extensions;
- using Source.Scripts.SaveSystem;
  using UnityEngine;
 
  namespace MapMaker.Scripts.EntitySettings.Configs
@@ -12,9 +12,9 @@
          public bool enabled;
          public Vector4 mapBorders;
 
-         public void TryLoad(Entity entity)
+         public void TryLoad(SlotEntity slotEntity)
          {
-             if (entity.TryGetField(SavePath.Config.MapBounds, out var field))
+             if (slotEntity.TryGetField(SavePath.Config.MapBounds, out var field))
              {
                  enabled = true;
                  mapBorders = field.ParseVector4();
@@ -22,10 +22,10 @@
              else enabled = false;
          }
          
-         public void TrySave(Entity entity)
+         public void TrySave(SlotEntity slotEntity)
          {
              if (!enabled) return;
-             entity.SetField(SavePath.Config.MapBounds, $"{mapBorders}");
+             slotEntity.SetField(SavePath.Config.MapBounds, $"{mapBorders}");
          }
      }
 }

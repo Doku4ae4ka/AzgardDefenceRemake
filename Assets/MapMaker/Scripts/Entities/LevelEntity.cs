@@ -1,6 +1,5 @@
 using MapMaker.Scripts.EntitySettings.Level;
-using Source.Scripts.ECS.Core.SaveManager;
-using Source.Scripts.SaveSystem;
+using Ecs.Modules.PauldokDev.SlotSaver.Core;
 using UnityEngine;
 
 namespace MapMaker.Scripts
@@ -12,17 +11,17 @@ namespace MapMaker.Scripts
         
         public void Save(string entityID, Slot slot)
         {
-            var entity = new Entity(entityID, SavePath.EntityCategory.Level);
+            var entity = new SlotEntity(entityID, SavePath.EntityCategory.Level);
             
             slot.AddDynamic(entity);
             this.SerializeObject(entity);
         }
 
-        public void Load(Entity entity, Slot slot, MapEditor mapEditor)
+        public void Load(SlotEntity slotEntity, Slot slot, MapEditor mapEditor)
         {
             level = new ();
             
-            this.DeserializeObject(entity);
+            this.DeserializeObject(slotEntity);
         }
         
     }

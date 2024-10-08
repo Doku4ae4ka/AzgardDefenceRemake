@@ -1,6 +1,6 @@
 using Exerussus._1EasyEcs.Scripts.Core;
 using Leopotam.EcsLite;
-using Source.Scripts.SaveSystem;
+using Ecs.Modules.PauldokDev.SlotSaver.Core;
 
 namespace Source.Scripts.Core
 {

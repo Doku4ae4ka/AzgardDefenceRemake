@@ -1,7 +1,7 @@
 ﻿using System;
 using Sirenix.OdinInspector;
+using Ecs.Modules.PauldokDev.SlotSaver.Core;
 using Source.Scripts.Extensions;
-using Source.Scripts.SaveSystem;
 
 namespace MapMaker.Scripts.EntitySettings.Enemy
 {
@@ -12,15 +12,15 @@ namespace MapMaker.Scripts.EntitySettings.Enemy
         public int max;
         public float current;
         
-        public void TryLoad(Entity entity)
+        public void TryLoad(SlotEntity slotEntity)
         {
-            if (entity.TryGetField(SavePath.Health.Max, out var maxField))
+            if (slotEntity.TryGetField(SavePath.Health.Max, out var maxField))
             {
                 enabled = true;
                 max = maxField.ParseInt();
                 current = max;
 
-                if (entity.TryGetField(SavePath.Health.Current, out var currentField))
+                if (slotEntity.TryGetField(SavePath.Health.Current, out var currentField))
                 {
                     current = currentField.ParseFloat();
                 }
@@ -28,12 +28,12 @@ namespace MapMaker.Scripts.EntitySettings.Enemy
             else enabled = false;
         }
         
-        public void TrySave(Entity entity)
+        public void TrySave(SlotEntity slotEntity)
         {
             if (!enabled) return;
             
-            entity.SetField(SavePath.Health.Max, $"{max}");
-            if (current < max) entity.SetField(SavePath.Health.Current, $"{current}");
+            slotEntity.SetField(SavePath.Health.Max, $"{max}");
+            if (current < max) slotEntity.SetField(SavePath.Health.Current, $"{current}");
         }
     }
 }
