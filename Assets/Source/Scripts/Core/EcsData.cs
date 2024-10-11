@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using Exerussus._1EasyEcs.Scripts.Core;
-using Leopotam.EcsLite;
+using Source.Scripts.ECS.Groups.Enemies.MonoBehaviours;
+using Source.Scripts.ECS.Groups.SlotSaver.Core;
+using Source.Scripts.ECS.Groups.Towers.MonoBehaviours;
 using Source.Scripts.MonoBehaviours.Views;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -69,7 +71,8 @@ namespace Source.Scripts.Core
         public struct Entity : IGameEcsComponent
         {
             public string EntityID;
-            public string Category;
+            public SlotCategory Category;
+            public string Type;
         }
         
         public struct Prototype : IGameEcsComponent

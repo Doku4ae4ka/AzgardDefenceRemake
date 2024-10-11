@@ -6,6 +6,7 @@ namespace Source.Scripts.Core
         {
             public static class Towers
             {
+                public const string Type = "tower";
                 public const string TowerArcher = "tower_archer";
                 public const string TowerGun = "tower_gun";      
                 public const string TowerWind = "tower_wind";      
@@ -16,6 +17,7 @@ namespace Source.Scripts.Core
             
             public static class Enemies
             {
+                public const string Type = "enemy";
                 public const string SandGolem = "enemy_sand_golem";
                 
                 public static readonly string[] All = new string[] 

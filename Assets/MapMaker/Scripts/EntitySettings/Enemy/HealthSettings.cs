@@ -1,6 +1,6 @@
 ﻿using System;
 using Sirenix.OdinInspector;
-using Ecs.Modules.PauldokDev.SlotSaver.Core;
+using Source.Scripts.ECS.Groups.SlotSaver.Core;
 using Source.Scripts.Extensions;
 
 namespace MapMaker.Scripts.EntitySettings.Enemy

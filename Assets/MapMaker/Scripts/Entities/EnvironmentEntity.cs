@@ -1,6 +1,6 @@
 using MapMaker.Scripts.EntitySettings.Environment;
 using Sirenix.OdinInspector;
-using Ecs.Modules.PauldokDev.SlotSaver.Core;
+using Source.Scripts.ECS.Groups.SlotSaver.Core;
 using UnityEngine;
 
 namespace MapMaker.Scripts
@@ -14,7 +14,7 @@ namespace MapMaker.Scripts
         
         public void Save(string entityID, Slot slot)
         {
-            var entity = new SlotEntity(entityID, SavePath.EntityCategory.Environment);
+            var entity = new SlotEntity(entityID, SlotCategory.Static, SavePath.EntityCategory.Environment);
             
             slot.AddStatic(entity);
             
@@ -23,7 +23,7 @@ namespace MapMaker.Scripts
             this.SerializeObject(entity);
         }
 
-        public void Load(SlotEntity slotEntity, Slot slot, MapEditor mapEditor)
+        public void Load(SlotEntity slotEntity, Slot slot, MapEditor mapEditor, bool isPrototype)
         {
             environment = new ();
             view = new();

@@ -1,7 +1,7 @@
 using System;
 using Sirenix.OdinInspector;
 using Source.Scripts.Core;
-using Ecs.Modules.PauldokDev.SlotSaver.Core;
+using Source.Scripts.ECS.Groups.SlotSaver.Core;
 using Source.Scripts.Extensions;
 
 namespace MapMaker.Scripts.EntitySettings.Tower

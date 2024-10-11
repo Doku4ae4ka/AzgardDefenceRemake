@@ -5,15 +5,7 @@ using Exerussus._1Extensions.SignalSystem;
 using Leopotam.EcsLite;
 using Sirenix.OdinInspector;
 using Source.Scripts.ECS.Groups.Debug;
-using Ecs.Modules.PauldokDev.SlotSaver.Core;
-using Source.Scripts.ECS.Systems.Enemies;
-using Source.Scripts.ECS.Systems.SaveLoadSystems;
-using Source.Scripts.ECS.Systems.SaveLoadSystems.BuildingTilemap;
-using Source.Scripts.ECS.Systems.SaveLoadSystems.Health;
-using Source.Scripts.ECS.Systems.SaveLoadSystems.Movable;
-using Source.Scripts.ECS.Systems.SaveLoadSystems.TowerData;
-using Source.Scripts.ECS.Systems.SaveLoadSystems.View;
-using Source.Scripts.ECS.Systems.Towers;
+using Source.Scripts.ECS.Groups.SlotSaver.Core;
 using UnityEngine;
 
 namespace Source.Scripts.Core
@@ -22,6 +14,7 @@ namespace Source.Scripts.Core
     public class GameStarter : EcsStarter
     {
         [SerializeField] private bool autoLoad;
+        [SerializeField] private AzgardGameContext azgardGameContext;
         [SerializeField] private GameStatus gameStatus;
         [SerializeField, HideInInspector] private SignalHandler signalHandler;
         [SerializeField, HideInInspector] private GameConfigurations gameConfigurations;
@@ -39,35 +32,41 @@ namespace Source.Scripts.Core
         public Pooler Pooler { get; private set; }
 
 
+        protected override GameContext GetGameContext(GameShare gameShare)
+        {
+            gameShare.AddSharedObject(azgardGameContext);
+            return azgardGameContext;
+        }
+
         private void Start()
         {
             Initialize();
-            if (autoLoad) Load();
+            // if (autoLoad) Load();
         }
-        
-        [Button]
-        public void Save()
-        {
-            gameStatus.currentState = GameStatus.State.Loading;
-            
-            var slot = gameConfigurations.slot;
-            slot.Initialize();
-            memory.save.Invoke(_world, _pooler, slot);
-            gameStatus.currentState = GameStatus.State.Game;
-        }
-
-        [Button]
-        public void Load()
-        {
-            gameStatus.currentState = GameStatus.State.Loading;
-            prototypes.Clear();
-            
-            var slot = gameConfigurations.slot;
-            slot.Initialize();
-            memory.load.Invoke(_world, _pooler, slot, prototypes);
-            
-            gameStatus.currentState = GameStatus.State.Game;
-        }
+        //
+        // [Button]
+        // public void Save()
+        // {
+        //     gameStatus.currentState = GameStatus.State.Loading;
+        //     
+        //     var slot = gameConfigurations.slot;
+        //     slot.Initialize();
+        //     memory.save.Invoke(_world, _pooler, slot);
+        //     gameStatus.currentState = GameStatus.State.Game;
+        // }
+        //
+        // [Button]
+        // public void Load()
+        // {
+        //     gameStatus.currentState = GameStatus.State.Loading;
+        //     prototypes.Clear();
+        //     
+        //     var slot = gameConfigurations.slot;
+        //     slot.Initialize();
+        //     memory.load.Invoke(_world, _pooler, slot, prototypes);
+        //     
+        //     gameStatus.currentState = GameStatus.State.Game;
+        // }
 
         [Button]
         public void Pause()

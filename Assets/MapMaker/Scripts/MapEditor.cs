@@ -1,6 +1,6 @@
 ﻿using Sirenix.OdinInspector;
 using Source.Scripts.Core;
-using Ecs.Modules.PauldokDev.SlotSaver.Core;
+using Source.Scripts.ECS.Groups.SlotSaver.Core;
 using UnityEngine;
 
 namespace MapMaker.Scripts
@@ -64,33 +64,6 @@ namespace MapMaker.Scripts
             //cameraEntity.Save(SavePath.Camera.ID, memorySlot);
             config.Save(SavePath.Config.ID, memorySlot);
 
-            // var prototypes = new List<CharacterEntity>();
-            //
-            // for (var index = entities.Count - 1; index >= 0; index--)
-            // {
-            //     var gameEntity = entities[index];
-            //     if (gameEntity.category == EntityCategory.Prototype)
-            //     {
-            //         prototypes.Add(gameEntity);
-            //         entities.Remove(gameEntity);
-            //     }
-            // }
-            //
-            // var newEntityID = 0;
-            //
-            // foreach (var gameEntity in prototypes)
-            // {
-            //     newEntityID++;
-            //     gameEntity.entityID = newEntityID;
-            //     gameEntity.Save(memorySlot, location);
-            // }
-            //
-            // foreach (var gameEntity in entities)
-            // {
-            //     newEntityID++;
-            //     gameEntity.entityID = newEntityID;
-            //     gameEntity.Save(memorySlot, location);
-            // }
         }
 
         private void SaveEntities(IEntityObject[] entities, Slot slot, string prefix)
@@ -220,20 +193,19 @@ namespace MapMaker.Scripts
         {
             foreach (var entity in slot.Dynamics)
             {
-                if (entity.category == SavePath.EntityCategory.Enemy)
+                if (entity.type == SavePath.EntityCategory.Enemy)
                 {
                     var entityObject = new GameObject { name = entity.id, transform = { parent = _enemies}}.AddComponent<EnemyEntity>();
-                    entityObject.Load(entity, slot, this);
+                    entityObject.Load(entity, slot, this, false);
                 }
             }
             
             foreach (var entity in slot.Prototypes)
             {
-                if (entity.category == SavePath.EntityCategory.Prototype && 
-                    entity.GetField(SavePath.Prototype.Category) == SavePath.EntityCategory.Enemy)
+                if (entity.type == SavePath.EntityCategory.Enemy)
                 {
                     var entityObject = new GameObject { name = entity.id, transform = { parent = _prototypes}}.AddComponent<EnemyEntity>();
-                    entityObject.Load(entity, slot, this);
+                    entityObject.Load(entity, slot, this, true);
                 }
             }
         }
@@ -242,39 +214,38 @@ namespace MapMaker.Scripts
         {
             foreach (var entity in slot.Dynamics)
             {
-                if (entity.category == SavePath.EntityCategory.Tower)
+                if (entity.type == SavePath.EntityCategory.Tower)
                 {
                     var entityObject = new GameObject { name = entity.id, transform = { parent = _towers}}.AddComponent<TowerEntity>();
-                    entityObject.Load(entity, slot, this);
+                    entityObject.Load(entity, slot, this, false);
                 }
             }
             
             foreach (var entity in slot.Prototypes)
             {
-                if (entity.category == SavePath.EntityCategory.Prototype && 
-                    entity.GetField(SavePath.Prototype.Category) == SavePath.EntityCategory.Tower)
+                if (entity.type == SavePath.EntityCategory.Tower)
                 {
                     var entityObject = new GameObject { name = entity.id, transform = { parent = _prototypes}}.AddComponent<TowerEntity>();
-                    entityObject.Load(entity, slot, this);
+                    entityObject.Load(entity, slot, this, true);
                 }
             }
         }
 
         private void LoadConfigs(Slot slot)
         {
-            if (slot.Configs == null) slot.CreateConfig(new SlotEntity(SavePath.Config.ID, SavePath.EntityCategory.Config));
+            if (slot.Configs == null) slot.CreateConfig(new SlotEntity(SavePath.Config.ID, SlotCategory.Config, "?"));
             var entityObject = new GameObject { name = slot.Configs.id, transform = { parent = _config}}.AddComponent<ConfigEntity>();
-            entityObject.Load(slot.Configs, slot, this);
+            entityObject.Load(slot.Configs, slot, this, false);
         }
         
         private void LoadLevel(Slot slot)
         {
             foreach (var entity in slot.Dynamics)
             {
-                if (entity.category == SavePath.EntityCategory.Level)
+                if (entity.type == SavePath.EntityCategory.Level)
                 {
                     var entityObject = new GameObject { name = entity.id, transform = { parent = _level}}.AddComponent<LevelEntity>();
-                    entityObject.Load(entity, slot, this);
+                    entityObject.Load(entity, slot, this, false);
                 }
             }
         }
@@ -283,10 +254,10 @@ namespace MapMaker.Scripts
         {
             foreach (var entity in slot.Dynamics)
             {
-                if (entity.category == SavePath.EntityCategory.Config)
+                if (entity.category == SlotCategory.Config)
                 {
                     var entityObject = new GameObject { name = entity.id, transform = { parent = _camera}}.AddComponent<CameraEntity>();
-                    entityObject.Load(entity, slot, this);
+                    entityObject.Load(entity, slot, this, false);
                 }
             }
         }
@@ -295,10 +266,10 @@ namespace MapMaker.Scripts
         {
             foreach (var entity in slot.Statics)
             {
-                if (entity.category == SavePath.EntityCategory.Waves)
+                if (entity.type == SavePath.EntityCategory.Waves)
                 {
                     var entityObject = new GameObject { name = entity.id, transform = { parent = (_waves)}}.AddComponent<WavesEntity>();
-                    entityObject.Load(entity, slot, this);
+                    entityObject.Load(entity, slot, this, false);
                 }
             }
         }
@@ -307,10 +278,10 @@ namespace MapMaker.Scripts
         {
             foreach (var entity in slot.Statics)
             {
-                if (entity.category == SavePath.EntityCategory.Environment)
+                if (entity.type == SavePath.EntityCategory.Environment)
                 {
                     var entityObject = new GameObject { name = entity.id, transform = { parent = (_environments)}}.AddComponent<EnvironmentEntity>();
-                    entityObject.Load(entity, slot, this);
+                    entityObject.Load(entity, slot, this, false);
                 }
             }
         }

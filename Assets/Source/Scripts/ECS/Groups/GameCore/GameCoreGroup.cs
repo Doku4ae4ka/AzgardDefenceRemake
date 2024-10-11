@@ -5,9 +5,9 @@ namespace Source.Scripts.ECS.Groups.GameCore
 {
     public class GameCoreGroup : EcsGroup<GameCorePooler>
     {
-        protected override void SetInitSystems(IEcsSystems initSystems)
+        protected override void OnBeforePoolInitializing(EcsWorld world, GameCorePooler pooler)
         {
-            base.SetInitSystems(initSystems);
+            
         }
     }
 }

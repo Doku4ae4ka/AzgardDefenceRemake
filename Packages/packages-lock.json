@@ -5,14 +5,51 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "61768308ba733167bbe134a04043688691e0a709"
+      "hash": "5d399ec87d913b356ce482dfb86d2c4ede0ad5d7"
     },
     "com.exerussus.1extensions": {
       "version": "https://github.com/exerussus/1Extensions.git",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "6b59d871e8288f444a9379f389f980bebce36cf2"
+      "hash": "c75a1f8a9a0f90594446ccf2583c7d132cf6cac7"
+    },
+    "com.exerussus.1organizer-ui": {
+      "version": "https://github.com/exerussus/1organizer-ui.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.addressables": "1.21.21"
+      },
+      "hash": "cdeca3b83c113f8ea65ee724c955d2a25eb99058"
+    },
+    "com.exerussus.ecsmodule.destroy": {
+      "version": "https://github.com/exerussus/ecsmodule-destroy.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "9c3550ad3c2e6ed0d622ef98fd2e3170333409ce"
+    },
+    "com.exerussus.ecsmodule.health": {
+      "version": "https://github.com/exerussus/ecsmodule-health.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "b099aa5aa154a173b9f14ccd27b0e8aa9cb32ae4"
+    },
+    "com.exerussus.ecsmodule.movement": {
+      "version": "https://github.com/exerussus/ecsmodule-movement.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "4666081e86d1011cbe8a3fb6cd7b49ad32188d65"
+    },
+    "com.exerussus.ecsmodule.viewcreator": {
+      "version": "https://github.com/exerussus/ecsmodule-viewcreator.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "30d0f920334d91f79a21224f4e96efef322211a3"
     },
     "com.leopotam.ecslite": {
       "version": "https://github.com/Leopotam/ecslite.git",
@@ -29,11 +66,11 @@
       "hash": "6f308a6e1ce58f53ae21defa9bb54b80d03f1135"
     },
     "com.unity.2d.animation": {
-      "version": "9.1.0",
+      "version": "9.0.4",
       "depth": 1,
       "source": "registry",
       "dependencies": {
-        "com.unity.2d.common": "8.0.2",
+        "com.unity.2d.common": "8.0.1",
         "com.unity.2d.sprite": "1.0.0",
         "com.unity.collections": "1.1.0",
         "com.unity.modules.animation": "1.0.0",
@@ -42,7 +79,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.2d.aseprite": {
-      "version": "1.1.1",
+      "version": "1.0.1",
       "depth": 1,
       "source": "registry",
       "dependencies": {
@@ -54,7 +91,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.2d.common": {
-      "version": "8.0.2",
+      "version": "8.0.1",
       "depth": 2,
       "source": "registry",
       "dependencies": {
@@ -74,13 +111,13 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.2d.psdimporter": {
-      "version": "8.0.4",
+      "version": "8.0.2",
       "depth": 1,
       "source": "registry",
       "dependencies": {
-        "com.unity.2d.common": "8.0.2",
+        "com.unity.2d.common": "8.0.1",
         "com.unity.2d.sprite": "1.0.0",
-        "com.unity.2d.animation": "9.1.0"
+        "com.unity.2d.animation": "9.0.1"
       },
       "url": "https://packages.unity.com"
     },
@@ -137,12 +174,11 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.burst": {
-      "version": "1.8.12",
+      "version": "1.8.9",
       "depth": 1,
       "source": "registry",
       "dependencies": {
-        "com.unity.mathematics": "1.2.1",
-        "com.unity.modules.jsonserialize": "1.0.0"
+        "com.unity.mathematics": "1.2.1"
       },
       "url": "https://packages.unity.com"
     },
@@ -175,14 +211,14 @@
       "depth": 0,
       "source": "builtin",
       "dependencies": {
-        "com.unity.2d.animation": "9.1.0",
+        "com.unity.2d.animation": "9.0.4",
         "com.unity.2d.pixel-perfect": "5.0.3",
-        "com.unity.2d.psdimporter": "8.0.4",
+        "com.unity.2d.psdimporter": "8.0.2",
         "com.unity.2d.sprite": "1.0.0",
         "com.unity.2d.spriteshape": "9.0.2",
         "com.unity.2d.tilemap": "1.0.0",
         "com.unity.2d.tilemap.extras": "3.1.2",
-        "com.unity.2d.aseprite": "1.1.1"
+        "com.unity.2d.aseprite": "1.0.1"
       }
     },
     "com.unity.ide.rider": {
@@ -220,7 +256,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.render-pipelines.core": {
-      "version": "14.0.10",
+      "version": "14.0.9",
       "depth": 1,
       "source": "builtin",
       "dependencies": {
@@ -237,17 +273,8 @@
       "dependencies": {
         "com.unity.mathematics": "1.2.1",
         "com.unity.burst": "1.8.9",
-        "com.unity.render-pipelines.core": "14.0.10",
-        "com.unity.shadergraph": "14.0.10",
-        "com.unity.render-pipelines.universal-config": "14.0.9"
-      }
-    },
-    "com.unity.render-pipelines.universal-config": {
-      "version": "14.0.9",
-      "depth": 1,
-      "source": "builtin",
-      "dependencies": {
-        "com.unity.render-pipelines.core": "14.0.9"
+        "com.unity.render-pipelines.core": "14.0.9",
+        "com.unity.shadergraph": "14.0.9"
       }
     },
     "com.unity.scriptablebuildpipeline": {
@@ -265,13 +292,29 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.shadergraph": {
-      "version": "14.0.10",
+      "version": "14.0.9",
       "depth": 1,
       "source": "builtin",
       "dependencies": {
-        "com.unity.render-pipelines.core": "14.0.10",
+        "com.unity.render-pipelines.core": "14.0.9",
         "com.unity.searcher": "4.9.2"
       }
+    },
+    "com.unity.sysroot": {
+      "version": "2.0.10",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.sysroot.linux-x86_64": {
+      "version": "2.0.9",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.sysroot": "2.0.10"
+      },
+      "url": "https://packages.unity.com"
     },
     "com.unity.test-framework": {
       "version": "1.1.33",
@@ -302,6 +345,16 @@
         "com.unity.modules.director": "1.0.0",
         "com.unity.modules.animation": "1.0.0",
         "com.unity.modules.particlesystem": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.toolchain.win-x86_64-linux-x86_64": {
+      "version": "2.0.9",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.sysroot": "2.0.10",
+        "com.unity.sysroot.linux-x86_64": "2.0.9"
       },
       "url": "https://packages.unity.com"
     },

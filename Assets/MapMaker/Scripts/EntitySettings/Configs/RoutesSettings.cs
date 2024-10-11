@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Sirenix.OdinInspector;
 using Source.Scripts.Core;
-using Ecs.Modules.PauldokDev.SlotSaver.Core;
+using Source.Scripts.ECS.Groups.SlotSaver.Core;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 

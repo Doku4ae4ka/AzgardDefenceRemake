@@ -2,7 +2,7 @@ using System;
 using System.Reflection;
 using MapMaker.Scripts;
 
-namespace Ecs.Modules.PauldokDev.SlotSaver.Core
+namespace Source.Scripts.ECS.Groups.SlotSaver.Core
 {
     public static class EditorSerializer
     {

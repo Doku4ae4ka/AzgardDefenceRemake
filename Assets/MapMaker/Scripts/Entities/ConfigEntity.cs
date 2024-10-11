@@ -1,5 +1,5 @@
 ﻿using MapMaker.Scripts.EntitySettings.Configs;
-using Ecs.Modules.PauldokDev.SlotSaver.Core;
+using Source.Scripts.ECS.Groups.SlotSaver.Core;
 using UnityEngine;
 
 namespace MapMaker.Scripts
@@ -10,7 +10,7 @@ namespace MapMaker.Scripts
         [SerializeField] public ConfigSettings configs; 
         public void Save(string entityID, Slot slot)
         {
-            var entity = new SlotEntity(entityID, SavePath.EntityCategory.Config);
+            var entity = new SlotEntity(entityID, SlotCategory.Config, SavePath.EntityCategory.Config);
             slot.CreateConfig(entity);
             var lastEntityID = FindAnyObjectByType<MapEditor>().Increment;
             
@@ -18,7 +18,7 @@ namespace MapMaker.Scripts
             this.SerializeObject(entity);
         }
 
-        public void Load(SlotEntity slotEntity, Slot slot, MapEditor mapEditor)
+        public void Load(SlotEntity slotEntity, Slot slot, MapEditor mapEditor, bool isPrototype)
         {
             configs = new ();
             this.DeserializeObject(slotEntity);

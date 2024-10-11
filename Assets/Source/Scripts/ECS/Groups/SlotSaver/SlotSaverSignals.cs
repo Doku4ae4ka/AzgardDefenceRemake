@@ -1,6 +1,6 @@
-using Ecs.Modules.PauldokDev.SlotSaver.Core;
+using Source.Scripts.ECS.Groups.SlotSaver.Core;
 
-namespace Ecs.Modules.PauldokDev.SlotSaver
+namespace Source.Scripts.ECS.Groups.SlotSaver
 {
     public static class SlotSaverSignals
     {

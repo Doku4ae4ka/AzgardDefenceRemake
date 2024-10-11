@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Exerussus._1EasyEcs.Scripts.Core;
+using Source.Scripts.ECS.Groups.SlotSaver.Core;
 
-namespace Ecs.Modules.PauldokDev.SlotSaver
+namespace Source.Scripts.ECS.Groups.SlotSaver
 {
     public static class SlotSaverData
     {
@@ -11,12 +12,13 @@ namespace Ecs.Modules.PauldokDev.SlotSaver
         public struct SlotEntity : IEcsComponent
         {
             public string EntityID;
-            public string Category;
+            public SlotCategory Category;
+            public string Type;
         }
 
         public struct Prototype : IEcsComponent
         {
-            public string Category;
+            public SlotCategory Category;
             public List<Action<int>> DataBuilder;
         }
 
@@ -35,6 +37,10 @@ namespace Ecs.Modules.PauldokDev.SlotSaver
         }
         
         public struct ConfigMark : IEcsComponent
+        {
+        }
+        
+        public struct PlayerMark : IEcsComponent
         {
         }
 

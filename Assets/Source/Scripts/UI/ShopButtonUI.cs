@@ -18,5 +18,7 @@ namespace Source.Scripts.UI
                 TowerId = towerId 
             });
         }
+
+        public override Signal Signal { get; }
     }
 }

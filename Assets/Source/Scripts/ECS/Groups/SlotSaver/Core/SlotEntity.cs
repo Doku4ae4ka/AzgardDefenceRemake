@@ -4,7 +4,7 @@ using Source.Scripts.Extensions;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Ecs.Modules.PauldokDev.SlotSaver.Core
+namespace Source.Scripts.ECS.Groups.SlotSaver.Core
 {
     [Serializable]
     public class SlotEntity
@@ -12,16 +12,17 @@ namespace Ecs.Modules.PauldokDev.SlotSaver.Core
         /// <summary> айди сохраненной сущности </summary>
         public string id;
         /// <summary> является ли оно конфигом, прототипом и дайнемик </summary>
-        public string category;
+        public SlotCategory category;
         /// <summary> айди сохраненной сущности </summary>
         public string type;
         public List<Field> fields;
         private Dictionary<string, Field> _fieldsDict;
 
-        public SlotEntity(string entityID, string category)
+        public SlotEntity(string entityID, SlotCategory category, string type)
         {
             id = entityID;
             this.category = category;
+            this.type = type;
             _fieldsDict = new Dictionary<string, Field>();
             fields = new List<Field>();
         }

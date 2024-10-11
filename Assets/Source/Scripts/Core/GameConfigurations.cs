@@ -1,5 +1,5 @@
 ﻿using Sirenix.OdinInspector;
-using Ecs.Modules.PauldokDev.SlotSaver.Core;
+using Source.Scripts.ECS.Groups.SlotSaver.Core;
 using UnityEngine;
 
 namespace Source.Scripts.Core
@@ -15,9 +15,8 @@ namespace Source.Scripts.Core
             if (slot.Configs != null)
             {
                 slot.Configs.id = SavePath.Config.ID;
-                slot.Configs.category = SavePath.EntityCategory.Config;
+                slot.Configs.category = SlotCategory.Config;
             }
-            if (slot.Prototypes != null) foreach (var entity in slot.Prototypes) entity.category = SavePath.EntityCategory.Prototype;
         }
 
         [Button]

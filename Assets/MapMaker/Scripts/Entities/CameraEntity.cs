@@ -1,4 +1,4 @@
-using Ecs.Modules.PauldokDev.SlotSaver.Core;
+using Source.Scripts.ECS.Groups.SlotSaver.Core;
 using UnityEngine;
 
 namespace MapMaker.Scripts
@@ -10,7 +10,7 @@ namespace MapMaker.Scripts
         {
         }
 
-        public void Load(SlotEntity slotEntity, Slot slot, MapEditor mapEditor)
+        public void Load(SlotEntity slotEntity, Slot slot, MapEditor mapEditor, bool isPrototype)
         {
         }
     }

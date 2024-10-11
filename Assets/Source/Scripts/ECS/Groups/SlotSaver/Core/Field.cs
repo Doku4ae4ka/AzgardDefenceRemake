@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 
-namespace Ecs.Modules.PauldokDev.SlotSaver.Core
+namespace Source.Scripts.ECS.Groups.SlotSaver.Core
 {
     [Serializable]
     public class Field

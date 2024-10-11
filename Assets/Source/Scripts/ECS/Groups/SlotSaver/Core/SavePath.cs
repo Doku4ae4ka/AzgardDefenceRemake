@@ -1,4 +1,4 @@
-﻿namespace Ecs.Modules.PauldokDev.SlotSaver.Core
+﻿namespace Source.Scripts.ECS.Groups.SlotSaver.Core
 {
     public static class SavePath
     {
@@ -78,6 +78,7 @@
         public static class Prototype
         {
             public const string Category = "prototype.category";
+            public const string Type = "prototype.type";
         }
 
         public static class BuildingTilemap

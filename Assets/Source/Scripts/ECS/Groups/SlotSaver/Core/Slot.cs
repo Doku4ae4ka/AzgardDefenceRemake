@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Ecs.Modules.PauldokDev.SlotSaver.Core
+namespace Source.Scripts.ECS.Groups.SlotSaver.Core
 {
     [Serializable]
     public class Slot
