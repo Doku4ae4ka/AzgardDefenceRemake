@@ -10,11 +10,6 @@ namespace Source.Scripts.ECS.Groups.SlotSaver
         {
             public Slot Slot;
         }
-
-        public struct OnProcessSaving
-        {
-            public Slot Slot;
-        }
         
         public struct OnFinishSaving
         {
@@ -24,30 +19,8 @@ namespace Source.Scripts.ECS.Groups.SlotSaver
         #endregion
 
         #region LoadSignals
-
-        public struct OnUnloadAllEntities { }
         
         public struct OnStartLoading
-        {
-            public Slot Slot;
-        }
-
-        public struct OnConfigsLoading
-        {
-            public Slot Slot;
-        }
-
-        public struct OnPrototypesLoading
-        {
-            public Slot Slot;
-        }
-
-        public struct OnStaticLoading
-        {
-            public Slot Slot;
-        }
-
-        public struct OnDynamicLoading
         {
             public Slot Slot;
         }

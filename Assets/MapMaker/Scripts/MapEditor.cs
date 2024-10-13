@@ -233,9 +233,9 @@ namespace MapMaker.Scripts
 
         private void LoadConfigs(Slot slot)
         {
-            if (slot.Configs == null) slot.CreateConfig(new SlotEntity(SavePath.Config.ID, SlotCategory.Config, "?"));
-            var entityObject = new GameObject { name = slot.Configs.id, transform = { parent = _config}}.AddComponent<ConfigEntity>();
-            entityObject.Load(slot.Configs, slot, this, false);
+            // if (slot.Configs == null) slot.AddConfig(new SlotEntity(SavePath.Config.ID, SlotCategory.Config, "?"));
+            // var entityObject = new GameObject { name = slot.Configs.id, transform = { parent = _config}}.AddComponent<ConfigEntity>();
+            // entityObject.Load(slot.Configs, slot, this, false);
         }
         
         private void LoadLevel(Slot slot)

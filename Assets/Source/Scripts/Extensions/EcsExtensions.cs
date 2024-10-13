@@ -1,5 +1,6 @@
 using Leopotam.EcsLite;
 using Source.Scripts.Core;
+using Source.Scripts.ECS.Groups.SlotSaver;
 using UnityEngine;
 
 namespace Source.Scripts.Extensions
@@ -9,7 +10,7 @@ namespace Source.Scripts.Extensions
         public static bool TryGetBuildingTilemapEntity(this Pooler pooler, EcsWorld world, out int tilemapEntity)
         {
             tilemapEntity = 0;
-            foreach (var entity in world.Filter<EcsData.Entity>().Inc<EcsData.BuildingTileMap>().End())
+            foreach (var entity in world.Filter<SlotSaverData.SlotEntity>().Inc<EcsData.BuildingTileMap>().End())
                 tilemapEntity = entity;
             
             if (tilemapEntity == default) return false;

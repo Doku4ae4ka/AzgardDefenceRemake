@@ -13,16 +13,17 @@ namespace Source.Scripts.ECS.Groups.SlotSaver.Core
         public string id;
         /// <summary> является ли оно конфигом, прототипом и дайнемик </summary>
         public SlotCategory category;
-        /// <summary> айди сохраненной сущности </summary>
         public string type;
+        public string subType;
         public List<Field> fields;
         private Dictionary<string, Field> _fieldsDict;
 
-        public SlotEntity(string entityID, SlotCategory category, string type)
+        public SlotEntity(string entityID, SlotCategory category, string type, string subType)
         {
             id = entityID;
             this.category = category;
             this.type = type;
+            this.subType = subType;
             _fieldsDict = new Dictionary<string, Field>();
             fields = new List<Field>();
         }

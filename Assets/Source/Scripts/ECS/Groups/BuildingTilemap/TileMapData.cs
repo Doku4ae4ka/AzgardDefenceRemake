@@ -1,6 +1,6 @@
 ﻿namespace Source.Scripts.ECS.Groups.BuildingTilemap
 {
-    public static class TimeMapData
+    public static class TileMapData
     {
         
     }

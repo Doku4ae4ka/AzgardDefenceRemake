@@ -65,39 +65,6 @@ namespace Source.Scripts.Core
         }
         
         #endregion
-
-        #region SaveSystem
-        
-        public struct Entity : IGameEcsComponent
-        {
-            public string EntityID;
-            public SlotCategory Category;
-            public string Type;
-        }
-        
-        public struct Prototype : IGameEcsComponent
-        {
-            public string Category;
-            public List<Action<int>> DataBuilder;
-        }
-        
-        /// <summary>
-        /// Сущность не статична (персонаж, предмет, игрок)
-        /// </summary>
-        public struct DynamicMark : IGameEcsComponent
-        {
-            
-        }
-        
-        /// <summary>
-        /// Сущность статична (Environment)
-        /// </summary>
-        public struct StaticMark : IGameEcsComponent
-        {
-            
-        }
-        
-        #endregion
         
         public struct BuildValidMark : IGameEcsComponent
         {

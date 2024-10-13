@@ -9,6 +9,7 @@ namespace Source.Scripts.ECS.Groups.GameCore
         {
             
         }
-        
+
+        public Configs Configs = new();
     }
 }

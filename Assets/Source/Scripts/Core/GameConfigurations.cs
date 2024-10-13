@@ -12,11 +12,7 @@ namespace Source.Scripts.Core
         [Button]
         public void Validate()
         {
-            if (slot.Configs != null)
-            {
-                slot.Configs.id = SavePath.Config.ID;
-                slot.Configs.category = SlotCategory.Config;
-            }
+
         }
 
         [Button]

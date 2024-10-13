@@ -5,7 +5,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "5d399ec87d913b356ce482dfb86d2c4ede0ad5d7"
+      "hash": "53ebe6f707f9fe1f06e9e9434596849190f41199"
     },
     "com.exerussus.1extensions": {
       "version": "https://github.com/exerussus/1Extensions.git",
@@ -21,35 +21,35 @@
       "dependencies": {
         "com.unity.addressables": "1.21.21"
       },
-      "hash": "cdeca3b83c113f8ea65ee724c955d2a25eb99058"
+      "hash": "8729a4b1a284e7572f9efb18fb3e5862dd5df3ff"
     },
     "com.exerussus.ecsmodule.destroy": {
       "version": "https://github.com/exerussus/ecsmodule-destroy.git",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "9c3550ad3c2e6ed0d622ef98fd2e3170333409ce"
+      "hash": "dea87ec50d596f031afeb8ece78dc902ad4c35fd"
     },
     "com.exerussus.ecsmodule.health": {
       "version": "https://github.com/exerussus/ecsmodule-health.git",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "b099aa5aa154a173b9f14ccd27b0e8aa9cb32ae4"
+      "hash": "90d2731d75c719f94105c01b40ae336a9af5a353"
     },
     "com.exerussus.ecsmodule.movement": {
       "version": "https://github.com/exerussus/ecsmodule-movement.git",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "4666081e86d1011cbe8a3fb6cd7b49ad32188d65"
+      "hash": "b3b3afc38cecc8238ba3243236b50d4877df9799"
     },
     "com.exerussus.ecsmodule.viewcreator": {
       "version": "https://github.com/exerussus/ecsmodule-viewcreator.git",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "30d0f920334d91f79a21224f4e96efef322211a3"
+      "hash": "c63662af56c778b1018409c5409c4ed32f6303f6"
     },
     "com.leopotam.ecslite": {
       "version": "https://github.com/Leopotam/ecslite.git",

@@ -36,5 +36,11 @@ namespace Source.Scripts.ECS.Groups.SlotSaver
                 }
             }
         }
+
+        public SlotSaverGroup SetBuilder(EntityBuilder builder)
+        {
+            Settings.Builders.Add(builder);
+            return this;
+        }
     }
 }

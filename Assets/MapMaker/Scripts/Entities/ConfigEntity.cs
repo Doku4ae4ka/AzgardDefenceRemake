@@ -7,11 +7,13 @@ namespace MapMaker.Scripts
     [AddComponentMenu("ADR/ConfigEntity"), SelectionBase]
     public class ConfigEntity : MonoBehaviour, IEntityObject
     {
-        [SerializeField] public ConfigSettings configs; 
+        [SerializeField] public ConfigSettings configs;
+        [SerializeField] private string type;
+        [SerializeField] private string subType;
         public void Save(string entityID, Slot slot)
         {
-            var entity = new SlotEntity(entityID, SlotCategory.Config, SavePath.EntityCategory.Config);
-            slot.CreateConfig(entity);
+            var entity = new SlotEntity(entityID, SlotCategory.Config, type, subType);
+            slot.AddConfig(entity);
             var lastEntityID = FindAnyObjectByType<MapEditor>().Increment;
             
             entity.SetField(SavePath.Config.FreeEntityID, $"{lastEntityID}");
@@ -21,6 +23,8 @@ namespace MapMaker.Scripts
         public void Load(SlotEntity slotEntity, Slot slot, MapEditor mapEditor, bool isPrototype)
         {
             configs = new ();
+            type = slotEntity.type;
+            subType = slotEntity.subType;
             this.DeserializeObject(slotEntity);
         }
         

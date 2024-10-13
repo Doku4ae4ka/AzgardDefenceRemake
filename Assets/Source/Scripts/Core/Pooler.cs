@@ -34,11 +34,6 @@ namespace Source.Scripts.Core
             Camera = new PoolerModule<EcsData.Camera>(ecsWorld);
             Level = new PoolerModule<EcsData.Level>(ecsWorld);
             
-            Entity = new PoolerModule<EcsData.Entity>(ecsWorld);
-            Prototype = new PoolerModule<EcsData.Prototype>(ecsWorld);
-            DynamicMark = new PoolerModule<EcsData.DynamicMark>(ecsWorld);
-            StaticMark = new PoolerModule<EcsData.StaticMark>(ecsWorld);
-            
             BuildValidMark = new PoolerModule<EcsData.BuildValidMark>(ecsWorld);
             BuildingTilemap = new PoolerModule<EcsData.BuildingTileMap>(ecsWorld);
         }
@@ -68,11 +63,6 @@ namespace Source.Scripts.Core
         public readonly PoolerModule<EcsData.Environment> Environment;
         public readonly PoolerModule<EcsData.Camera> Camera;
         public readonly PoolerModule<EcsData.Level> Level;
-        
-        public readonly PoolerModule<EcsData.Entity> Entity;
-        public readonly PoolerModule<EcsData.Prototype> Prototype;
-        public readonly PoolerModule<EcsData.DynamicMark> DynamicMark;
-        public readonly PoolerModule<EcsData.StaticMark> StaticMark;
         
         public readonly PoolerModule<EcsData.BuildValidMark> BuildValidMark;
         public readonly PoolerModule<EcsData.BuildingTileMap> BuildingTilemap;

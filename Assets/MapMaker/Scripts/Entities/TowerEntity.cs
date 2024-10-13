@@ -1,5 +1,4 @@
 using System;
-using MapMaker.Scripts.EntitySettings;
 using MapMaker.Scripts.EntitySettings.Tower;
 using Sirenix.OdinInspector;
 using Source.Scripts.Core;
@@ -22,8 +21,8 @@ namespace MapMaker.Scripts
         public void Save(string entityID, Slot slot)
         {
             var entity = isPrototype ?
-                        new SlotEntity(prototypeID, SlotCategory.Dynamic, SavePath.EntityCategory.Tower) :
-                        new SlotEntity(entityID, SlotCategory.Dynamic, SavePath.EntityCategory.Tower);
+                        new SlotEntity(prototypeID, SlotCategory.Dynamic, "",SavePath.EntityCategory.Tower) :
+                        new SlotEntity(entityID, SlotCategory.Dynamic, "",SavePath.EntityCategory.Tower);
             
             if (isPrototype) slot.AddPrototype(entity);
             else slot.AddDynamic(entity);

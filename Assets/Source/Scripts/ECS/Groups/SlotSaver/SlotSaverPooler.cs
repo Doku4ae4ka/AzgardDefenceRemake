@@ -17,11 +17,18 @@ namespace Source.Scripts.ECS.Groups.SlotSaver
             Prototype = new PoolerModule<SlotSaverData.Prototype>(world);
             DynamicMark = new PoolerModule<SlotSaverData.DynamicMark>(world);
             StaticMark = new PoolerModule<SlotSaverData.StaticMark>(world);
+            SavingProcess = new PoolerModule<SlotSaverData.SavingProcess>(world);
+            LoadingProcess = new PoolerModule<SlotSaverData.LoadingProcess>(world);
 
             foreach (var entityBuilder in ConfigDataCreators) entityBuilder.Initialize(GameShare);
             foreach (var entityBuilder in PlayerDataCreators) entityBuilder.Initialize(GameShare);
             foreach (var entityBuilder in DynamicDataCreators) entityBuilder.Initialize(GameShare);
             foreach (var entityBuilder in StaticDataCreators) entityBuilder.Initialize(GameShare);
+            
+            AllCreators.AddRange(ConfigDataCreators);
+            AllCreators.AddRange(PlayerDataCreators);
+            AllCreators.AddRange(DynamicDataCreators);
+            AllCreators.AddRange(StaticDataCreators);
         }
         
         public GameShare GameShare { get; set; }
@@ -31,6 +38,8 @@ namespace Source.Scripts.ECS.Groups.SlotSaver
         public PoolerModule<SlotSaverData.Prototype> Prototype { get; private set; }
         public PoolerModule<SlotSaverData.DynamicMark> DynamicMark { get; private set; }
         public PoolerModule<SlotSaverData.StaticMark> StaticMark { get; private set; }
+        public PoolerModule<SlotSaverData.SavingProcess> SavingProcess { get; private set; }
+        public PoolerModule<SlotSaverData.LoadingProcess> LoadingProcess { get; private set; }
 
         #region DataCreators
 
@@ -38,6 +47,7 @@ namespace Source.Scripts.ECS.Groups.SlotSaver
         public readonly List<EntityBuilder> PlayerDataCreators = new ();
         public readonly List<EntityBuilder> DynamicDataCreators = new ();
         public readonly List<EntityBuilder> StaticDataCreators = new ();
+        public readonly List<EntityBuilder> AllCreators = new ();
 
         public void AddDynamicDataCreator(EntityBuilder builder)
         {

@@ -1,11 +1,20 @@
 ﻿using System;
+using ECS.Modules.Exerussus.Health;
 using Exerussus._1EasyEcs.Scripts.Core;
 using Exerussus._1EasyEcs.Scripts.Custom;
 using Exerussus._1Extensions.SignalSystem;
+using Exerussus.EasyEcsModules.ViewCreator;
 using Leopotam.EcsLite;
 using Sirenix.OdinInspector;
+using Source.Scripts.ECS.Groups.AzgardView;
+using Source.Scripts.ECS.Groups.BuildingTilemap;
 using Source.Scripts.ECS.Groups.Debug;
+using Source.Scripts.ECS.Groups.Enemies;
+using Source.Scripts.ECS.Groups.GameCore;
+using Source.Scripts.ECS.Groups.GameCore.DataBuilder;
+using Source.Scripts.ECS.Groups.SlotSaver;
 using Source.Scripts.ECS.Groups.SlotSaver.Core;
+using Source.Scripts.ECS.Groups.Towers;
 using UnityEngine;
 
 namespace Source.Scripts.Core
@@ -22,6 +31,10 @@ namespace Source.Scripts.Core
         private SpaceHash<EcsData.TransformData, EcsData.Tower> _spaceHash;
         [SerializeField] private Prototypes prototypes = new Prototypes();
         [SerializeField] private Configs configs = new Configs();
+
+        protected override Func<float> FixedUpdateDelta { get; } = () => Time.fixedDeltaTime;
+        protected override Func<float> UpdateDelta { get; } = () => Time.deltaTime;
+        protected override Signal Signal => signalHandler.Signal;
         
         public GameStatus GameStatus => gameStatus;
         public SignalHandler SignalHandler => signalHandler;
@@ -41,32 +54,7 @@ namespace Source.Scripts.Core
         private void Start()
         {
             Initialize();
-            // if (autoLoad) Load();
         }
-        //
-        // [Button]
-        // public void Save()
-        // {
-        //     gameStatus.currentState = GameStatus.State.Loading;
-        //     
-        //     var slot = gameConfigurations.slot;
-        //     slot.Initialize();
-        //     memory.save.Invoke(_world, _pooler, slot);
-        //     gameStatus.currentState = GameStatus.State.Game;
-        // }
-        //
-        // [Button]
-        // public void Load()
-        // {
-        //     gameStatus.currentState = GameStatus.State.Loading;
-        //     prototypes.Clear();
-        //     
-        //     var slot = gameConfigurations.slot;
-        //     slot.Initialize();
-        //     memory.load.Invoke(_world, _pooler, slot, prototypes);
-        //     
-        //     gameStatus.currentState = GameStatus.State.Game;
-        // }
 
         [Button]
         public void Pause()
@@ -74,32 +62,19 @@ namespace Source.Scripts.Core
             if (gameStatus.currentState == GameStatus.State.Game) gameStatus.currentState = GameStatus.State.Pause;
             else if (gameStatus.currentState == GameStatus.State.Pause) gameStatus.currentState = GameStatus.State.Game;
         }
-        
-            // initSystems
-            //         
-            //     .Add(new ConfigSystem())
-            //     .Add(new ViewSystem())
-            //     .Add(new BuildingTilemapSystem())
-            //     .Add(new TowerSystem())
-            //     .Add(new MovableSystem())
-            //     .Add(new HealthSystem())
-            //     .Add(new TowerSpawnSystem())
-            //     .Add(new EnemySpawnSystem());
-        
-        // updateSystems
-        //     
-        //     .Add(new TowerPreviewSystem())
-        //     .Add(new TowerAttackSystem())
-        //     .Add(new MovementSystem())
-        //     .Add(new TargetingSystem())
-        //     .Add(new LoaderSystem());
 
         protected override EcsGroup[] GetGroups()
         {
             return new EcsGroup[]
             {
-                //asdasd,
-                new DebugGroup()
+                new AzgardViewGroup(),
+                new TileMapGroup(),
+                new HealthGroup(),
+                new ViewCreatorGroup(),
+                new SlotSaverGroup().SetSlotSaverSettings(),
+                new TowerGroup(),
+                new GameCoreGroup(),
+                new DebugGroup(),
             };
         }
 
@@ -114,9 +89,5 @@ namespace Source.Scripts.Core
             gameShare.AddSharedObject(configs);
             gameShare.AddSharedObject(this);
         }
-
-        protected override Func<float> FixedUpdateDelta { get; }
-        protected override Func<float> UpdateDelta { get; }
-        protected override Signal Signal { get; }
     }
 }

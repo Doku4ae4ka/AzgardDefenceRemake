@@ -14,12 +14,12 @@ namespace Source.Scripts.ECS.Groups.SlotSaver
             public string EntityID;
             public SlotCategory Category;
             public string Type;
+            public string SubType;
         }
 
         public struct Prototype : IEcsComponent
         {
-            public SlotCategory Category;
-            public List<Action<int>> DataBuilder;
+            public Action<int> DataBuilder;
         }
 
         /// <summary>
@@ -42,6 +42,22 @@ namespace Source.Scripts.ECS.Groups.SlotSaver
         
         public struct PlayerMark : IEcsComponent
         {
+        }
+        
+        /// <summary>
+        /// Сущность в процессе сохранения
+        /// </summary>
+        public struct SavingProcess : IEcsComponent
+        {
+            public Source.Scripts.ECS.Groups.SlotSaver.Core.SlotEntity SlotEntity;
+        }
+        
+        /// <summary>
+        /// Сущность в процессе загрузки
+        /// </summary>
+        public struct LoadingProcess : IEcsComponent
+        {
+            public Source.Scripts.ECS.Groups.SlotSaver.Core.SlotEntity SlotEntity;
         }
 
         #endregion
