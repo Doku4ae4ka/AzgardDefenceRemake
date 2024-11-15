@@ -5,14 +5,14 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "53ebe6f707f9fe1f06e9e9434596849190f41199"
+      "hash": "54fe26414bb20c2fa2eecb004aabeeb80613d6f0"
     },
     "com.exerussus.1extensions": {
       "version": "https://github.com/exerussus/1Extensions.git",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "c75a1f8a9a0f90594446ccf2583c7d132cf6cac7"
+      "hash": "71488c1ebb88d9992678929f243ddad7a47ac392"
     },
     "com.exerussus.1organizer-ui": {
       "version": "https://github.com/exerussus/1organizer-ui.git",
@@ -21,35 +21,35 @@
       "dependencies": {
         "com.unity.addressables": "1.21.21"
       },
-      "hash": "8729a4b1a284e7572f9efb18fb3e5862dd5df3ff"
+      "hash": "a87986dd70d901ca5634fff19707aeb3a401da9a"
     },
     "com.exerussus.ecsmodule.destroy": {
       "version": "https://github.com/exerussus/ecsmodule-destroy.git",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "dea87ec50d596f031afeb8ece78dc902ad4c35fd"
+      "hash": "060d58d9ddaf3e5ad3eeeafba199760facc9732c"
     },
     "com.exerussus.ecsmodule.health": {
       "version": "https://github.com/exerussus/ecsmodule-health.git",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "90d2731d75c719f94105c01b40ae336a9af5a353"
+      "hash": "dea404f73b9f5eb81c7fa60d0c94efa915e77d2e"
     },
     "com.exerussus.ecsmodule.movement": {
       "version": "https://github.com/exerussus/ecsmodule-movement.git",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "b3b3afc38cecc8238ba3243236b50d4877df9799"
+      "hash": "2ef9ee111c6ba2e599a0ff5b6a9af78bb59332ee"
     },
     "com.exerussus.ecsmodule.viewcreator": {
       "version": "https://github.com/exerussus/ecsmodule-viewcreator.git",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "c63662af56c778b1018409c5409c4ed32f6303f6"
+      "hash": "d8629eb0d0205d56a547560b3587697f9332afc5"
     },
     "com.leopotam.ecslite": {
       "version": "https://github.com/Leopotam/ecslite.git",
@@ -222,7 +222,7 @@
       }
     },
     "com.unity.ide.rider": {
-      "version": "3.0.28",
+      "version": "3.0.34",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -328,7 +328,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.textmeshpro": {
-      "version": "3.0.6",
+      "version": "3.0.9",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -349,7 +349,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.toolchain.win-x86_64-linux-x86_64": {
-      "version": "2.0.9",
+      "version": "2.0.10",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -368,7 +368,7 @@
       }
     },
     "com.unity.visualscripting": {
-      "version": "1.9.2",
+      "version": "1.9.5",
       "depth": 0,
       "source": "registry",
       "dependencies": {

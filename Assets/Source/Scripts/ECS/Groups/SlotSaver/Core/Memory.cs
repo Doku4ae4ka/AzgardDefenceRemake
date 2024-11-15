@@ -88,6 +88,8 @@ namespace Source.Scripts.ECS.Groups.SlotSaver.Core
             DeserializeStatic(world, pooler, slot);
             DeserializeDynamic(world, pooler, slot);
             
+            LoadAllData(world, pooler);
+            
             signal.RegistryRaise(new SlotSaverSignals.OnFinishLoading() { Slot = slot });
         }
 
@@ -123,10 +125,11 @@ namespace Source.Scripts.ECS.Groups.SlotSaver.Core
         
         private static void DeserializeConfigs(EcsWorld world, SlotSaverPooler pooler, Slot slot)
         {
-            foreach (var dynamicEntity in slot.Configs)
+            foreach (var slotEntity in slot.Configs)
             {
-                CreateEntity(world, pooler, dynamicEntity, out var entity);
+                CreateEntity(world, pooler, slotEntity, out var entity);
                 pooler.ConfigMark.Add(entity);
+                foreach (var builder in pooler.ConfigDataCreators) builder.TrySetData(entity, slotEntity);
             }
         }
         
@@ -136,24 +139,27 @@ namespace Source.Scripts.ECS.Groups.SlotSaver.Core
             {
                 CreateEntity(world, pooler, slotEntity, out var entity);
                 pooler.PlayerMark.Add(entity);
+                foreach (var builder in pooler.PlayerDataCreators) builder.TrySetData(entity, slotEntity);
             }
         }
         
         private static void DeserializeDynamic(EcsWorld world, SlotSaverPooler pooler, Slot slot)
         {
-            foreach (var dynamicEntity in slot.Dynamics)
+            foreach (var slotEntity in slot.Dynamics)
             {
-                CreateEntity(world, pooler, dynamicEntity, out var entity);
+                CreateEntity(world, pooler, slotEntity, out var entity);
                 pooler.DynamicMark.Add(entity);
+                foreach (var builder in pooler.DynamicDataCreators) builder.TrySetData(entity, slotEntity);
             }
         }
 
         private static void DeserializeStatic(EcsWorld world, SlotSaverPooler pooler, Slot slot)
         {
-            foreach (var environmentEntity in slot.Statics)
+            foreach (var slotEntity in slot.Statics)
             {
-                CreateEntity(world, pooler, environmentEntity, out var entity);
+                CreateEntity(world, pooler, slotEntity, out var entity);
                 pooler.StaticMark.Add(entity);
+                foreach (var builder in pooler.StaticDataCreators) builder.TrySetData(entity, slotEntity);
             }
         }
 
@@ -171,38 +177,20 @@ namespace Source.Scripts.ECS.Groups.SlotSaver.Core
                 switch (entitySlotData.Category)
                 {
                     case SlotCategory.Config:
-                        
                         prototypeData.DataBuilder += (i => pooler.ConfigMark.Add(i));
-                        
-                        foreach (var builder in pooler.ConfigDataCreators)
-                        {
-                            if (!builder.CheckPrototype(entity, prototypeEntity)) continue;
-                            prototypeData.DataBuilder += builder.GetDataBuilder(entity, prototypeEntity);
-                        }
+                        foreach (var builder in pooler.ConfigDataCreators) LoadPrototypeData(builder, entity, prototypeEntity, ref prototypeData);
                         break;
                     case SlotCategory.Player:
                         prototypeData.DataBuilder += (i => pooler.PlayerMark.Add(i));
-                        foreach (var builder in pooler.PlayerDataCreators)
-                        {
-                            if (!builder.CheckPrototype(entity, prototypeEntity)) continue;
-                            prototypeData.DataBuilder += builder.GetDataBuilder(entity, prototypeEntity);
-                        }
+                        foreach (var builder in pooler.PlayerDataCreators) LoadPrototypeData(builder, entity, prototypeEntity, ref prototypeData);
                         break;
                     case SlotCategory.Static:
                         prototypeData.DataBuilder += (i => pooler.StaticMark.Add(i));
-                        foreach (var builder in pooler.StaticDataCreators)
-                        {
-                            if (!builder.CheckPrototype(entity, prototypeEntity)) continue;
-                            prototypeData.DataBuilder += builder.GetDataBuilder(entity, prototypeEntity);
-                        }
+                        foreach (var builder in pooler.StaticDataCreators) LoadPrototypeData(builder, entity, prototypeEntity, ref prototypeData);
                         break;
                     case SlotCategory.Dynamic:
                         prototypeData.DataBuilder += (i => pooler.DynamicMark.Add(i));
-                        foreach (var builder in pooler.DynamicDataCreators)
-                        {
-                            if (!builder.CheckPrototype(entity, prototypeEntity)) continue;
-                            prototypeData.DataBuilder += builder.GetDataBuilder(entity, prototypeEntity);
-                        }
+                        foreach (var builder in pooler.DynamicDataCreators) LoadPrototypeData(builder, entity, prototypeEntity, ref prototypeData);
                         break;
                 }
                 
@@ -215,7 +203,39 @@ namespace Source.Scripts.ECS.Groups.SlotSaver.Core
                     entitySlotData.Category = prototypeEntity.category;
                     entitySlotData.Type = prototypeEntity.type;
                 };
+                
             }
+
+            void LoadPrototypeData(EntityBuilder builder, int entity, SlotEntity prototypeEntity, ref SlotSaverData.Prototype prototypeData)
+            {
+                if (!builder.CheckPrototype(entity, prototypeEntity)) return;
+                prototypeData.DataBuilder += builder.GetDataBuilder(entity, prototypeEntity);
+            }
+        }
+        
+        private static void LoadAllData(EcsWorld world, SlotSaverPooler pooler)
+        {
+            foreach (var entity in world.Filter<SlotSaverData.SlotEntity>().Inc<SlotSaverData.LoadingProcess>().End())
+            {
+                ref var loadingProcessData = ref pooler.LoadingProcess.Get(entity);
+                switch (loadingProcessData.SlotEntity.category)
+                {
+                    case SlotCategory.Config:
+                        foreach (var builder in pooler.ConfigDataCreators) builder.TrySetData(entity, loadingProcessData.SlotEntity);
+                        break;
+                    case SlotCategory.Player:
+                        foreach (var builder in pooler.PlayerDataCreators) builder.TrySetData(entity, loadingProcessData.SlotEntity);
+                        break;
+                    case SlotCategory.Static:
+                        foreach (var builder in pooler.StaticDataCreators) builder.TrySetData(entity, loadingProcessData.SlotEntity);
+                        break;
+                    case SlotCategory.Dynamic:
+                        foreach (var builder in pooler.DynamicDataCreators) builder.TrySetData(entity, loadingProcessData.SlotEntity);
+                        break;
+                }
+                pooler.LoadingProcess.Del(entity);
+            }
+            
         }
 
         #endregion

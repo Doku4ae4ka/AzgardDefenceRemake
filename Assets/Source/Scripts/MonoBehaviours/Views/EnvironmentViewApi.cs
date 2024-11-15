@@ -1,4 +1,4 @@
-﻿using Exerussus.EasyEcsModules.ViewCreator.MonoBehaviours;
+﻿using ECS.Modules.Exerussus.ViewCreator.MonoBehaviours;
 
 namespace Source.Scripts.MonoBehaviours.Views
 {

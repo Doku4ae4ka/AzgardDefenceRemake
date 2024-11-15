@@ -6,8 +6,8 @@
 // using UnityEditor.Rendering.LookDev;
 // using UnityEngine;
 //
-namespace Source.Scripts.Signalizators
-{
+// namespace Source.Scripts.Signalizators
+// {
 //     [Serializable]
 //     public class CameraController : SignalizeListener<
 //         OnCameraChangedStateSignal, 
@@ -103,10 +103,10 @@ namespace Source.Scripts.Signalizators
 //         
 //     }
 //     
-     public enum CameraState
-     {
-         Stay, 
-         Follow, 
-         Fly
-     }
-}
+//      public enum CameraState
+//      {
+//          Stay, 
+//          Follow, 
+//          Fly
+//      }
+// }

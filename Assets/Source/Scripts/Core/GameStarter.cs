@@ -1,17 +1,15 @@
 ﻿using System;
 using ECS.Modules.Exerussus.Health;
+using ECS.Modules.Exerussus.ViewCreator;
 using Exerussus._1EasyEcs.Scripts.Core;
 using Exerussus._1EasyEcs.Scripts.Custom;
 using Exerussus._1Extensions.SignalSystem;
-using Exerussus.EasyEcsModules.ViewCreator;
 using Leopotam.EcsLite;
 using Sirenix.OdinInspector;
 using Source.Scripts.ECS.Groups.AzgardView;
 using Source.Scripts.ECS.Groups.BuildingTilemap;
 using Source.Scripts.ECS.Groups.Debug;
-using Source.Scripts.ECS.Groups.Enemies;
 using Source.Scripts.ECS.Groups.GameCore;
-using Source.Scripts.ECS.Groups.GameCore.DataBuilder;
 using Source.Scripts.ECS.Groups.SlotSaver;
 using Source.Scripts.ECS.Groups.SlotSaver.Core;
 using Source.Scripts.ECS.Groups.Towers;
@@ -78,7 +76,7 @@ namespace Source.Scripts.Core
             };
         }
 
-        protected override void SetSharingData(EcsWorld world, GameShare gameShare)
+        protected override void SetSharingDataOnStart(EcsWorld world, GameShare gameShare)
         {
             _spaceHash = new SpaceHash<EcsData.TransformData, EcsData.Tower>(world, new Vector4(-40, -40, 45, 45), 2);
             gameShare.AddSharedObject(gameConfigurations);
