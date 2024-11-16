@@ -37,6 +37,11 @@ namespace Source.Scripts.ECS.Groups.SlotSaver
             }
         }
 
+        public override void OnDestroy()
+        {
+            Pooler.ClearAllDataCreator();
+        }
+
         public SlotSaverGroup SetBuilder(EntityBuilder builder)
         {
             Settings.Builders.Add(builder);

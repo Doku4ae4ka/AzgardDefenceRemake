@@ -22,7 +22,7 @@ namespace MapMaker.Scripts
         }
 
         private Transform _all;
-        private Transform _config;
+        private Transform _configs;
         private Transform _prototypes;
         private Transform _towers;
         private Transform _enemies;
@@ -37,7 +37,7 @@ namespace MapMaker.Scripts
             _index = 0;
             var entitiesCount = 0;
 
-            var config = GetConfig();
+            var configs = GetAllConfigs();
             var environments = GetAllEnvironments();
             var level = GetLevel();
             var enemies = GetAllEnemies();
@@ -60,9 +60,9 @@ namespace MapMaker.Scripts
             SaveEntities(towers, memorySlot, "towers");
             SaveEntities(enemies, memorySlot, "enemies");
             SaveEntities(waves, memorySlot, "waves");
+            SaveEntities(configs, memorySlot, "configs");
             level.Save(SavePath.Level.ID, memorySlot);
             //cameraEntity.Save(SavePath.Camera.ID, memorySlot);
-            config.Save(SavePath.Config.ID, memorySlot);
 
         }
 
@@ -96,6 +96,11 @@ namespace MapMaker.Scripts
         {
             return FindObjectsByType<WavesEntity>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
         }
+        
+        private ConfigEntity[] GetAllConfigs()
+        {
+            return FindObjectsByType<ConfigEntity>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+        }
 
         private CameraEntity GetCamera()
         {
@@ -105,11 +110,6 @@ namespace MapMaker.Scripts
         private LevelEntity GetLevel()
         {
             return FindObjectOfType<LevelEntity>();
-        }
-        
-        private ConfigEntity GetConfig()
-        {
-            return FindObjectOfType<ConfigEntity>();
         }
 
 
@@ -124,9 +124,9 @@ namespace MapMaker.Scripts
             }.transform;
             _all.gameObject.AddComponent<Entities>();
 
-            _config = new GameObject
+            _configs = new GameObject
             {
-                name = "Config",
+                name = "Configs",
                 transform = { parent = _all}
             }.transform;
 
@@ -193,7 +193,7 @@ namespace MapMaker.Scripts
         {
             foreach (var entity in slot.Dynamics)
             {
-                if (entity.type == SavePath.EntityCategory.Enemy)
+                if (entity.type == SavePath.EntityType.Enemy)
                 {
                     var entityObject = new GameObject { name = entity.id, transform = { parent = _enemies}}.AddComponent<EnemyEntity>();
                     entityObject.Load(entity, slot, this, false);
@@ -202,7 +202,7 @@ namespace MapMaker.Scripts
             
             foreach (var entity in slot.Prototypes)
             {
-                if (entity.type == SavePath.EntityCategory.Enemy)
+                if (entity.type == SavePath.EntityType.Enemy)
                 {
                     var entityObject = new GameObject { name = entity.id, transform = { parent = _prototypes}}.AddComponent<EnemyEntity>();
                     entityObject.Load(entity, slot, this, true);
@@ -214,7 +214,7 @@ namespace MapMaker.Scripts
         {
             foreach (var entity in slot.Dynamics)
             {
-                if (entity.type == SavePath.EntityCategory.Tower)
+                if (entity.type == SavePath.EntityType.Tower)
                 {
                     var entityObject = new GameObject { name = entity.id, transform = { parent = _towers}}.AddComponent<TowerEntity>();
                     entityObject.Load(entity, slot, this, false);
@@ -223,7 +223,7 @@ namespace MapMaker.Scripts
             
             foreach (var entity in slot.Prototypes)
             {
-                if (entity.type == SavePath.EntityCategory.Tower)
+                if (entity.type == SavePath.EntityType.Tower)
                 {
                     var entityObject = new GameObject { name = entity.id, transform = { parent = _prototypes}}.AddComponent<TowerEntity>();
                     entityObject.Load(entity, slot, this, true);
@@ -233,16 +233,21 @@ namespace MapMaker.Scripts
 
         private void LoadConfigs(Slot slot)
         {
-            // if (slot.Configs == null) slot.AddConfig(new SlotEntity(SavePath.Config.ID, SlotCategory.Config, "?"));
-            // var entityObject = new GameObject { name = slot.Configs.id, transform = { parent = _config}}.AddComponent<ConfigEntity>();
-            // entityObject.Load(slot.Configs, slot, this, false);
+            foreach (var entity in slot.Configs)
+            {
+                if (entity.type == SavePath.EntityType.LevelConfig)
+                {
+                    var entityObject = new GameObject { name = entity.id, transform = { parent = _configs}}.AddComponent<ConfigEntity>();
+                    entityObject.Load(entity, slot, this, false);
+                }
+            }
         }
         
         private void LoadLevel(Slot slot)
         {
             foreach (var entity in slot.Dynamics)
             {
-                if (entity.type == SavePath.EntityCategory.Level)
+                if (entity.type == SavePath.EntityType.Level)
                 {
                     var entityObject = new GameObject { name = entity.id, transform = { parent = _level}}.AddComponent<LevelEntity>();
                     entityObject.Load(entity, slot, this, false);
@@ -266,7 +271,7 @@ namespace MapMaker.Scripts
         {
             foreach (var entity in slot.Statics)
             {
-                if (entity.type == SavePath.EntityCategory.Waves)
+                if (entity.type == SavePath.EntityType.Waves)
                 {
                     var entityObject = new GameObject { name = entity.id, transform = { parent = (_waves)}}.AddComponent<WavesEntity>();
                     entityObject.Load(entity, slot, this, false);
@@ -278,7 +283,7 @@ namespace MapMaker.Scripts
         {
             foreach (var entity in slot.Statics)
             {
-                if (entity.type == SavePath.EntityCategory.Environment)
+                if (entity.type == SavePath.EntityType.Environment)
                 {
                     var entityObject = new GameObject { name = entity.id, transform = { parent = (_environments)}}.AddComponent<EnvironmentEntity>();
                     entityObject.Load(entity, slot, this, false);
@@ -290,6 +295,8 @@ namespace MapMaker.Scripts
         public void Clear()
         {
             //DestroyImmediate(_all.gameObject);
+            var towerGrid = GameObject.Find("TowerGrid");
+            if(towerGrid != null) DestroyImmediate(towerGrid);
             var globals = FindObjectsOfType<Entities>();
             if (globals != null) foreach (var foundObject in globals) DestroyImmediate(foundObject.gameObject);
             var envs = GetAllEnvironments();
@@ -298,12 +305,14 @@ namespace MapMaker.Scripts
             if (enemies != null) foreach (var foundObject in enemies) DestroyImmediate(foundObject.gameObject);
             var towers = GetAllTowers();
             if (towers != null) foreach (var foundObject in towers) DestroyImmediate(foundObject.gameObject);
-            var configs = FindObjectsByType<ConfigEntity>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+            var configs = GetAllConfigs();
             if (configs != null) foreach (var foundObject in configs) DestroyImmediate(foundObject.gameObject);
             var cameras = FindObjectsByType<CameraEntity>(FindObjectsInactive.Include, FindObjectsSortMode.None);
             if (cameras != null) foreach (var foundObject in cameras) DestroyImmediate(foundObject.gameObject);
             var waves = GetAllWaves();
             if (waves != null) foreach (var foundObject in waves) DestroyImmediate(foundObject.gameObject);
+            var levels = FindObjectsByType<LevelEntity>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+            if (levels != null) foreach (var foundObject in levels) DestroyImmediate(foundObject.gameObject);
         }
         
         private void TryDel(ref MonoBehaviour[] array)

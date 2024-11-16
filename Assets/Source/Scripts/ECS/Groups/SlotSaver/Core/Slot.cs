@@ -89,6 +89,7 @@ namespace Source.Scripts.ECS.Groups.SlotSaver.Core
 
         public void Clear()
         {
+            configs.Clear();
             prototypes.Clear();
             statics.Clear();
             dynamics.Clear();

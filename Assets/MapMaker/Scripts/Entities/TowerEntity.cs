@@ -21,8 +21,8 @@ namespace MapMaker.Scripts
         public void Save(string entityID, Slot slot)
         {
             var entity = isPrototype ?
-                        new SlotEntity(prototypeID, SlotCategory.Dynamic, "",SavePath.EntityCategory.Tower) :
-                        new SlotEntity(entityID, SlotCategory.Dynamic, "",SavePath.EntityCategory.Tower);
+                        new SlotEntity(prototypeID, SlotCategory.Dynamic, SavePath.EntityType.Tower) :
+                        new SlotEntity(entityID, SlotCategory.Dynamic, SavePath.EntityType.Tower);
             
             if (isPrototype) slot.AddPrototype(entity);
             else slot.AddDynamic(entity);

@@ -10,6 +10,13 @@ namespace Source.Scripts.Core
         public Slot slot;
 
         [Button]
+        public void ClearSlot()
+        {
+            slot.Initialize();
+            slot.Clear();
+        }
+        
+        [Button]
         public void Validate()
         {
 

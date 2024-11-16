@@ -18,7 +18,7 @@ namespace Source.Scripts.ECS.Groups.SlotSaver.Core
         {
             if (slot.TryGetEntity(entityData.EntityID, out var foundEntity)) return foundEntity;
 
-            var savingEntity = new SlotEntity(entityData.EntityID, entityData.Category, entityData.Type, entityData.SubType);
+            var savingEntity = new SlotEntity(entityData.EntityID, entityData.Category, entityData.Type);
 
             onCreate?.Invoke();
             // if (pooler.Tower.Has(entity) ||
@@ -61,7 +61,7 @@ namespace Source.Scripts.ECS.Groups.SlotSaver.Core
             foreach (var entity in world.Filter<SlotSaverData.SlotEntity>().Exc<SlotSaverData.SavingProcess>().End())
             {
                 ref var entityData = ref pooler.SlotEntity.Get(entity);
-                var newEntitySlot = new SlotEntity(entityData.EntityID, entityData.Category, entityData.Type, entityData.SubType);
+                var newEntitySlot = new SlotEntity(entityData.EntityID, entityData.Category, entityData.Type);
 
                 if (pooler.Prototype.Has(entity)) slot.AddPrototype(newEntitySlot);
                 else if (pooler.ConfigMark.Has(entity)) slot.AddConfig(newEntitySlot);

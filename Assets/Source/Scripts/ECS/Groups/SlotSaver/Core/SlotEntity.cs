@@ -14,23 +14,21 @@ namespace Source.Scripts.ECS.Groups.SlotSaver.Core
         /// <summary> является ли оно конфигом, прототипом и дайнемик </summary>
         public SlotCategory category;
         public string type;
-        public string subType;
         public List<Field> fields;
         private Dictionary<string, Field> _fieldsDict;
 
-        public SlotEntity(string entityID, SlotCategory category, string type, string subType)
+        public SlotEntity(string entityID, SlotCategory category, string type)
         {
             id = entityID;
             this.category = category;
             this.type = type;
-            this.subType = subType;
             _fieldsDict = new Dictionary<string, Field>();
             fields = new List<Field>();
         }
 
         public static string[] Dropdown()
         {
-            return SavePath.EntityCategory.All;
+            return SavePath.EntityType.All;
         }
 
         public void Initialize()

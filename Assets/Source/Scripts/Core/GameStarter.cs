@@ -49,11 +49,6 @@ namespace Source.Scripts.Core
             return azgardGameContext;
         }
 
-        private void Start()
-        {
-            Initialize();
-        }
-
         [Button]
         public void Pause()
         {

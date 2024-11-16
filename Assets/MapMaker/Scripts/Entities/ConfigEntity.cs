@@ -8,11 +8,9 @@ namespace MapMaker.Scripts
     public class ConfigEntity : MonoBehaviour, IEntityObject
     {
         [SerializeField] public ConfigSettings configs;
-        [SerializeField] private string type;
-        [SerializeField] private string subType;
         public void Save(string entityID, Slot slot)
         {
-            var entity = new SlotEntity(entityID, SlotCategory.Config, type, subType);
+            var entity = new SlotEntity(entityID, SlotCategory.Config, SavePath.EntityType.LevelConfig);
             slot.AddConfig(entity);
             var lastEntityID = FindAnyObjectByType<MapEditor>().Increment;
             
@@ -23,8 +21,6 @@ namespace MapMaker.Scripts
         public void Load(SlotEntity slotEntity, Slot slot, MapEditor mapEditor, bool isPrototype)
         {
             configs = new ();
-            type = slotEntity.type;
-            subType = slotEntity.subType;
             this.DeserializeObject(slotEntity);
         }
         

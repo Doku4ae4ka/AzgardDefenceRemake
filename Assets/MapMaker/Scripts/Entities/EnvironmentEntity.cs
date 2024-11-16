@@ -14,7 +14,7 @@ namespace MapMaker.Scripts
         
         public void Save(string entityID, Slot slot)
         {
-            var entity = new SlotEntity(entityID, SlotCategory.Static, "",SavePath.EntityCategory.Environment);
+            var entity = new SlotEntity(entityID, SlotCategory.Static, SavePath.EntityType.Environment);
             
             slot.AddStatic(entity);
             

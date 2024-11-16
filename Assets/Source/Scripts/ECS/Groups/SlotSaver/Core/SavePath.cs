@@ -4,15 +4,15 @@
     {
         public static readonly string[] AllPathFields =
         {
-            EntityCategory.Tower,
-            EntityCategory.Enemy,
-            EntityCategory.Camera,
-            EntityCategory.Level,
-            EntityCategory.Waves,
-            EntityCategory.Environment,
-            EntityCategory.Prototype,
-            EntityCategory.Config,
-            EntityCategory.Trigger,
+            EntityType.Tower,
+            EntityType.Enemy,
+            EntityType.Camera,
+            EntityType.Level,
+            EntityType.Waves,
+            EntityType.Environment,
+            EntityType.Prototype,
+            EntityType.LevelConfig,
+            EntityType.Trigger,
             Config.ID,
             Config.FreeEntityID,
             Config.MapBounds,
@@ -39,8 +39,10 @@
             TowerLevel.Cost,
             BuildingTilemap.Tilemap
         };
+        
+        
 
-        public static class EntityCategory
+        public static class EntityType
         {
             public const string Tower = "tower";
             public const string Enemy = "enemy";
@@ -48,12 +50,12 @@
             public const string Level = "level";
             public const string Waves = "waves";
             public const string Prototype = "prototype";
-            public const string Config = "config";
+            public const string LevelConfig = "config.level";
             public const string Environment = "environment";
             public const string Trigger = "trigger";
 
             public static readonly string[] All =
-                { Tower, Enemy, Camera, Level, Waves, Environment, Prototype, Config, Trigger };
+                { Tower, Enemy, Camera, Level, Waves, Environment, Prototype, LevelConfig, Trigger };
         }
 
         public static class Config
@@ -114,6 +116,11 @@
         {
             public const string Level = "tower.level";
             public const string Cost = "tower.cost";
+        }
+
+        public static class TowerType
+        {
+            public const string TowerArcher = "tower.archer";
         }
 
         public static class Health

@@ -14,7 +14,6 @@ namespace Source.Scripts.ECS.Groups.SlotSaver
             public string EntityID;
             public SlotCategory Category;
             public string Type;
-            public string SubType;
         }
 
         public struct Prototype : IEcsComponent

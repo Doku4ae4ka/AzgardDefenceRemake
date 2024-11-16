@@ -11,7 +11,7 @@ namespace MapMaker.Scripts
         
         public void Save(string entityID, Slot slot)
         {
-            var entity = new SlotEntity(entityID, SlotCategory.Dynamic, "",SavePath.EntityCategory.Level);
+            var entity = new SlotEntity(entityID, SlotCategory.Dynamic, SavePath.EntityType.Level);
             
             slot.AddDynamic(entity);
             this.SerializeObject(entity);
