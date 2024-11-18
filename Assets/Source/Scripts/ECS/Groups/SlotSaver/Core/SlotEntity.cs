@@ -69,6 +69,7 @@ namespace Source.Scripts.ECS.Groups.SlotSaver.Core
 
         public bool TryGetField(string key, out string value)
         {
+            UnityEngine.Debug.Log($"TryGetField dict: {_fieldsDict == null}"); //Debug
             if (_fieldsDict.TryGetValue(key, out var result))
             {
                 value = result.value;

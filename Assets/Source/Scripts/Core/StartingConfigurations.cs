@@ -10,9 +10,10 @@ namespace Source.Scripts.Core
         public static SlotSaverGroup SetSlotSaverSettings(this SlotSaverGroup group)
         {
             group
-                .SetBuilder(new EnemyBuilder())
+                //.SetBuilder(new EnemyBuilder())
                 .SetBuilder(new ConfigBuilder())
                 .SetBuilder(new HealthBuilder())
+                .SetBuilder(new MovableBuilder())
                 ;
             return group;
         }
