@@ -2,15 +2,16 @@
 using ECS.Modules.Exerussus.Health;
 using Exerussus._1EasyEcs.Scripts.Core;
 using Leopotam.EcsLite;
+using Source.Scripts.Core;
 using Source.Scripts.ECS.Groups.SlotSaver.Core;
 using UnityEngine;
 
 namespace Source.Scripts.ECS.Groups.HealthSaver
 {
-    public class HealthBuilder : EntityBuilder
+    public class MovableBuilder : EntityBuilder
     {
         public override SlotCategory Category { get; } = SlotCategory.Dynamic;
-        public override EcsWorld.Mask FilterMask => _world.Filter<HealthData.Health>();
+        public override EcsWorld.Mask FilterMask => _world.Filter<EcsData.Movable>();
         private HealthPooler _healthPooler;
         private EcsWorld _world;
         
@@ -22,7 +23,7 @@ namespace Source.Scripts.ECS.Groups.HealthSaver
 
         public override bool CheckPrototypeProcess(int entity, SlotEntity slotEntity)
         {
-            return slotEntity.TryGetField(SavePath.Health.Max, out var healthMax);
+            return slotEntity.TryGetField(SavePath.Movable.Speed, out var healthMax);
         }
 
         public override Action<int> SetDataBuilderForPrototype(int entity, SlotEntity slotEntity)

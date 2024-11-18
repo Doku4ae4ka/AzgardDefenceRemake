@@ -235,7 +235,7 @@ namespace MapMaker.Scripts
         {
             foreach (var entity in slot.Configs)
             {
-                if (entity.type == SavePath.EntityType.LevelConfig)
+                if (entity.type == SavePath.EntityType.Config)
                 {
                     var entityObject = new GameObject { name = entity.id, transform = { parent = _configs}}.AddComponent<ConfigEntity>();
                     entityObject.Load(entity, slot, this, false);

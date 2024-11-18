@@ -17,7 +17,7 @@ MonoBehaviour:
     configs:
     - id: configs.1
       category: 0
-      type: config.level
+      type: main_config
       fields:
       - key: config.free_entity_id
         value: 0

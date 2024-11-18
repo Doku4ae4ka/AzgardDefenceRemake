@@ -30,6 +30,9 @@ namespace Source.Scripts.ECS.Groups.SlotSaver.Core
         }
     }
 
+    /// <summary>
+    /// Saver is a class that contains methods for saving data from the ECS world to the slot.
+    /// </summary>
     [Serializable]
     public class Saver
     {
@@ -75,6 +78,9 @@ namespace Source.Scripts.ECS.Groups.SlotSaver.Core
         }
     }
 
+    /// <summary>
+    /// Loader is a class that contains methods for loading data from the slot to the ECS world.
+    /// </summary>
     [Serializable]
     public class Loader
     {

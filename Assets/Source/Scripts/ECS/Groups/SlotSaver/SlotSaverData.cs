@@ -9,6 +9,7 @@ namespace Source.Scripts.ECS.Groups.SlotSaver
     {
         #region SaveSystem
 
+        /// <summary> Основная дата SlotSaver, хранит данные о сущности в сохранении </summary>
         public struct SlotEntity : IEcsComponent
         {
             public string EntityID;
@@ -16,6 +17,7 @@ namespace Source.Scripts.ECS.Groups.SlotSaver
             public string Type;
         }
 
+        /// <summary> Сущность является прототипом, хранит метод для создания данных при клонировании </summary>
         public struct Prototype : IEcsComponent
         {
             public Action<int> DataBuilder;
@@ -35,10 +37,12 @@ namespace Source.Scripts.ECS.Groups.SlotSaver
         {
         }
         
+        /// <summary> Сущность конфиг (Config) </summary>
         public struct ConfigMark : IEcsComponent
         {
         }
         
+        /// <summary> Сущность игрок (Player) </summary>
         public struct PlayerMark : IEcsComponent
         {
         }

@@ -11,7 +11,6 @@ namespace Source.Scripts.ECS.Groups.GameCore.DataBuilder
         public override SlotCategory Category => SlotCategory.Config;
         public override EcsWorld.Mask FilterMask => _world.Filter<GameCoreData.MainConfigMark>();
         private GameCorePooler _gameCorePooler;
-        private const string MainConfig = "main.config";
         private EcsWorld _world;
         
         public override void Initialize(GameShare gameShare)
@@ -22,7 +21,7 @@ namespace Source.Scripts.ECS.Groups.GameCore.DataBuilder
 
         public override void TrySetDataForStandardEntity(int entity, SlotEntity slotEntity)
         {
-            if (slotEntity.type != MainConfig) return;
+            if (slotEntity.type != SavePath.EntityType.Config) return;
             
             
         }

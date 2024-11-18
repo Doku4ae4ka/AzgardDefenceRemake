@@ -11,7 +11,7 @@
             EntityType.Waves,
             EntityType.Environment,
             EntityType.Prototype,
-            EntityType.LevelConfig,
+            EntityType.Config,
             EntityType.Trigger,
             Config.ID,
             Config.FreeEntityID,
@@ -50,12 +50,12 @@
             public const string Level = "level";
             public const string Waves = "waves";
             public const string Prototype = "prototype";
-            public const string LevelConfig = "config.level";
+            public const string Config = "main_config";
             public const string Environment = "environment";
             public const string Trigger = "trigger";
 
             public static readonly string[] All =
-                { Tower, Enemy, Camera, Level, Waves, Environment, Prototype, LevelConfig, Trigger };
+                { Tower, Enemy, Camera, Level, Waves, Environment, Prototype, Config, Trigger };
         }
 
         public static class Config

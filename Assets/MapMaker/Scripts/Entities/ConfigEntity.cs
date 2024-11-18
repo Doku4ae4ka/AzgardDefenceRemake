@@ -10,7 +10,7 @@ namespace MapMaker.Scripts
         [SerializeField] public ConfigSettings configs;
         public void Save(string entityID, Slot slot)
         {
-            var entity = new SlotEntity(entityID, SlotCategory.Config, SavePath.EntityType.LevelConfig);
+            var entity = new SlotEntity(entityID, SlotCategory.Config, SavePath.EntityType.Config);
             slot.AddConfig(entity);
             var lastEntityID = FindAnyObjectByType<MapEditor>().Increment;
             
