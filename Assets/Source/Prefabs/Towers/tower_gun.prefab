@@ -96,6 +96,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8034535012764678817, guid: 5c7c354ab70514214bba21a33b676a1c, type: 3}
+      propertyPath: assetName
+      value: tower_gun
+      objectReference: {fileID: 0}
     - target: {fileID: 8092380914437332738, guid: 5c7c354ab70514214bba21a33b676a1c, type: 3}
       propertyPath: id
       value: 2

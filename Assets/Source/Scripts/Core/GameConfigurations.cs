@@ -1,5 +1,5 @@
 ﻿using Sirenix.OdinInspector;
-using Source.Scripts.SaveSystem;
+using Source.Scripts.ECS.Groups.SlotSaver.Core;
 using UnityEngine;
 
 namespace Source.Scripts.Core
@@ -10,14 +10,16 @@ namespace Source.Scripts.Core
         public Slot slot;
 
         [Button]
+        public void ClearSlot()
+        {
+            slot.Initialize();
+            slot.Clear();
+        }
+        
+        [Button]
         public void Validate()
         {
-            if (slot.Configs != null)
-            {
-                slot.Configs.id = SavePath.Config.ID;
-                slot.Configs.category = SavePath.EntityCategory.Config;
-            }
-            if (slot.Prototypes != null) foreach (var entity in slot.Prototypes) entity.category = SavePath.EntityCategory.Prototype;
+
         }
 
         [Button]

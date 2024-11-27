@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Sirenix.OdinInspector;
 using Source.Scripts.Core;
+using Source.Scripts.ECS.Groups.SlotSaver.Core;
 using Source.Scripts.Extensions;
-using Source.Scripts.SaveSystem;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -16,9 +15,9 @@ namespace MapMaker.Scripts.EntitySettings.Level
         public bool enabled;
         public Tilemap tilemap;
         
-        public void TryLoad(Entity entity)
+        public void TryLoad(SlotEntity slotEntity)
         {
-            if (entity.TryGetTileEntriesField(SavePath.BuildingTilemap.Tilemap, CacheAllTiles(), out var loadedList))
+            if (slotEntity.TryGetTileEntriesField(SavePath.BuildingTilemap.Tilemap, TileMapExtensions.CacheAllTiles(), out var loadedList))
             {
                 enabled = true;
                 tilemap = InstantiateTilemapGameObject();
@@ -28,10 +27,10 @@ namespace MapMaker.Scripts.EntitySettings.Level
             else enabled = false;
         }
         
-        public void TrySave(Entity entity)
+        public void TrySave(SlotEntity slotEntity)
         {
             if (!enabled) return;
-            entity.SetField(SavePath.BuildingTilemap.Tilemap, SerializeTilemap(tilemap));
+            slotEntity.SetField(SavePath.BuildingTilemap.Tilemap, tilemap.SerializeTilemap());
         }
         
         private static Tilemap InstantiateTilemapGameObject(string gridName = "TowerGrid", string tilemapName = "BuildingTilemap")
@@ -51,34 +50,5 @@ namespace MapMaker.Scripts.EntitySettings.Level
             return tilemap;
         }
         
-        private Dictionary<string, TileBase> CacheAllTiles()
-        {
-            var dict = new Dictionary<string, TileBase>();
-            
-            var exclude = Resources.Load<TileBase>(Constants.Resources.TilePaths.Exclude);
-            var empty = Resources.Load<TileBase>(Constants.Resources.TilePaths.Empty);
-
-            if (exclude != null) dict.TryAdd(Constants.Tiles.Exclude, exclude);
-            else Debug.LogError($"Tile '{Constants.Resources.TilePaths.Exclude}' not found in Resources.");
-
-            if (empty != null) dict.TryAdd(Constants.Tiles.Empty, empty);
-            else Debug.LogError($"Tile '{Constants.Resources.TilePaths.Empty}' not found in Resources.");
-
-            return dict;
-        }
-        
-        private string SerializeTilemap(Tilemap tilemap)
-        {
-            var sb = new StringBuilder();
-
-            BoundsInt bounds = tilemap.cellBounds;
-            foreach (var position in bounds.allPositionsWithin)
-            {
-                TileBase tile = tilemap.GetTile(position);
-                if (tile != null) sb.Append($"({position.x},{position.y},{tile.name});");
-            }
-
-            return sb.ToString();
-        }
     }
 }

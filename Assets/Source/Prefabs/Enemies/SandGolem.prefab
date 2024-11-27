@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6855647442156606960}
   - component: {fileID: 8887790811833838641}
   - component: {fileID: 2224853615543494623}
-  - component: {fileID: 4048347003036210158}
+  - component: {fileID: 1649243190609829258}
   m_Layer: 0
   m_Name: SandGolem
   m_TagString: Untagged
@@ -107,7 +107,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &4048347003036210158
+--- !u!114 &1649243190609829258
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -116,6 +116,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2533275527444793057}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 485a71cd291a47afad0cc2354ea5df05, type: 3}
+  m_Script: {fileID: 11500000, guid: a442513df17f43edb3077f28a8f30d96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  assetName: sand_golem

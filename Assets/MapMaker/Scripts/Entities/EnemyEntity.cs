@@ -1,10 +1,8 @@
 using System;
-using MapMaker.Scripts.EntitySettings;
 using MapMaker.Scripts.EntitySettings.Enemy;
 using Sirenix.OdinInspector;
 using Source.Scripts.Core;
-using Source.Scripts.ECS.Core.SaveManager;
-using Source.Scripts.SaveSystem;
+using Source.Scripts.ECS.Groups.SlotSaver.Core;
 using UnityEngine;
 
 namespace MapMaker.Scripts
@@ -15,7 +13,6 @@ namespace MapMaker.Scripts
         public bool autoValidate;
         public bool isPrototype;
         [ShowIf("isPrototype"), CustomAttributes.ValueDropdown("Dropdown")] public string prototypeID;
-        private PrototypeSettings prototype = new();
         public EnemyViewSettings view;
         [SerializeField] public EnemySettings enemy;
         
@@ -23,16 +20,10 @@ namespace MapMaker.Scripts
         
         public void Save(string entityID, Slot slot)
         {
-            var entity = isPrototype ?
-                         new Entity(prototypeID, SavePath.EntityCategory.Tower) :
-                         new Entity(entityID, SavePath.EntityCategory.Tower);
+            var entity = isPrototype ? new SlotEntity(prototypeID, SlotCategory.Dynamic, SavePath.EntityType.Enemy) :
+                         new SlotEntity(entityID, SlotCategory.Dynamic, SavePath.EntityType.Enemy);
 
-            if (isPrototype)
-            {
-                entity.category = SavePath.EntityCategory.Prototype;
-                slot.AddPrototype(entity);
-                prototype.Set(entity, slot, SavePath.EntityCategory.Enemy);
-            }
+            if (isPrototype) slot.AddPrototype(entity);
             else slot.AddDynamic(entity);
             
             if (view.enabled) view.TrySaveView(entity, transform);
@@ -40,18 +31,16 @@ namespace MapMaker.Scripts
             this.SerializeObject(entity);
         }
 
-        public void Load(Entity entity, Slot slot, MapEditor mapEditor)
+        public void Load(SlotEntity slotEntity, Slot slot, MapEditor mapEditor, bool isPrototype)
         {
-            isPrototype = entity.category == SavePath.EntityCategory.Prototype;
-            prototypeID = 
-                Dropdown()[Array.IndexOf(Dropdown(), entity.id)];
+            this.isPrototype = isPrototype;
+            prototypeID = Dropdown()[Array.IndexOf(Dropdown(), slotEntity.id)];
             
-            prototype = new ();
             enemy = new ();
             view = new();
             
-            view.TryLoadView(entity, transform);
-            this.DeserializeObject(entity);
+            view.TryLoadView(slotEntity, transform);
+            this.DeserializeObject(slotEntity);
         }
         
         [Button]

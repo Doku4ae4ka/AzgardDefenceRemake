@@ -468,13 +468,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2b22e07822e45579319eb393accde2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tickSystemDelay: 1
+  autoInitialize: 1
+  groups: []
   autoLoad: 1
+  azgardGameContext:
+    IsPaused: 0
+    GameTimeScale: 1
+    LogLevel: 4
+    FixedUpdateDelta: 0
+    UpdateDelta: 0
   gameStatus:
     currentState: 1
-  signalHandler: {fileID: 11400000, guid: 9bbbcd99f433b304c9e0119d88020b90, type: 2}
+  signalHandler: {fileID: 11400000, guid: 865956492abb0cf4f98488a2ea3d226d, type: 2}
   gameConfigurations: {fileID: 11400000, guid: 7f51f09078e650c489b605ea4e228f1f, type: 2}
   memory: {}
+  memoryLoadingProcess: 0
+  isLoading: 0
   prototypes:
     prototypeEditorOnly: []
   configs:

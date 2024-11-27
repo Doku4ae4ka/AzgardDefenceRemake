@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Sirenix.OdinInspector;
 using Source.Scripts.Core;
-using Source.Scripts.SaveSystem;
+using Source.Scripts.ECS.Groups.SlotSaver.Core;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -15,9 +15,9 @@ namespace MapMaker.Scripts.EntitySettings.Configs
         public bool enabled;
         public Tilemap tilemap;
 
-        public void TryLoad(Entity entity)
+        public void TryLoad(SlotEntity slotEntity)
         {
-            if (entity.TryGetRoutesField(SavePath.Config.Routes, out var dictionary))
+            if (slotEntity.TryGetRoutesField(SavePath.Config.Routes, out var dictionary))
             {
                 tilemap = GameObject.Find("PathTilemap").GetComponent<Tilemap>();
                 enabled = true;
@@ -26,10 +26,10 @@ namespace MapMaker.Scripts.EntitySettings.Configs
             
         }
          
-        public void TrySave(Entity entity)
+        public void TrySave(SlotEntity slotEntity)
         {            
             if (!enabled) return;
-            entity.SetField(SavePath.Config.Routes, SerializePaths(ParsePathsTilemap(tilemap)));
+            slotEntity.SetField(SavePath.Config.Routes, SerializePaths(ParsePathsTilemap(tilemap)));
         }
         
         public static List<(int id, List<Vector2> waypoints)> ParsePathsTilemap(Tilemap pathsTilemap)

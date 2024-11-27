@@ -1,6 +1,5 @@
 ﻿using MapMaker.Scripts.EntitySettings.Configs;
-using Source.Scripts.ECS.Core.SaveManager;
-using Source.Scripts.SaveSystem;
+using Source.Scripts.ECS.Groups.SlotSaver.Core;
 using UnityEngine;
 
 namespace MapMaker.Scripts
@@ -8,21 +7,21 @@ namespace MapMaker.Scripts
     [AddComponentMenu("ADR/ConfigEntity"), SelectionBase]
     public class ConfigEntity : MonoBehaviour, IEntityObject
     {
-        [SerializeField] public ConfigSettings configs; 
+        [SerializeField] public ConfigSettings configs;
         public void Save(string entityID, Slot slot)
         {
-            var entity = new Entity(entityID, SavePath.EntityCategory.Config);
-            slot.CreateConfig(entity);
+            var entity = new SlotEntity(entityID, SlotCategory.Config, SavePath.EntityType.Config);
+            slot.AddConfig(entity);
             var lastEntityID = FindAnyObjectByType<MapEditor>().Increment;
             
             entity.SetField(SavePath.Config.FreeEntityID, $"{lastEntityID}");
             this.SerializeObject(entity);
         }
 
-        public void Load(Entity entity, Slot slot, MapEditor mapEditor)
+        public void Load(SlotEntity slotEntity, Slot slot, MapEditor mapEditor, bool isPrototype)
         {
             configs = new ();
-            this.DeserializeObject(entity);
+            this.DeserializeObject(slotEntity);
         }
         
         void OnDrawGizmos()

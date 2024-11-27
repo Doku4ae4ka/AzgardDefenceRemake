@@ -1,8 +1,9 @@
 using System;
 using Sirenix.OdinInspector;
 using Source.Scripts.Core;
+using Source.Scripts.ECS.Groups.GameCore;
+using Source.Scripts.ECS.Groups.SlotSaver.Core;
 using Source.Scripts.Extensions;
-using Source.Scripts.SaveSystem;
 
 namespace MapMaker.Scripts.EntitySettings.Tower
 {
@@ -16,37 +17,37 @@ namespace MapMaker.Scripts.EntitySettings.Tower
         public float radius;
         public EnemyType enemyType;
         
-        public void TryLoad(Entity entity)
+        public void TryLoad(SlotEntity slotEntity)
         {
-            if (entity.TryGetField(SavePath.Tower.BaseCost, out var cost))
+            if (slotEntity.TryGetField(SavePath.Tower.BaseCost, out var cost))
             {
                 enabled = true;
                 baseCost = cost.ParseInt();
             }
             else enabled = false;
             
-            if (entity.TryGetField(SavePath.Tower.Damage, out var damageValue))
+            if (slotEntity.TryGetField(SavePath.Tower.Damage, out var damageValue))
             {
                 enabled = true;
                 damage = damageValue.ParseFloat();
             }
             else enabled = false;
             
-            if (entity.TryGetField(SavePath.Tower.AttackSpeed, out var attackSpeedValue))
+            if (slotEntity.TryGetField(SavePath.Tower.AttackSpeed, out var attackSpeedValue))
             {
                 enabled = true;
                 attackSpeed = attackSpeedValue.ParseFloat();
             }
             else enabled = false;
             
-            if (entity.TryGetField(SavePath.Tower.Radius, out var radiusValue))
+            if (slotEntity.TryGetField(SavePath.Tower.Radius, out var radiusValue))
             {
                 enabled = true;
                 radius = radiusValue.ParseFloat();
             }
             else enabled = false;
             
-            if (entity.TryGetEnumField(SavePath.Tower.EnemyType, out EnemyType parsedEnemyType))
+            if (slotEntity.TryGetEnumField(SavePath.Tower.EnemyType, out EnemyType parsedEnemyType))
             {
                 enabled = true;
                 enemyType = parsedEnemyType;
@@ -54,15 +55,15 @@ namespace MapMaker.Scripts.EntitySettings.Tower
             else enabled = false;
         }
         
-        public void TrySave(Entity entity)
+        public void TrySave(SlotEntity slotEntity)
         {
             if (!enabled) return;
             
-            entity.SetField(SavePath.Tower.BaseCost, $"{baseCost}");
-            entity.SetField(SavePath.Tower.Damage, $"{damage}");
-            entity.SetField(SavePath.Tower.AttackSpeed, $"{attackSpeed}");
-            entity.SetField(SavePath.Tower.Radius, $"{radius}");
-            entity.SetField(SavePath.Tower.EnemyType, $"{enemyType}");
+            slotEntity.SetField(SavePath.Tower.BaseCost, $"{baseCost}");
+            slotEntity.SetField(SavePath.Tower.Damage, $"{damage}");
+            slotEntity.SetField(SavePath.Tower.AttackSpeed, $"{attackSpeed}");
+            slotEntity.SetField(SavePath.Tower.Radius, $"{radius}");
+            slotEntity.SetField(SavePath.Tower.EnemyType, $"{enemyType}");
         }
     }
 }

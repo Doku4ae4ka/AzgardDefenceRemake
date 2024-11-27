@@ -1,7 +1,7 @@
 using System;
 using Sirenix.OdinInspector;
+using Source.Scripts.ECS.Groups.SlotSaver.Core;
 using Source.Scripts.Extensions;
-using Source.Scripts.SaveSystem;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -16,18 +16,18 @@ namespace MapMaker.Scripts.EntitySettings.Environment
         public AssetReference viewPath;
         [SerializeField, HideInInspector] private GameObject spawnedView;
 
-        public void TryLoadView(Entity entity, Transform transform)
+        public void TryLoadView(SlotEntity slotEntity, Transform transform)
         {
-            if (entity.TryGetField(SavePath.View.Environment, out var viewField))
+            if (slotEntity.TryGetField(SavePath.View.Environment, out var viewField))
             {
                 enabled = true;
                 viewPath = viewField.ParseToAssetReference();
-                if (entity.TryGetField(SavePath.WorldSpace.Position, out var positionField))
+                if (slotEntity.TryGetField(SavePath.WorldSpace.Position, out var positionField))
                 {
                     transform.position = positionField.ParseVector3();
                 }
                 
-                if (entity.TryGetField(SavePath.WorldSpace.Rotation, out var rotationField))
+                if (slotEntity.TryGetField(SavePath.WorldSpace.Rotation, out var rotationField))
                 {
                     transform.rotation = rotationField.ParseQuaternion();
                 }
@@ -37,15 +37,15 @@ namespace MapMaker.Scripts.EntitySettings.Environment
             else enabled = false;
         }
 
-        public void TrySaveView(Entity entity, Transform transform)
+        public void TrySaveView(SlotEntity slotEntity, Transform transform)
         {
             if (!enabled) return;
             
-            entity.SetField(SavePath.View.Environment, viewPath.AssetGUID);
-            entity.SetField(SavePath.WorldSpace.Position, $"{transform.position}");
+            slotEntity.SetField(SavePath.View.Environment, viewPath.AssetGUID);
+            slotEntity.SetField(SavePath.WorldSpace.Position, $"{transform.position}");
             if ("(0.00000, 0.00000, 0.00000, 1.00000)" != transform.rotation.ToString())
             {
-                entity.SetField(SavePath.WorldSpace.Rotation, $"{transform.rotation}");
+                slotEntity.SetField(SavePath.WorldSpace.Rotation, $"{transform.rotation}");
             }
         }
 

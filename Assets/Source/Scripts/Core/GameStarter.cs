@@ -1,32 +1,42 @@
-﻿using Exerussus._1EasyEcs.Scripts.Core;
+﻿using System;
+using ECS.Modules.Exerussus.Health;
+using ECS.Modules.Exerussus.Movement;
+using ECS.Modules.Exerussus.SpaceHash;
+using ECS.Modules.Exerussus.TransformRelay;
+using ECS.Modules.Exerussus.ViewCreator;
+using Exerussus._1EasyEcs.Scripts.Core;
 using Exerussus._1EasyEcs.Scripts.Custom;
 using Exerussus._1Extensions.SignalSystem;
+using Exerussus._1Extensions.SmallFeatures;
 using Leopotam.EcsLite;
 using Sirenix.OdinInspector;
-using Source.Scripts.ECS.Systems.Enemies;
-using Source.Scripts.ECS.Systems.SaveLoadSystems;
-using Source.Scripts.ECS.Systems.SaveLoadSystems.BuildingTilemap;
-using Source.Scripts.ECS.Systems.SaveLoadSystems.Health;
-using Source.Scripts.ECS.Systems.SaveLoadSystems.Movable;
-using Source.Scripts.ECS.Systems.SaveLoadSystems.TowerData;
-using Source.Scripts.ECS.Systems.SaveLoadSystems.View;
-using Source.Scripts.ECS.Systems.Towers;
-using Source.Scripts.SaveSystem;
+using Source.Scripts.ECS.Groups.AzgardView;
+using Source.Scripts.ECS.Groups.Debug;
+using Source.Scripts.ECS.Groups.GameCore;
+using Source.Scripts.ECS.Groups.SlotSaver;
+using Source.Scripts.ECS.Groups.SlotSaver.Core;
 using UnityEngine;
 
 namespace Source.Scripts.Core
 {
     [AddComponentMenu("GameStarter")]
-    public class GameStarter : EcsStarter<Pooler>
+    public class GameStarter : EcsStarter
     {
         [SerializeField] private bool autoLoad;
+        [SerializeField] private AzgardGameContext azgardGameContext;
         [SerializeField] private GameStatus gameStatus;
-        [SerializeField, HideInInspector] private SignalHandler signalHandler;
-        [SerializeField, HideInInspector] private GameConfigurations gameConfigurations;
-        [SerializeField, HideInInspector] private Memory memory;
-        private SpaceHash<EcsData.TransformData, EcsData.Tower> _spaceHash;
+        [SerializeField] private SignalHandler signalHandler;
+        [SerializeField] private GameConfigurations gameConfigurations;
+        [SerializeField] private Memory memory;
+        [SerializeField, ReadOnly] private MemoryLoadingProcess memoryLoadingProcess;
+        [SerializeField, ReadOnly] private bool isLoading;
+        private SlotSaverPooler _slotSaverPooler;
         [SerializeField] private Prototypes prototypes = new Prototypes();
         [SerializeField] private Configs configs = new Configs();
+
+        protected override Func<float> FixedUpdateDelta { get; } = () => Time.fixedDeltaTime;
+        protected override Func<float> UpdateDelta { get; } = () => Time.deltaTime;
+        protected override Signal Signal => signalHandler.Signal;
         
         public GameStatus GameStatus => gameStatus;
         public SignalHandler SignalHandler => signalHandler;
@@ -34,37 +44,22 @@ namespace Source.Scripts.Core
         public Memory Memory => memory;
         public Prototypes Prototypes => prototypes;
 
-        public Pooler Pooler { get; private set; }
-
-
-        private void Start()
+        [Button]
+        public void LoadGame()
         {
-            Initialize();
-            if (autoLoad) Load();
+            gameConfigurations.slot.Initialize();
+            memoryLoadingProcess = MemoryLoadingProcess.Pre;
+        }
+
+        protected override void SetSharingDataAfterInitialized(EcsWorld world, GameShare gameShare)
+        {
+            gameShare.GetSharedObject(ref _slotSaverPooler);
         }
         
-        [Button]
-        public void Save()
+        protected override GameContext GetGameContext(GameShare gameShare)
         {
-            gameStatus.currentState = GameStatus.State.Loading;
-            
-            var slot = gameConfigurations.slot;
-            slot.Initialize();
-            memory.save.Invoke(_world, _pooler, slot);
-            gameStatus.currentState = GameStatus.State.Game;
-        }
-
-        [Button]
-        public void Load()
-        {
-            gameStatus.currentState = GameStatus.State.Loading;
-            prototypes.Clear();
-            
-            var slot = gameConfigurations.slot;
-            slot.Initialize();
-            memory.load.Invoke(_world, _pooler, slot, prototypes);
-            
-            gameStatus.currentState = GameStatus.State.Game;
+            gameShare.AddSharedObject(azgardGameContext);
+            return azgardGameContext;
         }
 
         [Button]
@@ -74,68 +69,89 @@ namespace Source.Scripts.Core
             else if (gameStatus.currentState == GameStatus.State.Pause) gameStatus.currentState = GameStatus.State.Game;
         }
 
-        protected override void SetInitSystems(IEcsSystems initSystems)
+        protected override EcsGroup[] GetGroups()
         {
-            initSystems
-                    
-                .Add(new ConfigSystem())
-                .Add(new ViewSystem())
-                .Add(new BuildingTilemapSystem())
-                .Add(new TowerSystem())
-                .Add(new MovableSystem())
-                .Add(new HealthSystem())
-                .Add(new TowerSpawnSystem())
-                .Add(new EnemySpawnSystem());
+            return new EcsGroup[]
+            {
+                new AzgardViewGroup(),
+                new HealthGroup(),
+                new MovementGroup(),
+                new TransformRelayGroup(),
+                new ViewCreatorGroup(),
+                new SlotSaverGroup().SetSlotSaverSettings(),
+                CreateSpaceHash(),
+                new GameCoreGroup(),
+                new DebugGroup(),
+            };
         }
 
-        protected override void SetFixedUpdateSystems(IEcsSystems fixedUpdateSystems)
+        protected override void SetSharingDataOnStart(EcsWorld world, GameShare gameShare)
         {
-            fixedUpdateSystems
-                .Add(new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem());
-        }
-
-        protected override void SetUpdateSystems(IEcsSystems updateSystems)
-        {
-            updateSystems
-                
-                .Add(new TowerPreviewSystem())
-                .Add(new TowerAttackSystem())
-                .Add(new MovementSystem())
-                .Add(new TargetingSystem())
-                .Add(new LoaderSystem());
-        }
-
-        protected override void SetLateUpdateSystems(IEcsSystems lateUpdateSystems)
-        {
-            
-        }
-
-        protected override void SetTickUpdateSystems(IEcsSystems tickUpdateSystems)
-        {
-
-        }
-
-        protected override void SetSharingData(EcsWorld world, GameShare gameShare)
-        {
-            _spaceHash = new SpaceHash<EcsData.TransformData, EcsData.Tower>(world, new Vector4(-40, -40, 45, 45), 2);
             gameShare.AddSharedObject(gameConfigurations);
             gameShare.AddSharedObject(gameStatus);
             gameShare.AddSharedObject(memory);
             gameShare.AddSharedObject(prototypes);
-            gameShare.AddSharedObject(_spaceHash);
             gameShare.AddSharedObject(configs);
             gameShare.AddSharedObject(this);
         }
 
-        protected override Signal GetSignal()
+        public override void FixedUpdate()
         {
-            return signalHandler.Signal;
+            UpdateMemoryLoadingProcess(gameConfigurations.slot);
+            if(memoryLoadingProcess != MemoryLoadingProcess.None) return;
+            base.FixedUpdate();
         }
 
-        protected override Pooler GetPooler(EcsWorld world)
+        public override void Update()
         {
-            Pooler = new Pooler(world);
-            return Pooler;
+            if(memoryLoadingProcess != MemoryLoadingProcess.None) return;
+            base.Update();
         }
+
+        public override void LateUpdate()
+        {
+            if(memoryLoadingProcess != MemoryLoadingProcess.None) return;
+            base.LateUpdate();
+        }
+
+        private void UpdateMemoryLoadingProcess(Slot slot)
+        {
+            switch (memoryLoadingProcess)
+            {
+                case MemoryLoadingProcess.None:
+                    break;
+                case MemoryLoadingProcess.Pre:
+                    memory.load.PreLoading(_world, _slotSaverPooler, slot, Signal);
+                    memoryLoadingProcess = MemoryLoadingProcess.Process;
+                    break;
+                case MemoryLoadingProcess.Process:
+                    memory.load.Load(_world, _slotSaverPooler, slot, prototypes);
+                    memoryLoadingProcess = MemoryLoadingProcess.Post;
+                    break;
+                case MemoryLoadingProcess.Post:
+                    memory.load.PostLoading(_world, _slotSaverPooler, slot, Signal);
+                    memoryLoadingProcess = MemoryLoadingProcess.None;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }   
+            
+        }
+        
+        private SpaceHashGroup CreateSpaceHash()
+        {
+            return new SpaceHashGroup()
+                .SetMask(_world.Filter<EcsData.Enemy>().Exc<HealthData.DeadMark>())
+                .SetMinMaxPoints(new Vector2(-40, -40), new Vector2(45, 45))
+                .SetCellSize(4f);
+        }
+    }
+
+    public enum MemoryLoadingProcess
+    {
+        None,
+        Pre,
+        Process,
+        Post
     }
 }

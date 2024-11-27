@@ -92,6 +92,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 8464a5de6752c6f4184fe34ce4edc2cc, type: 3}
+    - target: {fileID: 8034535012764678817, guid: 5c7c354ab70514214bba21a33b676a1c, type: 3}
+      propertyPath: assetName
+      value: tower_archer
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -1,5 +1,4 @@
-﻿
-using Source.Scripts.SaveSystem;
+﻿using Source.Scripts.ECS.Groups.SlotSaver.Core;
 
 namespace MapMaker.Scripts
 {
@@ -7,6 +6,6 @@ namespace MapMaker.Scripts
     {
         public void Save(string entityID, Slot slot);
 
-        public void Load(Entity entity, Slot slot, MapEditor mapEditor);
+        public void Load(SlotEntity slotEntity, Slot slot, MapEditor mapEditor, bool isPrototype);
     }
 }

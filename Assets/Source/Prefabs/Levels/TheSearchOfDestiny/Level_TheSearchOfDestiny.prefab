@@ -7821,7 +7821,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4982254685110366888}
-  - component: {fileID: 285750748299637870}
+  - component: {fileID: 6713551687628789477}
   m_Layer: 0
   m_Name: Level_TheSearchOfDestiny
   m_TagString: Untagged
@@ -7848,7 +7848,7 @@ Transform:
   - {fileID: 2158694406070057621}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &285750748299637870
+--- !u!114 &6713551687628789477
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7857,9 +7857,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6145744920994868733}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b9f5faa66c74b2ba9ada17a11aac75b, type: 3}
+  m_Script: {fileID: 11500000, guid: 033a97d3ae5a44d6ad7034333b0cadeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  assetName: level
 --- !u!1 &6501216890948930938
 GameObject:
   m_ObjectHideFlags: 0

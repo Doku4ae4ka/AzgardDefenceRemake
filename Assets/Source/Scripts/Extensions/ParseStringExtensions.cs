@@ -255,7 +255,9 @@ namespace Source.Scripts.Extensions
                         }
                         else
                         {
+#if UNITY_EDITOR
                             Debug.LogWarning($"Tile with name {tileName} not found in the dictionary.");
+#endif
                             result = default;
                             return false;
                         }
@@ -283,14 +285,18 @@ namespace Source.Scripts.Extensions
                 // Проверяем, что idAndPoints содержит хотя бы 2 элемента
                 if (idAndPoints.Length != 2)
                 {
+#if UNITY_EDITOR
                     Debug.LogWarning($"Некорректный формат маршрута: {entry}");
+#endif
                     continue;
                 }
 
                 // Пробуем распарсить ID маршрута
                 if (!int.TryParse(idAndPoints[0].Trim(), out var id))
                 {
+#if UNITY_EDITOR
                     Debug.LogWarning($"Не удалось распарсить ID маршрута: {idAndPoints[0]}");
+#endif
                     continue;
                 }
         
@@ -309,10 +315,12 @@ namespace Source.Scripts.Extensions
                         {
                             waypoints.Add(new Vector2(x, y));
                         }
+#if UNITY_EDITOR
                         else
                         {
                             Debug.LogWarning($"Не удалось распарсить точку маршрута: {point}");
                         }
+#endif
                     }
                 }
 
@@ -321,10 +329,12 @@ namespace Source.Scripts.Extensions
                 {
                     result[id] = waypoints;
                 }
+#if UNITY_EDITOR
                 else
                 {
                     Debug.LogWarning($"Маршрут с ID {id} не содержит валидных точек");
                 }
+#endif
             }
 
             return result.Count > 0;
