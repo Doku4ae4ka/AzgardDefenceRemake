@@ -1,5 +1,6 @@
+using ECS.Modules.Exerussus.Movement;
 using Leopotam.EcsLite;
-using Source.Scripts.Core;
+using Source.Scripts.ECS.Groups.GameCore;
 using Source.Scripts.ECS.Groups.SlotSaver;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ namespace Source.Scripts.Extensions
 {
     public static class EcsExtensions
     {
-        public static bool TryGetBuildingTilemapEntity(this Pooler pooler, EcsWorld world, out int tilemapEntity)
+        public static bool TryGetBuildingTilemapEntity(this GameCorePooler pooler, EcsWorld world, out int tilemapEntity)
         {
             tilemapEntity = 0;
             foreach (var entity in world.Filter<SlotSaverData.SlotEntity>().Inc<EcsData.BuildingTileMap>().End())
@@ -17,46 +18,46 @@ namespace Source.Scripts.Extensions
             return true;
         }
         
-        public static float GetDistance(this Pooler pooler, int firstEntity, int secondEntity)
+        public static float GetDistance(this MovementPooler pooler, int firstEntity, int secondEntity)
         {
-            ref var firstTransform = ref pooler.Transform.Get(firstEntity);
-            ref var secondTransform = ref pooler.Transform.Get(secondEntity);
+            ref var firstPos = ref pooler.Position.Get(firstEntity);
+            ref var secondPos = ref pooler.Position.Get(secondEntity);
 
-            return Vector2.Distance(firstTransform.Value.position, secondTransform.Value.position);
+            return Vector2.Distance(firstPos.Value, secondPos.Value);
         }
 
-        public static float GetDistance(this Pooler pooler, int firstEntity, int secondEntity,
+        public static float GetDistance(this MovementPooler pooler, int firstEntity, int secondEntity,
             out Vector2 firstPosition, out Vector2 secondPosition)
         {
-            ref var firstTransform = ref pooler.Transform.Get(firstEntity);
-            ref var secondTransform = ref pooler.Transform.Get(secondEntity);
-            firstPosition = firstTransform.Value.position;
-            secondPosition = secondTransform.Value.position;
+            ref var firstPos = ref pooler.Position.Get(firstEntity);
+            ref var secondPos = ref pooler.Position.Get(secondEntity);
+            firstPosition = firstPos.Value;
+            secondPosition = secondPos.Value;
             return Vector2.Distance(firstPosition, secondPosition);
         }
 
-        public static float GetDistanceSquared(this Pooler pooler, int firstEntity, int secondEntity)
+        public static float GetDistanceSquared(this MovementPooler pooler, int firstEntity, int secondEntity)
         {
-            ref var firstTransform = ref pooler.Transform.Get(firstEntity);
-            ref var secondTransform = ref pooler.Transform.Get(secondEntity);
+            ref var firstPos = ref pooler.Position.Get(firstEntity);
+            ref var secondPos = ref pooler.Position.Get(secondEntity);
 
-            return (firstTransform.Value.position - secondTransform.Value.position).sqrMagnitude;
+            return (firstPos.Value - secondPos.Value).sqrMagnitude;
         }
 
-        public static float GetDistanceSquared(this Pooler pooler, int firstEntity, int secondEntity,
+        public static float GetDistanceSquared(this MovementPooler pooler, int firstEntity, int secondEntity,
             out Vector2 firstPosition, out Vector2 secondPosition)
         {
-            ref var firstTransform = ref pooler.Transform.Get(firstEntity);
-            ref var secondTransform = ref pooler.Transform.Get(secondEntity);
-            firstPosition = firstTransform.Value.position;
-            secondPosition = secondTransform.Value.position;
-            return (firstTransform.Value.position - secondTransform.Value.position).sqrMagnitude;
+            ref var firstPos = ref pooler.Position.Get(firstEntity);
+            ref var secondPos = ref pooler.Position.Get(secondEntity);
+            firstPosition = firstPos.Value;
+            secondPosition = secondPos.Value;
+            return (firstPos.Value - secondPos.Value).sqrMagnitude;
         }
 
-        public static Vector2 GetPosition(this Pooler pooler, int entity)
+        public static Vector2 GetPosition(this MovementPooler pooler, int entity)
         {
-            ref var transformData = ref pooler.Transform.Get(entity);
-            return transformData.Value.position;
+            ref var position = ref pooler.Position.Get(entity);
+            return position.Value;
         }
     }
 }

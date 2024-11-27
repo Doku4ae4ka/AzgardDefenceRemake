@@ -1,5 +1,5 @@
 ﻿using System;
-using Exerussus._1EasyEcs.Scripts.Core;
+using Exerussus._1Extensions.SmallFeatures;
 using Leopotam.EcsLite;
 
 namespace Source.Scripts.ECS.Groups.SlotSaver.Core
@@ -13,11 +13,11 @@ namespace Source.Scripts.ECS.Groups.SlotSaver.Core
         
         public abstract void Initialize(GameShare gameShare);
 
-        public bool CheckPrototype(int entity, SlotEntity slotEntity)
+        public bool Check(int entity, SlotEntity slotEntity)
         {
             Entity = entity;
             SlotEntity = slotEntity;
-            return CheckPrototypeProcess(entity, slotEntity);
+            return CheckProcess(entity, slotEntity);
         }
         
         public Action<int> GetDataBuilder(int entity, SlotEntity slotEntity)
@@ -47,7 +47,7 @@ namespace Source.Scripts.ECS.Groups.SlotSaver.Core
             OnUnloadSlotProcess(entity);
         }
 
-        public virtual bool CheckPrototypeProcess(int entity, SlotEntity slotEntity) => false;
+        public virtual bool CheckProcess(int entity, SlotEntity slotEntity) => false;
         public virtual Action<int> SetDataBuilderForPrototype(int entity, SlotEntity slotEntity) => null;
         public abstract void TrySetDataForStandardEntity(int entity, SlotEntity slotEntity);
         public abstract void TrySaveDataProcess(int entity, SlotEntity slotEntity);

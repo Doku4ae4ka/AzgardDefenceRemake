@@ -1,22 +1,21 @@
 ﻿using System;
 using ECS.Modules.Exerussus.Health;
 using ECS.Modules.Exerussus.Movement;
+using ECS.Modules.Exerussus.SpaceHash;
+using ECS.Modules.Exerussus.TransformRelay;
 using ECS.Modules.Exerussus.ViewCreator;
 using Exerussus._1EasyEcs.Scripts.Core;
 using Exerussus._1EasyEcs.Scripts.Custom;
 using Exerussus._1Extensions.SignalSystem;
+using Exerussus._1Extensions.SmallFeatures;
 using Leopotam.EcsLite;
 using Sirenix.OdinInspector;
 using Source.Scripts.ECS.Groups.AzgardView;
-using Source.Scripts.ECS.Groups.BuildingTilemap;
 using Source.Scripts.ECS.Groups.Debug;
-using Source.Scripts.ECS.Groups.Enemies;
 using Source.Scripts.ECS.Groups.GameCore;
 using Source.Scripts.ECS.Groups.SlotSaver;
 using Source.Scripts.ECS.Groups.SlotSaver.Core;
-using Source.Scripts.ECS.Groups.Towers;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Source.Scripts.Core
 {
@@ -31,7 +30,6 @@ namespace Source.Scripts.Core
         [SerializeField] private Memory memory;
         [SerializeField, ReadOnly] private MemoryLoadingProcess memoryLoadingProcess;
         [SerializeField, ReadOnly] private bool isLoading;
-        private SpaceHash<EcsData.TransformData, EcsData.Tower> _spaceHash;
         private SlotSaverPooler _slotSaverPooler;
         [SerializeField] private Prototypes prototypes = new Prototypes();
         [SerializeField] private Configs configs = new Configs();
@@ -45,8 +43,6 @@ namespace Source.Scripts.Core
         public GameConfigurations GameConfigurations => gameConfigurations;
         public Memory Memory => memory;
         public Prototypes Prototypes => prototypes;
-
-        public Pooler Pooler { get; private set; }
 
         [Button]
         public void LoadGame()
@@ -78,13 +74,12 @@ namespace Source.Scripts.Core
             return new EcsGroup[]
             {
                 new AzgardViewGroup(),
-                new TileMapGroup(),
                 new HealthGroup(),
                 new MovementGroup(),
-                new EnemyGroup(),
+                new TransformRelayGroup(),
                 new ViewCreatorGroup(),
                 new SlotSaverGroup().SetSlotSaverSettings(),
-                new TowerGroup(),
+                CreateSpaceHash(),
                 new GameCoreGroup(),
                 new DebugGroup(),
             };
@@ -92,12 +87,10 @@ namespace Source.Scripts.Core
 
         protected override void SetSharingDataOnStart(EcsWorld world, GameShare gameShare)
         {
-            _spaceHash = new SpaceHash<EcsData.TransformData, EcsData.Tower>(world, new Vector4(-40, -40, 45, 45), 2);
             gameShare.AddSharedObject(gameConfigurations);
             gameShare.AddSharedObject(gameStatus);
             gameShare.AddSharedObject(memory);
             gameShare.AddSharedObject(prototypes);
-            gameShare.AddSharedObject(_spaceHash);
             gameShare.AddSharedObject(configs);
             gameShare.AddSharedObject(this);
         }
@@ -143,6 +136,14 @@ namespace Source.Scripts.Core
                     throw new ArgumentOutOfRangeException();
             }   
             
+        }
+        
+        private SpaceHashGroup CreateSpaceHash()
+        {
+            return new SpaceHashGroup()
+                .SetMask(_world.Filter<EcsData.Enemy>().Exc<HealthData.DeadMark>())
+                .SetMinMaxPoints(new Vector2(-40, -40), new Vector2(45, 45))
+                .SetCellSize(4f);
         }
     }
 

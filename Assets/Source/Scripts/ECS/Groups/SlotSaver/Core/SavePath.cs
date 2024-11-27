@@ -26,9 +26,10 @@
             WorldSpace.Rotation,
             Health.Max,
             Health.Current,
-            Movable.Speed,
-            Movable.CurrentWaypointIndex,
-            Movable.DistanceToCastle,
+            Movement.Position,
+            Movement.Direction,
+            PathFollower.CurrentWaypointIndex,
+            PathFollower.DistanceToCastle,
             Tower.BaseCost,
             Tower.Damage,
             Tower.AttackSpeed,
@@ -120,7 +121,15 @@
 
         public static class TowerType
         {
-            public const string TowerArcher = "tower.archer";
+            public const string Archer = "tower.archer";
+            public const string Wind = "tower.wind";
+            public const string Gun = "tower.gun";
+        } 
+        
+        public static class Enemy
+        {
+            public const string DamageToCastle = "enemy.damage_to_castle";
+            public const string EnemyType = "enemy.enemy_type";
         }
 
         public static class Health
@@ -129,11 +138,17 @@
             public const string Current = "health.current";
         }
 
-        public static class Movable
+        public static class PathFollower
         {
-            public const string DistanceToCastle = "movable.distance_to_castle";
-            public const string CurrentWaypointIndex = "movable.current_waypoint_index";
-            public const string Speed = "movable.speed";
+            public const string DistanceToCastle = "path_follower.distance_to_castle";
+            public const string CurrentWaypointIndex = "path_follower.current_waypoint_index";
+            public const string Speed = "path_follower.speed";
+        }
+
+        public static class Movement
+        {
+            public const string Position = "movement.position";
+            public const string Direction = "movement.direction";
         }
     }
 }

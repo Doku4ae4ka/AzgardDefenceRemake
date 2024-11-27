@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using ECS.Modules.Exerussus.Health;
 using Leopotam.EcsLite;
 using Leopotam.SpaceHash;
+using Source.Scripts.ECS.Groups.GameCore;
 using UnityEngine;
 
 namespace Source.Scripts.Core
@@ -15,7 +17,7 @@ namespace Source.Scripts.Core
             _world = world;
             _lastFrame = 0;
             _frameDelay = frameDelay;
-            _filter = _world.Filter<TTransform>().Exc<TExclude>().Exc<EcsData.DeadMark>().End();
+            _filter = _world.Filter<TTransform>().Exc<TExclude>().Exc<HealthData.DeadMark>().End();
             _pool = world.GetPool<TTransform>();
             ResizeSpaceHash(mapBounds);
         }

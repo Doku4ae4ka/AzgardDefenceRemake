@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Exerussus._1EasyEcs.Scripts.Core;
 using Exerussus._1EasyEcs.Scripts.Custom;
+using Exerussus._1Extensions.SmallFeatures;
 using Leopotam.EcsLite;
 using Source.Scripts.ECS.Groups.SlotSaver.Core;
 
@@ -41,6 +42,14 @@ namespace Source.Scripts.ECS.Groups.SlotSaver
         public PoolerModule<SlotSaverData.SavingProcess> SavingProcess { get; private set; }
         public PoolerModule<SlotSaverData.LoadingProcess> LoadingProcess { get; private set; }
 
+        public int CreatePrototype(EcsWorld world, int prototypeEntity)
+        {
+            ref var prototype = ref Prototype.Get(prototypeEntity);
+            var newEntity = world.NewEntity();
+            prototype.DataBuilder.Invoke(newEntity);
+            return newEntity;
+        }
+        
         #region DataCreators
 
         public readonly List<EntityBuilder> ConfigDataCreators = new ();

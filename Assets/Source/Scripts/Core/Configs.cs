@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
-namespace Source.Scripts.Core
+namespace Source.Scripts.ECS.Groups.GameCore
 {
     [Serializable]
     public class Configs

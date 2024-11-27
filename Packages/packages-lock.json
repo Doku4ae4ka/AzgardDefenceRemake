@@ -1,18 +1,25 @@
 {
   "dependencies": {
+    "com.exerussus.1attributes": {
+      "version": "https://github.com/exerussus/1attributes.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "a22dd107783a08fb2a1907119db282a6e2903e85"
+    },
     "com.exerussus.1easyecs": {
       "version": "https://github.com/exerussus/1EasyEcs.git",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "54fe26414bb20c2fa2eecb004aabeeb80613d6f0"
+      "hash": "9afb7a0b69eb38dae65bb51461319d183d04a312"
     },
     "com.exerussus.1extensions": {
       "version": "https://github.com/exerussus/1Extensions.git",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "ceced365a3a24362a5dcfcb8c599b550979f577f"
+      "hash": "3c3d5834bf9d77370c5431ccb1b02b99c82385c5"
     },
     "com.exerussus.1organizer-ui": {
       "version": "https://github.com/exerussus/1organizer-ui.git",
@@ -35,7 +42,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "dea404f73b9f5eb81c7fa60d0c94efa915e77d2e"
+      "hash": "ad213ba0976c88e0cd44a763f221bb793f3c031a"
     },
     "com.exerussus.ecsmodule.movement": {
       "version": "https://github.com/exerussus/ecsmodule-movement.git",
@@ -44,12 +51,19 @@
       "dependencies": {},
       "hash": "2ef9ee111c6ba2e599a0ff5b6a9af78bb59332ee"
     },
+    "com.exerussus.ecsmodule.transformrelay": {
+      "version": "https://github.com/exerussus/ecsmodule-transformrelay.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "9d4a179e5b62d8660e57e0f8c5dbda2de55f0022"
+    },
     "com.exerussus.ecsmodule.viewcreator": {
       "version": "https://github.com/exerussus/ecsmodule-viewcreator.git",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "d8629eb0d0205d56a547560b3587697f9332afc5"
+      "hash": "cd8d51b34351b2b8058ab3415108efff803361ec"
     },
     "com.leopotam.ecslite": {
       "version": "https://github.com/Leopotam/ecslite.git",
@@ -291,6 +305,13 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+    "com.unity.settings-manager": {
+      "version": "2.0.1",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
     "com.unity.shadergraph": {
       "version": "14.0.9",
       "depth": 1,
@@ -299,6 +320,17 @@
         "com.unity.render-pipelines.core": "14.0.9",
         "com.unity.searcher": "4.9.2"
       }
+    },
+    "com.unity.splines": {
+      "version": "2.5.2",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.ugui": "1.0.0",
+        "com.unity.mathematics": "1.2.1",
+        "com.unity.settings-manager": "1.0.3"
+      },
+      "url": "https://packages.unity.com"
     },
     "com.unity.sysroot": {
       "version": "2.0.10",

@@ -149,7 +149,7 @@ namespace Source.Scripts.ECS.Groups.SlotSaver.Core
             {
                 CreateEntity(world, pooler, slotEntity, out var entity);
                 pooler.ConfigMark.Add(entity);
-                foreach (var builder in pooler.ConfigDataCreators) builder.TrySetData(entity, slotEntity);
+                foreach (var builder in pooler.ConfigDataCreators) LoadData(builder, entity, slotEntity);
             }
         }
         
@@ -159,7 +159,7 @@ namespace Source.Scripts.ECS.Groups.SlotSaver.Core
             {
                 CreateEntity(world, pooler, slotEntity, out var entity);
                 pooler.PlayerMark.Add(entity);
-                foreach (var builder in pooler.PlayerDataCreators) builder.TrySetData(entity, slotEntity);
+                foreach (var builder in pooler.PlayerDataCreators) LoadData(builder, entity, slotEntity);
             }
         }
         
@@ -169,7 +169,7 @@ namespace Source.Scripts.ECS.Groups.SlotSaver.Core
             {
                 CreateEntity(world, pooler, slotEntity, out var entity);
                 pooler.DynamicMark.Add(entity);
-                foreach (var builder in pooler.DynamicDataCreators) builder.TrySetData(entity, slotEntity);
+                foreach (var builder in pooler.DynamicDataCreators) LoadData(builder, entity, slotEntity);
             }
         }
 
@@ -179,7 +179,7 @@ namespace Source.Scripts.ECS.Groups.SlotSaver.Core
             {
                 CreateEntity(world, pooler, slotEntity, out var entity);
                 pooler.StaticMark.Add(entity);
-                foreach (var builder in pooler.StaticDataCreators) builder.TrySetData(entity, slotEntity);
+                foreach (var builder in pooler.StaticDataCreators) LoadData(builder, entity, slotEntity);
             }
         }
 
@@ -216,7 +216,7 @@ namespace Source.Scripts.ECS.Groups.SlotSaver.Core
                 
                 prototypeData.DataBuilder.Invoke(entity);
                 
-                prototypeData.DataBuilder = i =>
+                prototypeData.DataBuilder += i =>
                 {
                     ref var entitySlotData = ref pooler.SlotEntity.Add(i);
                     entitySlotData.EntityID = prototypeEntity.id;
@@ -228,9 +228,16 @@ namespace Source.Scripts.ECS.Groups.SlotSaver.Core
 
             void LoadPrototypeData(EntityBuilder builder, int entity, SlotEntity prototypeEntity, ref SlotSaverData.Prototype prototypeData)
             {
-                if (!builder.CheckPrototype(entity, prototypeEntity)) return;
+                if (!builder.Check(entity, prototypeEntity)) return;
                 prototypeData.DataBuilder += builder.GetDataBuilder(entity, prototypeEntity);
             }
+            
+        }
+        
+        private static void LoadData(EntityBuilder builder, int entity, SlotEntity slotEntity)
+        {
+            if (!builder.Check(entity, slotEntity)) return;
+            builder.TrySetData(entity, slotEntity);
         }
 
         #endregion

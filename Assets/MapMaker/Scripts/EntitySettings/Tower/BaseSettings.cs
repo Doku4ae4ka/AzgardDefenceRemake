@@ -1,6 +1,7 @@
 using System;
 using Sirenix.OdinInspector;
 using Source.Scripts.Core;
+using Source.Scripts.ECS.Groups.GameCore;
 using Source.Scripts.ECS.Groups.SlotSaver.Core;
 using Source.Scripts.Extensions;
 

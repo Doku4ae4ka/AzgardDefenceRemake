@@ -1,10 +1,12 @@
 using Exerussus._1Extensions.SignalSystem;
+using Exerussus._1OrganizerUI.Scripts.Ui;
+using Source.Scripts.Components;
 using Source.Scripts.Core;
 using UnityEngine;
 
 namespace Source.Scripts.UI
 {
-    public class ShopButtonUI : MonoSignalListener
+    public class ShopButtonUI : CustomMonoSignalListener
     {
         [CustomAttributes.ValueDropdown("Dropdown")] 
         [SerializeField] private string towerId;
@@ -18,7 +20,6 @@ namespace Source.Scripts.UI
                 TowerId = towerId 
             });
         }
-
-        public override Signal Signal { get; }
+        
     }
 }

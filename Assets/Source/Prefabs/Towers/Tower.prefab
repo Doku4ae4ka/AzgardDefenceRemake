@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 695788356518263734}
-  - component: {fileID: 8705038392440028739}
+  - component: {fileID: 8034535012764678817}
   m_Layer: 0
   m_Name: Tower
   m_TagString: Tower
@@ -36,7 +36,7 @@ Transform:
   - {fileID: 5356095268808834483}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8705038392440028739
+--- !u!114 &8034535012764678817
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,9 +45,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1946049297234426777}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d96ed36b379f4089974a984519ff4575, type: 3}
+  m_Script: {fileID: 11500000, guid: 8469c0c7f13c433e8b072964fd430f61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  assetName: tower
   towerSprite: {fileID: 5700460798426669674}
   stvolSprite: {fileID: 964105104039760616}
   stvolTransform: {fileID: 8977522718836831671}

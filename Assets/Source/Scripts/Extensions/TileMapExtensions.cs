@@ -53,12 +53,33 @@ namespace Source.Scripts.Extensions
             var empty = Resources.Load<TileBase>(Constants.Resources.TilePaths.Empty);
 
             if (exclude != null) dict.TryAdd(Constants.Tiles.Exclude, exclude);
+#if UNITY_EDITOR
             else Debug.LogError($"Tile '{Constants.Resources.TilePaths.Exclude}' not found in Resources.");
+#endif
 
             if (empty != null) dict.TryAdd(Constants.Tiles.Empty, empty);
+#if UNITY_EDITOR
             else Debug.LogError($"Tile '{Constants.Resources.TilePaths.Empty}' not found in Resources.");
+#endif
 
             return dict;
+        }
+        
+        public static Tilemap InstantiateTilemapGameObject(string gridName = "TowerGrid", string tilemapName = "BuildingTilemap")
+        {
+             var gridObject = new GameObject(gridName);
+             gridObject.AddComponent<Grid>();
+             
+             var tilemapObject = new GameObject(tilemapName);
+             tilemapObject.transform.parent = gridObject.transform;
+             tilemapObject.transform.position = new Vector3(-0.5f, -0.5f, 0);
+             
+             var tilemap = tilemapObject.AddComponent<Tilemap>();
+             var tilemapRenderer = tilemapObject.AddComponent<TilemapRenderer>();
+             tilemapRenderer.enabled = false;
+             tilemapRenderer.sortingOrder = 4;
+             
+             return tilemap;
         }
         
     }
