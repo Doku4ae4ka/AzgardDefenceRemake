@@ -1,6 +1,7 @@
 using Exerussus._1EasyEcs.Scripts.Custom;
 using Leopotam.EcsLite;
 using Source.Scripts.ECS.Groups.GameCore.Systems;
+using Source.Scripts.ECS.Groups.GameCore.Systems.Towers;
 using Source.Scripts.ECS.Groups.Towers.Systems;
 
 namespace Source.Scripts.ECS.Groups.GameCore
@@ -19,6 +20,7 @@ namespace Source.Scripts.ECS.Groups.GameCore
             fixedUpdateSystems.Add(new LoaderSystem());
             fixedUpdateSystems.Add(new TowerPreviewSystem());
             fixedUpdateSystems.Add(new TargetingSystem());
+            fixedUpdateSystems.Add(new TowerAttackSystem());
         }
     }
 }
