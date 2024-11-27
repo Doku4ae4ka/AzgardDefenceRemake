@@ -10,7 +10,6 @@ using Exerussus._1Extensions.SignalSystem;
 using Exerussus._1Extensions.SmallFeatures;
 using Leopotam.EcsLite;
 using Sirenix.OdinInspector;
-using Source.Scripts.ECS.Groups.AzgardView;
 using Source.Scripts.ECS.Groups.Debug;
 using Source.Scripts.ECS.Groups.GameCore;
 using Source.Scripts.ECS.Groups.SlotSaver;
@@ -73,7 +72,6 @@ namespace Source.Scripts.Core
         {
             return new EcsGroup[]
             {
-                new AzgardViewGroup(),
                 new HealthGroup(),
                 new MovementGroup(),
                 new TransformRelayGroup(),
